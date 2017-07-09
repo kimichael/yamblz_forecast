@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_about:
                 fragment = AboutFragment.newInstance();
                 break;
+            case R.id.nav_weather:
             default:
                 fragment = WeatherFragment.newInstance();
         }

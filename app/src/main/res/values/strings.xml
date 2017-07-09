@@ -9,5 +9,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="about">Homework for Mobilization 2017</string>
+    <string name="pref_first">Preference 1</string>
+    <string name="pref_first_summ">Preference 1 summary</string>
 
 </resources>
