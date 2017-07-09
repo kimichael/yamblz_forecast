@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Yamblz.Прогноз</string>
+    <string name="pref_first">Первая настройка</string>
+    <string name="pref_first_summ">Первая настройка</string>
+    <string name="action_weather">Погода</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_about">О приложении</string>
+    <string name="about">Домашнее задание для Мобилизации 2017</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+</resources>
