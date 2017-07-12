@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity
 
     private void changeFragment(@ChosenFragmentStatus int chosenFragment) {
 
+        if (mChosenFragment == chosenFragment)
+            return;
+
         Fragment fragment;
         mChosenFragment = chosenFragment;
 
