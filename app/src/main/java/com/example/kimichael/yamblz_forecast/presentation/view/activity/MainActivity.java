@@ -1,4 +1,4 @@
-package com.example.kimichael.yamblz_forecast.presentation.activity;
+package com.example.kimichael.yamblz_forecast.presentation.view.activity;
 
 import android.os.Bundle;
 import android.support.annotation.IntDef;
@@ -13,9 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.kimichael.yamblz_forecast.R;
-import com.example.kimichael.yamblz_forecast.presentation.fragment.AboutFragment;
-import com.example.kimichael.yamblz_forecast.presentation.fragment.SettingsFragment;
-import com.example.kimichael.yamblz_forecast.presentation.fragment.WeatherFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.fragment.AboutFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.fragment.SettingsFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.fragment.WeatherFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

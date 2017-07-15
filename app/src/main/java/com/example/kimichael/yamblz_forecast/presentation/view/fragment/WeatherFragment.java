@@ -1,8 +1,7 @@
-package com.example.kimichael.yamblz_forecast.presentation.fragment;
+package com.example.kimichael.yamblz_forecast.presentation.view.fragment;
 
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

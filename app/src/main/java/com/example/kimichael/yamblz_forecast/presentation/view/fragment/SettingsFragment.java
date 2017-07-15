@@ -1,11 +1,8 @@
-package com.example.kimichael.yamblz_forecast.presentation.fragment;
+package com.example.kimichael.yamblz_forecast.presentation.view.fragment;
 
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.kimichael.yamblz_forecast.R;
 
