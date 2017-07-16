@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Yamblz_Forecast</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -13,5 +13,7 @@
     <string name="pref_first_summ">Preference 1 summary</string>
 
     <string name="key_chosen_fragment" translatable="false">chosen_fragment</string>
+
+    <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
 
 </resources>

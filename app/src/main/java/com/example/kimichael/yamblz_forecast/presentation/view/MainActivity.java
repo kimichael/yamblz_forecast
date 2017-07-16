@@ -24,24 +24,26 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({FRAGMENT_STATUS_WEATHER, FRAGMENT_STATUS_SETTINGS, FRAGMENT_STATUS_ABOUT})
+    @IntDef({FRAGMENT_STATUS_WEATHER, FRAGMENT_STATUS_SETTINGS, FRAGMENT_STATUS_ABOUT, FRAGMENT_STATUS_NOT_CHOSEN})
     public @interface ChosenFragmentStatus {}
+    public static final int FRAGMENT_STATUS_NOT_CHOSEN = -1;
     public static final int FRAGMENT_STATUS_WEATHER = 0;
     public static final int FRAGMENT_STATUS_SETTINGS = 1;
     public static final int FRAGMENT_STATUS_ABOUT = 2;
 
+
     private @MainActivity.ChosenFragmentStatus
-    int mChosenFragment;
+    int chosenFragment;
 
     @Override
     protected void onResume() {
         super.onResume();
-        changeFragment(mChosenFragment);
+        changeFragment(chosenFragment);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(getString(R.string.key_chosen_fragment), mChosenFragment);
+        outState.putInt(getString(R.string.key_chosen_fragment), chosenFragment);
         super.onSaveInstanceState(outState);
     }
 
@@ -64,8 +66,10 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState != null)
             changeFragment(savedInstanceState.getInt(getString(R.string.key_chosen_fragment), FRAGMENT_STATUS_WEATHER));
-        else
+        else {
+            chosenFragment = FRAGMENT_STATUS_NOT_CHOSEN;
             changeFragment(FRAGMENT_STATUS_WEATHER);
+        }
     }
 
     @Override
@@ -118,11 +122,11 @@ public class MainActivity extends AppCompatActivity
 
     private void changeFragment(@ChosenFragmentStatus int chosenFragment) {
 
-        if (mChosenFragment == chosenFragment)
+        if (this.chosenFragment == chosenFragment)
             return;
 
         Fragment fragment;
-        mChosenFragment = chosenFragment;
+        this.chosenFragment = chosenFragment;
 
         switch (chosenFragment) {
             case FRAGMENT_STATUS_SETTINGS:
