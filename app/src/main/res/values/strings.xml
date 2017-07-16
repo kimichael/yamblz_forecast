@@ -12,8 +12,15 @@
     <string name="pref_first">Preference 1</string>
     <string name="pref_first_summ">Preference 1 summary</string>
 
+    <string name="pref_key_temp_units" translatable="false">temp_units</string>
+    <string name="pref_temp_units">Units</string>
+    <string name="celcius">Celcius</string>
+    <string name="fahrenheit">Fahrenheit</string>
+
     <string name="key_chosen_fragment" translatable="false">chosen_fragment</string>
 
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+    <string name="action_refresh">Refresh</string>
+
 
 </resources>

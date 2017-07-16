@@ -1,11 +1,16 @@
 package com.example.kimichael.yamblz_forecast.presentation.view.forecast;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -71,16 +76,42 @@ public class ForecastFragment extends Fragment implements ForecastView {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_refresh) {
+            forecastPresenter.getForecast();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_weather, container, false);
+        View v = inflater.inflate(R.layout.fragment_weather, container, false);
+        setHasOptionsMenu(true);
+        return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.forecast_fragment, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public void showForecast(Forecast forecast) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         cityName.setText(forecast.getName());
-        minTemp.setText(Utility.formatTemperature(getContext(), forecast.getTemp().getTempMin(), true));
-        maxTemp.setText(Utility.formatTemperature(getContext(), forecast.getTemp().getTempMax(), true));
+        minTemp.setText(Utility.formatTemperature(getContext(),
+                forecast.getTemp().getTempMin(),
+                sp.getString(getString(R.string.pref_key_temp_units),
+                        getString(R.string.celcius)).equals(getString(R.string.celcius))));
+        maxTemp.setText(Utility.formatTemperature(getContext(), forecast.getTemp().getTempMax(),
+                sp.getString(getString(R.string.pref_key_temp_units),
+                getString(R.string.celcius)).equals(getString(R.string.celcius))));
         weatherIcon.setImageDrawable(getResources().getDrawable(
                 Utility.getImageForWeatherCondition(forecast.getWeather().get(0).getId())));
     }

@@ -9,6 +9,6 @@ import io.reactivex.Observable;
  */
 public interface ForecastRepository {
 
-    Observable<Forecast> getForecast();
+    Observable<Forecast> getForecast(String cityId);
     void saveForecast(Forecast forecast);
 }

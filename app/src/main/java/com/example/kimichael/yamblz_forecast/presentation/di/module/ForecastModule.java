@@ -1,6 +1,11 @@
 package com.example.kimichael.yamblz_forecast.presentation.di.module;
 
+import android.content.Context;
+import android.support.v7.preference.PreferenceManager;
+
 import com.example.kimichael.yamblz_forecast.BuildConfig;
+import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
+import com.example.kimichael.yamblz_forecast.data.ForecastRespositoryImpl;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.OpenWeatherClient;
 import com.example.kimichael.yamblz_forecast.presentation.di.scope.ForecastScope;
 import com.google.gson.Gson;
@@ -69,6 +74,14 @@ public class ForecastModule {
         Gson gson = new GsonBuilder()
                 .create();
         return gson;
+    }
+
+    @Provides
+    @ForecastScope
+    ForecastRepository provideForecastRepository(Context context, OpenWeatherClient openWeatherClient,
+                                                 @Named("Gson") Gson gson) {
+        return new ForecastRespositoryImpl(PreferenceManager.getDefaultSharedPreferences(context),
+                openWeatherClient, gson);
     }
 
 }
