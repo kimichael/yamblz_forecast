@@ -1,4 +1,4 @@
-package com.example.kimichael.yamblz_forecast.presentation.view.activity;
+package com.example.kimichael.yamblz_forecast.presentation.view;
 
 import android.os.Bundle;
 import android.support.annotation.IntDef;
@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.presentation.view.fragment.AboutFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.fragment.SettingsFragment;
-import com.example.kimichael.yamblz_forecast.presentation.view.fragment.WeatherFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case FRAGMENT_STATUS_WEATHER:
             default:
-                fragment = WeatherFragment.newInstance();
+                fragment = ForecastFragment.newInstance();
         }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.content_container, fragment).commit();
