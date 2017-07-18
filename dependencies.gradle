@@ -18,6 +18,8 @@ ext.versions = [
         gson : '2.3.1',
         okHttpInterceptor : '3.8.1',
 
+        firebaseJobDispatcher : '0.7.0',
+
 ]
 
 ext.libraries = [
@@ -46,5 +48,7 @@ ext.libraries = [
         gson : "com.google.code.gson:gson:$versions.gson",
 
         okHttpInterceptor : "com.squareup.okhttp3:logging-interceptor:$versions.okHttpInterceptor",
+
+        firebaseJobDispatcher : "com.firebase:firebase-jobdispatcher:$versions.firebaseJobDispatcher"
 
 ]

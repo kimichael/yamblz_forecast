@@ -1,8 +1,7 @@
 package com.example.kimichael.yamblz_forecast.domain.interactor.forecast;
 
 import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.OpenWeatherClient;
-import com.example.kimichael.yamblz_forecast.data.network.response.Forecast;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
 import com.example.kimichael.yamblz_forecast.domain.interactor.Interactor;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.SchedulersModule;
 
@@ -13,11 +12,13 @@ import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by Kim Michael on 16.07.17
  */
-public class ForecastInteractor extends Interactor<Forecast, String> {
+public class ForecastInteractor extends Interactor<ForecastInfo, ForecastRequest> {
 
     private final ForecastRepository forecastRepository;
 
@@ -29,15 +30,10 @@ public class ForecastInteractor extends Interactor<Forecast, String> {
     }
 
     @Override
-    protected Observable<Forecast> buildUseCaseObservable(String cityId) {
-        Observable<Forecast> response = forecastRepository.getForecast(cityId);
-        response.subscribe(new Consumer<Forecast>() {
-            @Override
-            public void accept(@NonNull Forecast forecast) throws Exception {
-                forecastRepository.saveForecast(forecast);
-            }
-        });
-        return response;
+    protected Observable<ForecastInfo> buildUseCaseObservable(ForecastRequest request) {
+        Observable<Forecast> response = forecastRepository.getForecast(request);
+        response.subscribe(forecastRepository::saveForecast);
+        return response.map(ForecastInfo::from);
     }
 
 

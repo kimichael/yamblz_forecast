@@ -7,42 +7,73 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/forecast_block">
+        android:layout_gravity="center"
+        android:id="@+id/forecast_block"
+        android:baselineAligned="true">
 
-        <FrameLayout
-            android:layout_width="0dp"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/weather_icon"
-                android:layout_gravity="center_horizontal"/>
-
-        </FrameLayout>
+            android:id="@+id/weather_icon"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/small_padding"/>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:paddingStart="@dimen/small_padding"
+            android:paddingEnd="@dimen/small_padding"
+            android:paddingTop="@dimen/small_padding"
+            android:paddingBottom="@dimen/small_padding">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/city_name" />
+                android:id="@+id/city_name"
+                android:textSize="48sp"
+                android:paddingBottom="@dimen/small_padding"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/min_temp"/>
+                android:id="@+id/temp"
+                android:textSize="32sp"
+                android:paddingBottom="@dimen/small_padding"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/max_temp"/>
+                android:id="@+id/min_max_temp"
+                android:textSize="18sp"
+                android:paddingBottom="@dimen/small_padding"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/humidity"
+                android:textSize="18sp"
+                android:paddingBottom="@dimen/small_padding"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pressure"
+                android:textSize="18sp"
+                android:paddingBottom="@dimen/small_padding"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/wind_speed"
+                android:textSize="18sp"
+                android:paddingBottom="@dimen/small_padding"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/description"
+                android:textSize="18sp"/>
 
         </LinearLayout>
 

@@ -1,6 +1,8 @@
 package com.example.kimichael.yamblz_forecast.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
 
 import com.example.kimichael.yamblz_forecast.R;
 
@@ -9,9 +11,11 @@ import com.example.kimichael.yamblz_forecast.R;
  */
 public class Utility {
 
-    public static String formatTemperature(Context context, double temperature, boolean isMetric) {
+    public static String formatTemperature(Context context, double temperature) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         double temp;
-        if (isMetric) {
+        if (sp.getString(context.getString(R.string.pref_key_temp_units),
+                context.getString(R.string.celcius)).equals(context.getString(R.string.celcius))) {
             temp = temperature - 273.15d;
 //            temp = 9 * temperature / 5 + 32;
         } else {

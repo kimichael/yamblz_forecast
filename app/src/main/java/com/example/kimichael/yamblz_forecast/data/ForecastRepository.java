@@ -1,6 +1,7 @@
 package com.example.kimichael.yamblz_forecast.data;
 
-import com.example.kimichael.yamblz_forecast.data.network.response.Forecast;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
+import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastRequest;
 
 import io.reactivex.Observable;
 
@@ -9,6 +10,6 @@ import io.reactivex.Observable;
  */
 public interface ForecastRepository {
 
-    Observable<Forecast> getForecast(String cityId);
+    Observable<Forecast> getForecast(ForecastRequest request);
     void saveForecast(Forecast forecast);
 }

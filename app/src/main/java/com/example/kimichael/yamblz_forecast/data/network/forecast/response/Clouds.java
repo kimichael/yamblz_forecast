@@ -1,5 +1,5 @@
 
-package com.example.kimichael.yamblz_forecast.data.network.response;
+package com.example.kimichael.yamblz_forecast.data.network.forecast.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
