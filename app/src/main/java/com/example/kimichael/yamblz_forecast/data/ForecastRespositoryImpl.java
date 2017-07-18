@@ -1,6 +1,7 @@
 package com.example.kimichael.yamblz_forecast.data;
 
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import com.example.kimichael.yamblz_forecast.data.network.forecast.OpenWeatherClient;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
@@ -18,9 +19,9 @@ public class ForecastRespositoryImpl implements ForecastRepository {
 
     private static final String PREF_LAST_RESPONSE = "pref_last_response";
 
-    SharedPreferences sharedPreferences;
-    OpenWeatherClient openWeatherClient;
-    Gson gson;
+    private SharedPreferences sharedPreferences;
+    private OpenWeatherClient openWeatherClient;
+    private Gson gson;
 
     @Inject
     public ForecastRespositoryImpl(SharedPreferences sharedPreferences,
@@ -32,7 +33,7 @@ public class ForecastRespositoryImpl implements ForecastRepository {
     }
 
     @Override
-    public Observable<Forecast> getForecast(ForecastRequest request) {
+    public Observable<Forecast> getForecast(@NonNull ForecastRequest request) {
         if (sharedPreferences.contains(PREF_LAST_RESPONSE) && !request.isForceUpdate())
             return Observable.just(
                     gson.fromJson(sharedPreferences
@@ -41,8 +42,9 @@ public class ForecastRespositoryImpl implements ForecastRepository {
             return openWeatherClient.getForecast(request.getCityId(), OpenWeatherClient.RUSSIAN).toObservable();
     }
 
-    public void updateForecast(String cityId) {
-        openWeatherClient.getForecast(cityId, OpenWeatherClient.RUSSIAN).subscribe(this::saveForecast);
+    @Override
+    public Observable<Forecast> updateForecast(String cityId) {
+        return openWeatherClient.getForecast(cityId, OpenWeatherClient.RUSSIAN).toObservable();
     }
 
     @Override

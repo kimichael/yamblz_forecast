@@ -20,7 +20,7 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
     private ForecastInteractor forecastInteractor;
     private ForecastInfo cachedForecast;
     // Temporary Moscow city id
-    public static final String MOSCOW_ID = "524894";
+    public static final String MOSCOW_ID = "524901";
 
     @Inject
     public ForecastPresenter(ForecastInteractor forecastInteractor) {

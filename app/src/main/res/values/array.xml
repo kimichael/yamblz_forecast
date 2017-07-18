@@ -4,4 +4,21 @@
         <item>@string/celcius</item>
         <item>@string/fahrenheit</item>
     </string-array>
+
+    <string-array name="interval">
+        <item>@string/interval_hour</item>
+        <item>@string/interval_two_hours</item>
+        <item>@string/interval_three_hours</item>
+        <item>@string/interval_five_hours</item>
+        <item>@string/interval_day</item>
+    </string-array>
+
+    <string-array name="interval_values">
+        <item>3600</item>
+        <item>7200</item>
+        <item>10800</item>
+        <item>18000</item>
+        <item>86400</item>
+    </string-array>
+
 </resources>

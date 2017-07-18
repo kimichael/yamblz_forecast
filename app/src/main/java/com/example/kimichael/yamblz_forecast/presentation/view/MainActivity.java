@@ -13,8 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.kimichael.yamblz_forecast.R;
-import com.example.kimichael.yamblz_forecast.presentation.view.fragment.AboutFragment;
-import com.example.kimichael.yamblz_forecast.presentation.view.fragment.SettingsFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.about.AboutFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastFragment;
 
 import java.lang.annotation.Retention;

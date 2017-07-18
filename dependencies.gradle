@@ -20,6 +20,8 @@ ext.versions = [
 
         firebaseJobDispatcher : '0.7.0',
 
+        apacheCommons : '3.0',
+
 ]
 
 ext.libraries = [
@@ -49,6 +51,8 @@ ext.libraries = [
 
         okHttpInterceptor : "com.squareup.okhttp3:logging-interceptor:$versions.okHttpInterceptor",
 
-        firebaseJobDispatcher : "com.firebase:firebase-jobdispatcher:$versions.firebaseJobDispatcher"
+        firebaseJobDispatcher : "com.firebase:firebase-jobdispatcher:$versions.firebaseJobDispatcher",
+
+        apacheCommons : "org.apache.commons:commons-lang3:$versions.apacheCommons",
 
 ]

@@ -69,4 +69,9 @@ dependencies {
     compile libraries.retrofitConverter
     compile libraries.okHttpInterceptor
 
+    compile libraries.apacheCommons
+
+    compile libraries.firebaseJobDispatcher
+
+
 }
