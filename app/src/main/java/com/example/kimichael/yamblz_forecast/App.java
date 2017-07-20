@@ -8,10 +8,6 @@ import com.example.kimichael.yamblz_forecast.domain.service.forecast.ForecastJob
 import com.example.kimichael.yamblz_forecast.presentation.di.component.AppComponent;
 import com.example.kimichael.yamblz_forecast.presentation.di.component.DaggerAppComponent;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.AppModule;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Trigger;
 
 /**
  * Created by Kim Michael on 16.07.17
@@ -26,6 +22,12 @@ public class App extends Application {
         super.onCreate();
         setInstance(this);
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!sp.contains(getString(R.string.pref_key_sync_interval))) {
+            int interval = Integer.valueOf(sp.getString(getString(R.string.pref_key_sync_interval), "3600"));
+            sp.edit().putString(getString(R.string.pref_key_sync_interval), "3600").apply();
+            ForecastJobService.scheduleSync(this, interval);
+        }
     }
 
     private static void setInstance(App instance) {

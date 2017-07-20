@@ -15,7 +15,7 @@ import io.reactivex.Observable;
 /**
  * Created by Kim Michael on 16.07.17
  */
-public class ForecastRespositoryImpl implements ForecastRepository {
+public class ForecastRepositoryImpl implements ForecastRepository {
 
     private static final String PREF_LAST_RESPONSE = "pref_last_response";
 
@@ -24,9 +24,9 @@ public class ForecastRespositoryImpl implements ForecastRepository {
     private Gson gson;
 
     @Inject
-    public ForecastRespositoryImpl(SharedPreferences sharedPreferences,
-                                   OpenWeatherClient openWeatherClient,
-                                   Gson gson) {
+    public ForecastRepositoryImpl(SharedPreferences sharedPreferences,
+                                  OpenWeatherClient openWeatherClient,
+                                  Gson gson) {
         this.sharedPreferences = sharedPreferences;
         this.openWeatherClient = openWeatherClient;
         this.gson = gson;

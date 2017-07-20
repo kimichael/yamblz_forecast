@@ -1,5 +1,7 @@
 package com.example.kimichael.yamblz_forecast.domain.service.forecast;
 
+import android.content.Context;
+
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
@@ -7,8 +9,12 @@ import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.Forecast
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastModule;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
+import com.firebase.jobdispatcher.Trigger;
 
 import javax.inject.Inject;
 
@@ -47,5 +53,23 @@ public class ForecastJobService extends JobService {
     @Override
     public boolean onStopJob(JobParameters job) {
         return false;
+    }
+
+    // Interval in seconds
+    public static void scheduleSync(Context context, int interval) {
+        FirebaseJobDispatcher dispatcher =
+                new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job forecastJob = dispatcher.newJobBuilder()
+                .setService(ForecastJobService.class)
+                .setTag(ForecastJobService.TAG)
+                .setRecurring(true)
+                .setTrigger(Trigger.executionWindow(
+                        interval, interval
+                ))
+                .build();
+
+        dispatcher.cancelAll();
+
+        dispatcher.mustSchedule(forecastJob);
     }
 }

@@ -49,20 +49,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         if (s.equals(getString(R.string.pref_key_sync_interval))) {
             int interval = Integer.valueOf(sharedPreferences.getString(getString(R.string.pref_key_sync_interval), "3600"));
-            FirebaseJobDispatcher dispatcher =
-                    new FirebaseJobDispatcher(new GooglePlayDriver(getContext()));
-            Job forecastJob = dispatcher.newJobBuilder()
-                    .setService(ForecastJobService.class)
-                    .setTag(ForecastJobService.TAG)
-                    .setRecurring(true)
-                    .setTrigger(Trigger.executionWindow(
-                            interval, interval
-                    ))
-                    .build();
-
-            dispatcher.cancelAll();
-
-            dispatcher.mustSchedule(forecastJob);
+            ForecastJobService.scheduleSync(getContext(), interval);
         }
     }
 
