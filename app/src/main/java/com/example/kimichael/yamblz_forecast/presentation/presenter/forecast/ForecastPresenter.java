@@ -9,7 +9,9 @@ import com.example.kimichael.yamblz_forecast.presentation.view.forecast.Forecast
 
 import javax.inject.Inject;
 
+import io.reactivex.SingleObserver;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 /**
@@ -32,21 +34,20 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
             getView().showForecast(cachedForecast);
             return;
         }
-        forecastInteractor.execute(new DisposableObserver<ForecastInfo>() {
+        forecastInteractor.execute(new SingleObserver<ForecastInfo>() {
             @Override
-            public void onNext(@NonNull ForecastInfo forecast) {
-                cachedForecast = forecast;
-                getView().showForecast(forecast);
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull ForecastInfo forecastInfo) {
+                getView().showForecast(forecastInfo);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 getView().showError();
-            }
-
-            @Override
-            public void onComplete() {
-
             }
         }, new ForecastRequest(MOSCOW_ID, forceUpdate));
     }

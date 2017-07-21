@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 /**
  * Created by Kim Michael on 16.07.17
@@ -33,18 +34,18 @@ public class ForecastRepositoryImpl implements ForecastRepository {
     }
 
     @Override
-    public Observable<Forecast> getForecast(@NonNull ForecastRequest request) {
+    public Single<Forecast> getForecast(@NonNull ForecastRequest request) {
         if (sharedPreferences.contains(PREF_LAST_RESPONSE) && !request.isForceUpdate())
-            return Observable.just(
+            return Single.just(
                     gson.fromJson(sharedPreferences
                                     .getString(PREF_LAST_RESPONSE, null), Forecast.class));
         else
-            return openWeatherClient.getForecast(request.getCityId(), OpenWeatherClient.RUSSIAN).toObservable();
+            return openWeatherClient.getForecast(request.getCityId(), OpenWeatherClient.RUSSIAN);
     }
 
     @Override
-    public Observable<Forecast> updateForecast(String cityId) {
-        return openWeatherClient.getForecast(cityId, OpenWeatherClient.RUSSIAN).toObservable();
+    public Single<Forecast> updateForecast(String cityId) {
+        return openWeatherClient.getForecast(cityId, OpenWeatherClient.RUSSIAN);
     }
 
     @Override
