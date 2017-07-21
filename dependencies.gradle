@@ -1,0 +1,63 @@
+ext.versions = [
+
+        dagger : '2.9',
+        daggerAnnotations : '1.0',
+
+        junit: '4.12',
+
+        supportLibrary : '26.0.0-alpha1',
+        supportConstraint : '1.0.2',
+
+        retrofit : '2.3.0',
+
+        rxJava : '2.1.1',
+        rxAndroid : '2.0.1',
+
+        butterknife : '8.7.0',
+
+        gson : '2.3.1',
+        okHttpInterceptor : '3.8.1',
+
+        firebaseJobDispatcher : '0.7.0',
+
+        apacheCommons : '3.0',
+
+        leakCanary: "1.5.1",
+
+]
+
+ext.libraries = [
+        dagger : "com.google.dagger:dagger:$versions.dagger",
+        daggerCompiler : "com.google.dagger:dagger-compiler:$versions.dagger",
+        daggerAnnotations : "javax.annotation:jsr250-api:$versions.daggerAnnotations",
+
+        junit : "junit:junit:$versions.junit",
+
+        supportAppCompat : "com.android.support:appcompat-v7:$versions.supportLibrary",
+        supportDesign : "com.android.support:design:$versions.supportLibrary",
+        supportConstraint : "com.android.support.constraint:constraint-layout:$versions.supportConstraint",
+        supportSupport : "com.android.support:support-v4:$versions.supportLibrary",
+        supportPreference : "com.android.support:preference-v7:$versions.supportLibrary",
+
+        retrofit : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        retrofitRxAdapter : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
+        retrofitConverter : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+
+        rxJava : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
+        rxAndroid : "io.reactivex.rxjava2:rxandroid:$versions.rxAndroid",
+
+        butterknife : "com.jakewharton:butterknife:$versions.butterknife",
+        butterknifeCompiler : "com.jakewharton:butterknife-compiler:$versions.butterknife",
+
+        gson : "com.google.code.gson:gson:$versions.gson",
+
+        okHttpInterceptor : "com.squareup.okhttp3:logging-interceptor:$versions.okHttpInterceptor",
+
+        firebaseJobDispatcher : "com.firebase:firebase-jobdispatcher:$versions.firebaseJobDispatcher",
+
+        apacheCommons : "org.apache.commons:commons-lang3:$versions.apacheCommons",
+
+        leakCanary : "com.squareup.leakcanary:leakcanary-android:$versions.leakCanary",
+        leakCanaryNoOp : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakCanary",
+
+]

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     signingConfigs {
@@ -26,6 +27,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', '\"c3ebefdb656161082df40c099ddf1977\"'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -33,10 +43,38 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:support-v4:26.0.0-alpha1'
-    compile 'com.android.support:preference-v7:26.0.0-alpha1'
-    testCompile 'junit:junit:4.12'
+    compile libraries.supportAppCompat
+    compile libraries.supportDesign
+    compile libraries.supportConstraint
+    compile libraries.supportSupport
+    compile libraries.supportPreference
+
+    testCompile libraries.junit
+
+    compile libraries.dagger
+    annotationProcessor libraries.daggerCompiler
+    provided libraries.daggerAnnotations
+
+    compile libraries.retrofit
+
+    compile libraries.rxJava
+    compile libraries.rxAndroid
+
+    compile libraries.butterknife
+    annotationProcessor libraries.butterknifeCompiler
+
+    compile libraries.gson
+
+    compile libraries.retrofitRxAdapter
+    compile libraries.retrofitConverter
+    compile libraries.okHttpInterceptor
+
+    compile libraries.apacheCommons
+
+    compile libraries.firebaseJobDispatcher
+
+    debugCompile libraries.leakCanary
+    releaseCompile libraries.leakCanaryNoOp
+    testCompile libraries.leakCanaryNoOp
+
 }

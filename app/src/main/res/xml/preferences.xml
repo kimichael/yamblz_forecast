@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:key="pref_sync"
-        android:title="@string/pref_first"
-        android:summary="@string/pref_first_summ"
-        android:defaultValue="true" />
+    <ListPreference
+        android:key="@string/pref_key_temp_units"
+        android:title="@string/pref_temp_units"
+        android:entries="@array/temp_units"
+        android:entryValues="@array/temp_units"
+        android:defaultValue="@string/celcius"/>
+
+    <ListPreference
+        android:key="@string/pref_key_sync_interval"
+        android:title="@string/pref_sync_title"
+        android:entries="@array/interval"
+        android:entryValues="@array/interval_values"
+        android:defaultValue="@string/interval_hour"/>
 
 </PreferenceScreen>

@@ -1,4 +1,4 @@
-package com.example.kimichael.yamblz_forecast.presentation.fragment;
+package com.example.kimichael.yamblz_forecast.presentation.view.about;
 
 
 import android.os.Bundle;

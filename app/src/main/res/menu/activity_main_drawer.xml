@@ -5,7 +5,7 @@
 
         <item
             android:id="@+id/nav_weather"
-            android:icon="@drawable/ic_cloud"
+            android:icon="@drawable/ic_cloud_icon"
             android:title="@string/action_weather"/>
 
         <item
