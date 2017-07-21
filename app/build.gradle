@@ -73,5 +73,9 @@ dependencies {
 
     compile libraries.firebaseJobDispatcher
 
+    debugCompile libraries.leakCanary
+    releaseCompile libraries.leakCanaryNoOp
+    testCompile libraries.leakCanaryNoOp
+
 
 }

@@ -22,6 +22,8 @@ ext.versions = [
 
         apacheCommons : '3.0',
 
+        leakCanary: "1.5.1",
+
 ]
 
 ext.libraries = [
@@ -54,5 +56,8 @@ ext.libraries = [
         firebaseJobDispatcher : "com.firebase:firebase-jobdispatcher:$versions.firebaseJobDispatcher",
 
         apacheCommons : "org.apache.commons:commons-lang3:$versions.apacheCommons",
+
+        leakCanary : "com.squareup.leakcanary:leakcanary-android:$versions.leakCanary",
+        leakCanaryNoOp : "com.squareup.leakcanary:leakcanary-android-no-op:$versions.leakCanary",
 
 ]

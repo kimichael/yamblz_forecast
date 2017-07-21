@@ -12,6 +12,7 @@ import com.example.kimichael.yamblz_forecast.presentation.di.component.ForecastS
 import com.example.kimichael.yamblz_forecast.presentation.di.module.AppModule;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastModule;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastScreenModule;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by Kim Michael on 16.07.17
@@ -26,6 +27,14 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+
         setInstance(this);
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
