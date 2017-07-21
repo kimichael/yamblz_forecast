@@ -74,12 +74,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
         App.getInstance().getForecastScreenComponent().inject(this);
 
         forecastPresenter.onAttach(this);
-
-        if (savedInstanceState == null) {
-            forecastPresenter.getForecast(true);
-        } else {
-            forecastPresenter.getForecast(false);
-        }
+        forecastPresenter.getForecast(savedInstanceState == null);
     }
 
     @Override

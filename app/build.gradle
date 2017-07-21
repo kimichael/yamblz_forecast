@@ -77,5 +77,4 @@ dependencies {
     releaseCompile libraries.leakCanaryNoOp
     testCompile libraries.leakCanaryNoOp
 
-
 }

@@ -7,10 +7,8 @@ import com.google.gson.annotations.SerializedName;
 public class Wind {
 
     @SerializedName("speed")
-    @Expose
     private Integer speed;
     @SerializedName("deg")
-    @Expose
     private Integer deg;
 
     public Integer getSpeed() {
