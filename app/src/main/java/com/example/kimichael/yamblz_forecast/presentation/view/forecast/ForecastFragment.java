@@ -71,8 +71,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        App.getInstance().getAppComponent()
-                .plus(new ForecastModule()).plus(new ForecastScreenModule()).inject(this);
+        App.getInstance().getForecastScreenComponent().inject(this);
 
         forecastPresenter.onAttach(this);
 
@@ -104,6 +103,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
     @Override
     public void onDestroy() {
         forecastPresenter.onDetach();
+        App.getInstance().releaseForecastScreenComponent();
         super.onDestroy();
     }
 

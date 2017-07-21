@@ -7,7 +7,11 @@ import android.support.v7.preference.PreferenceManager;
 import com.example.kimichael.yamblz_forecast.domain.service.forecast.ForecastJobService;
 import com.example.kimichael.yamblz_forecast.presentation.di.component.AppComponent;
 import com.example.kimichael.yamblz_forecast.presentation.di.component.DaggerAppComponent;
+import com.example.kimichael.yamblz_forecast.presentation.di.component.ForecastComponent;
+import com.example.kimichael.yamblz_forecast.presentation.di.component.ForecastScreenComponent;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.AppModule;
+import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastModule;
+import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastScreenModule;
 
 /**
  * Created by Kim Michael on 16.07.17
@@ -16,6 +20,8 @@ public class App extends Application {
 
     private static App instance;
     private AppComponent appComponent;
+    private ForecastComponent forecastComponent;
+    private ForecastScreenComponent forecastScreenComponent;
 
     @Override
     public void onCreate() {
@@ -41,4 +47,27 @@ public class App extends Application {
     public AppComponent getAppComponent() {
         return appComponent;
     }
+
+    public ForecastComponent getForecastComponent() {
+        if (forecastComponent == null) {
+            forecastComponent = getAppComponent().plus(new ForecastModule());
+        }
+        return forecastComponent;
+    }
+
+    public void releaseForecastComponent() {
+        forecastComponent = null;
+    }
+
+    public ForecastScreenComponent getForecastScreenComponent() {
+        if (forecastScreenComponent == null) {
+            forecastScreenComponent = getForecastComponent().plus(new ForecastScreenModule());
+        }
+        return forecastScreenComponent;
+    }
+
+    public void releaseForecastScreenComponent() {
+        forecastScreenComponent = null;
+    }
+
 }
