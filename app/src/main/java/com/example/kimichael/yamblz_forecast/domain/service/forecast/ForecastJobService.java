@@ -9,6 +9,7 @@ import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.Forecast
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastModule;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
+import com.example.kimichael.yamblz_forecast.utils.Utility;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
@@ -42,7 +43,7 @@ public class ForecastJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters job) {
-        forecastRepository.updateForecast(ForecastPresenter.MOSCOW_ID)
+        forecastRepository.updateForecast(Utility.getPlace(getBaseContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(forecast ->

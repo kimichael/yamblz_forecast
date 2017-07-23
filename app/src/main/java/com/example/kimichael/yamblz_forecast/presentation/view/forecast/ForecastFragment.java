@@ -118,16 +118,16 @@ public class ForecastFragment extends Fragment implements ForecastView {
 
     @Override
     public void showForecast(ForecastInfo forecast) {
-        cityName.setText(forecast.getCity());
+        cityName.setText(Utility.getPlace(getContext()).getName());
         temperature.setText(Utility.formatTemperature(getContext(), forecast.getTemp()));
         minMaxTemp.setText(getString(R.string.format_min_max_temp,
                 Utility.formatTemperature(getContext(), forecast.getMinTemp()),
                 Utility.formatTemperature(getContext(), forecast.getMaxTemp())));
         weatherIcon.setImageDrawable(getResources().getDrawable(
                 Utility.getImageForWeatherCondition(forecast.getWeatherId())));
-        windSpeed.setText(getString(R.string.format_wind, forecast.getWindSpeed()));
-        pressure.setText(getString(R.string.format_pressure, forecast.getPressure()));
-        humidity.setText(getString(R.string.format_humidity, forecast.getHumidity()));
+        windSpeed.setText(getString(R.string.format_wind, (int)forecast.getWindSpeed()));
+        pressure.setText(getString(R.string.format_pressure, (int)forecast.getPressure()));
+        humidity.setText(getString(R.string.format_humidity, (int)forecast.getHumidity()));
         description.setText(forecast.getDescription());
     }
 

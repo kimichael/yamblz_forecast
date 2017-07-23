@@ -6,6 +6,8 @@ import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.Forecast
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.presentation.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastView;
+import com.example.kimichael.yamblz_forecast.utils.Utility;
+import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
@@ -21,8 +23,6 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
 
     private ForecastInteractor forecastInteractor;
     private ForecastInfo cachedForecast;
-    // Temporary Moscow city id
-    public static final String MOSCOW_ID = "524901";
 
     @Inject
     public ForecastPresenter(ForecastInteractor forecastInteractor) {
@@ -49,7 +49,7 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
             public void onError(@NonNull Throwable e) {
                 getView().showError();
             }
-        }, new ForecastRequest(MOSCOW_ID, forceUpdate));
+        }, forceUpdate);
     }
 
 }

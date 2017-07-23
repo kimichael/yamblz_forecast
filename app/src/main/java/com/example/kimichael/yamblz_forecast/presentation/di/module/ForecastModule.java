@@ -52,12 +52,6 @@ public class ForecastModule {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(chain -> {
-                    Request request = chain.request();
-                    HttpUrl url = request.url().newBuilder().addQueryParameter("APPID", BuildConfig.OPEN_WEATHER_MAP_API_KEY).build();
-                    request = request.newBuilder().url(url).build();
-                    return chain.proceed(request);
-                })
                 .addInterceptor(interceptor)
                 .build();
         return client;

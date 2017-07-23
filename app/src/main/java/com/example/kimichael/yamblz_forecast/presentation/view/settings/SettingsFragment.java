@@ -18,6 +18,14 @@ import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.domain.service.forecast.ForecastJobService;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsPresenter;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 
 import javax.inject.Inject;
 
@@ -25,6 +33,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 public class SettingsFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -38,7 +50,7 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     SettingsPresenter presenter;
 
     Unbinder unbinder;
-
+    PublishSubject<Place> placeSelected = PublishSubject.create();
 
     public SettingsFragment() {}
 
@@ -52,6 +64,8 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +73,7 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
         App.getInstance().getSettingsScreenComponent().inject(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
     }
 
     @Override
@@ -85,6 +100,34 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
+        placeSelected.subscribeWith(presenter.getPlaceChangeObserver());
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initAutocompleteFragment();
+    }
+
+    private void initAutocompleteFragment(){
+
+        GooglePlaceFragment autocompleteFragment = new GooglePlaceFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.place_autocomplete_container, autocompleteFragment).commit();
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                placeSelected.onNext(place);
+            }
+
+            @Override
+            public void onError(Status status) {
+                placeSelected.onError(new Throwable(status.getStatusMessage()));
+                placeSelected = PublishSubject.create();
+                placeSelected.subscribeWith(presenter.getPlaceChangeObserver());
+            }
+        });
     }
 
     @Override

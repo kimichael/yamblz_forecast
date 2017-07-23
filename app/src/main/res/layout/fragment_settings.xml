@@ -37,4 +37,14 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
 
+    <FrameLayout
+        android:id="@+id/place_autocomplete_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
 </LinearLayout>

@@ -5,11 +5,18 @@ import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
 import com.example.kimichael.yamblz_forecast.R;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 /**
  * Created by Kim Michael on 16.07.17
  */
 public class Utility {
+
+    private static final String MOSCOW_NAME = "Moscow";
+    private static final double MOSCOW_LAT = 55.7558;
+    private static final double MOSCOW_LNG = 37.6173;
 
     public static String formatTemperature(Context context, double temperature) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
@@ -49,6 +56,27 @@ public class Utility {
             return R.drawable.art_clouds;
         }
         return 0;
+    }
+
+    public static void savePlace(Context context, Place place){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        PlaceData data;
+        if (place!=null && place.getName()!=null && place.getLatLng()!=null) {
+            data = new PlaceData(place.getName().toString(), place.getLatLng().latitude, place.getLatLng().longitude);
+        }else{
+            data = new PlaceData(MOSCOW_NAME, MOSCOW_LAT, MOSCOW_LNG);
+        }
+        String dataStr = (new Gson()).toJson(data);
+        sp.edit().putString(context.getString(R.string.pref_key_place_data), dataStr).apply();
+
+    }
+
+    public static PlaceData getPlace(Context context){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        String dataStr = sp.getString(context.getString(R.string.pref_key_place_data), "{}");
+        PlaceData data = (new Gson()).fromJson(dataStr, PlaceData.class);
+        return data;
+
     }
 
 }
