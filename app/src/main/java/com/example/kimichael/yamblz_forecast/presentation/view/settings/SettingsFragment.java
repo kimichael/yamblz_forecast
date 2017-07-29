@@ -1,7 +1,6 @@
 package com.example.kimichael.yamblz_forecast.presentation.view.settings;
 
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,10 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 
 public class SettingsFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -50,7 +46,6 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     SettingsPresenter presenter;
 
     Unbinder unbinder;
-    PublishSubject<Place> placeSelected = PublishSubject.create();
 
     public SettingsFragment() {}
 
@@ -100,7 +95,6 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
-        placeSelected.subscribeWith(presenter.getPlaceChangeObserver());
     }
 
     @Override
@@ -115,20 +109,10 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
         getFragmentManager().beginTransaction()
                 .replace(R.id.place_autocomplete_container, autocompleteFragment).commit();
 
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                placeSelected.onNext(place);
-            }
-
-            @Override
-            public void onError(Status status) {
-                placeSelected.onError(new Throwable(status.getStatusMessage()));
-                placeSelected = PublishSubject.create();
-                placeSelected.subscribeWith(presenter.getPlaceChangeObserver());
-            }
-        });
+        autocompleteFragment.setPlaceSelected(presenter.getPlaceChangeObserver());
     }
+
+
 
     @Override
     public void onDestroy() {

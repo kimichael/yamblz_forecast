@@ -2,6 +2,9 @@ package com.example.kimichael.yamblz_forecast.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceManager;
 
 import com.example.kimichael.yamblz_forecast.R;
@@ -31,7 +34,9 @@ public class Utility {
         return context.getString(R.string.format_temperature, temp);
     }
 
-    public static int getImageForWeatherCondition(int weatherId) {
+    public static
+    @DrawableRes
+    int getImageForWeatherCondition(int weatherId) {
         if (weatherId >= 200 && weatherId <= 232) {
             return R.drawable.art_storm;
         } else if (weatherId >= 300 && weatherId <= 321) {
@@ -58,12 +63,12 @@ public class Utility {
         return 0;
     }
 
-    public static void savePlace(Context context, Place place){
+    public static void savePlace(@NonNull Context context, @Nullable Place place) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         PlaceData data;
-        if (place!=null && place.getName()!=null && place.getLatLng()!=null) {
+        if (place != null && place.getName() != null && place.getLatLng() != null) {
             data = new PlaceData(place.getName().toString(), place.getLatLng().latitude, place.getLatLng().longitude);
-        }else{
+        } else {
             data = new PlaceData(MOSCOW_NAME, MOSCOW_LAT, MOSCOW_LNG);
         }
         String dataStr = (new Gson()).toJson(data);
@@ -71,7 +76,8 @@ public class Utility {
 
     }
 
-    public static PlaceData getPlace(Context context){
+    @NonNull
+    public static PlaceData getPlace(@NonNull Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         String dataStr = sp.getString(context.getString(R.string.pref_key_place_data), "{}");
         PlaceData data = (new Gson()).fromJson(dataStr, PlaceData.class);
