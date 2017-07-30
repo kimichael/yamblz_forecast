@@ -12,8 +12,6 @@
     <string name="pref_first">Preference 1</string>
     <string name="pref_first_summ">Preference 1 summary</string>
 
-    <string name="pref_key_temp_units" translatable="false">temp_units</string>
-    <string name="pref_key_place_data" translatable="false">PlaceData</string>
     <string name="pref_temp_units_title">Units</string>
 
     <string name="celcius">Celsius</string>
@@ -30,7 +28,7 @@
 
     <string name="key_chosen_fragment" translatable="false">chosen_fragment</string>
 
-    <string name="format_temperature" translatable="false"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+    <string name="format_temperature" translatable="false"><xliff:g id="temp">%1.0f</xliff:g>\u00B0%s</string>
     <string name="format_humidity">Humidity: %d %%</string>
     <string name="format_wind">Wind: %d m/s</string>
     <string name="format_pressure">Pressure: %d mm Hg</string>

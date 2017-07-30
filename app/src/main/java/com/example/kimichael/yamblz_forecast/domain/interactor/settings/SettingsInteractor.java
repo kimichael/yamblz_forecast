@@ -3,6 +3,7 @@ package com.example.kimichael.yamblz_forecast.domain.interactor.settings;
 import android.content.Context;
 
 import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
+import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.example.kimichael.yamblz_forecast.utils.Utility;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
@@ -33,7 +34,8 @@ public class SettingsInteractor {
 
             @Override
             public void onNext(@NonNull Place place) {
-                Utility.savePlace(context, place);
+                PreferencesManager manager  = new PreferencesManager(context);
+                manager.savePlace( place);
             }
 
             @Override

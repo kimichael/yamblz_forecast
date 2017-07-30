@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.example.kimichael.yamblz_forecast.utils.Utility;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
@@ -37,7 +38,8 @@ public class GooglePlaceFragment extends SupportPlaceAutocompleteFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setText(Utility.getPlace(getContext()).getName());
+        PreferencesManager manager  = new PreferencesManager(getContext());
+        setText(manager.getPlace().getName());
     }
 
     public void setPlaceSelected(Observer<Place> observer) {
