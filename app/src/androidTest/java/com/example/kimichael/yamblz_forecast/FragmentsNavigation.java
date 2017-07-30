@@ -25,7 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class FragmentsNavigationTests {
+public class FragmentsNavigation {
 
     @Rule
     public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
@@ -43,6 +43,7 @@ public class FragmentsNavigationTests {
     @Test
     public void simpleNavigateToForecast(){
         navigation(R.id.nav_weather, R.id.fragment_weather);
+        onView(withId(R.id.action_refresh)).check(matches(isDisplayed()));
     }
 
 
@@ -63,7 +64,6 @@ public class FragmentsNavigationTests {
     }
 
     public void navigation(@IdRes int navigationId, @IdRes int rootViewId){
-        //check  about fragment name
         //open drawer
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
