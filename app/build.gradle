@@ -40,10 +40,7 @@ android {
 }
 
 dependencies {
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    testCompile libraries.junit
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -82,6 +79,12 @@ dependencies {
     testCompile libraries.leakCanaryNoOp
 
     compile libraries.googlePlay
+    androidTestCompile (libraries.espressoContrib){
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile (libraries.espressoCore){
+        exclude group: 'com.android.support'
+    }
 
     testCompile libraries.robolectric
     testCompile libraries.mockito
