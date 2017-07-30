@@ -24,19 +24,20 @@ public class ForecastInteractor extends SingleInteractor<ForecastInfo, Boolean> 
     private final ForecastRepository forecastRepository;
     private final Context context;
 
+    private PreferencesManager manager;
 
     @Inject
-    ForecastInteractor(@Named(SchedulersModule.JOB) Scheduler threadExecutor,
+    public ForecastInteractor(@Named(SchedulersModule.JOB) Scheduler threadExecutor,
                        @Named(SchedulersModule.UI) Scheduler postExecutionThread, ForecastRepository forecastRepository,
-                       Context context) {
+                       Context context, PreferencesManager manager) {
         super(threadExecutor, postExecutionThread);
         this.forecastRepository = forecastRepository;
         this.context = context;
+        this.manager = manager;
     }
 
     @Override
     protected Single<ForecastInfo> buildUseCaseObservable(Boolean forceUpdate) {
-        PreferencesManager manager  = new PreferencesManager(context);
         Single<Forecast> response = forecastRepository.getForecast(new ForecastRequest(manager.getPlace(), forceUpdate));
         response.subscribe(forecastRepository::saveForecast);
         return response.map(ForecastInfo::from);

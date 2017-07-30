@@ -8,6 +8,7 @@ import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
 import com.example.kimichael.yamblz_forecast.data.ForecastRepositoryImpl;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.OpenWeatherClient;
 import com.example.kimichael.yamblz_forecast.presentation.di.scope.ForecastScope;
+import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -51,10 +52,9 @@ public class ForecastModule {
     OkHttpClient provideForecastOkHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
+        return new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build();
-        return client;
     }
 
 
@@ -62,9 +62,8 @@ public class ForecastModule {
     @ForecastScope
     @Named("Gson")
     Gson provideGson() {
-        Gson gson = new GsonBuilder()
+        return new GsonBuilder()
                 .create();
-        return gson;
     }
 
     @Provides
@@ -73,6 +72,12 @@ public class ForecastModule {
                                                  @Named("Gson") Gson gson) {
         return new ForecastRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(context),
                 openWeatherClient, gson);
+    }
+
+    @Provides
+    @ForecastScope
+    PreferencesManager providePreferensesManager(Context context) {
+        return new PreferencesManager(context);
     }
 
 }

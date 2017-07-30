@@ -30,11 +30,15 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
     }
 
     public void getForecast(boolean forceUpdate) {
-        if (cachedForecast != null && !forceUpdate) {
+        if (cachedForecast != null && !forceUpdate && getView() != null) {
             getView().showForecast(cachedForecast);
             return;
         }
-        forecastInteractor.execute(new SingleObserver<ForecastInfo>() {
+        forecastInteractor.execute(getObserver(), forceUpdate);
+    }
+
+    public SingleObserver<ForecastInfo> getObserver(){
+        return new SingleObserver<ForecastInfo>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
 
@@ -42,14 +46,16 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
 
             @Override
             public void onSuccess(@NonNull ForecastInfo forecastInfo) {
-                getView().showForecast(forecastInfo);
+                if(getView() != null)
+                    getView().showForecast(forecastInfo);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-                getView().showError();
+                if(getView() != null)
+                    getView().showError();
             }
-        }, forceUpdate);
+        };
     }
 
 }
