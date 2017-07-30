@@ -17,7 +17,7 @@ import java.util.Arrays;
  */
 
 @RunWith(Parameterized.class)
-public class CheckImageWeather {
+public class ImageWeatherTest {
 
     @Parameterized.Parameters
     public static Iterable<Object[]> data() {
@@ -53,7 +53,7 @@ public class CheckImageWeather {
     private final int expectedResult;
 
 
-    public CheckImageWeather(int weatherId, int expectedResult) {
+    public ImageWeatherTest(int weatherId, int expectedResult) {
         this.weatherId = weatherId;
         this.expectedResult = expectedResult;
     }
