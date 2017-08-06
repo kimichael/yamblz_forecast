@@ -15,6 +15,7 @@ import com.example.kimichael.yamblz_forecast.presentation.di.scope.SettingsScope
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 import javax.inject.Named;
 
@@ -37,7 +38,8 @@ public class SettingsModule {
 
     @Provides
     @SettingsScope
-    GooglePlacesClient provideGooglePlacesClient(@Named("GsonGoogle") Gson gson, @Named("GoogleOkHttpClient") OkHttpClient client) {
+    GooglePlacesClient provideGooglePlacesClient(@Named("GsonGoogle") Gson gson,
+                                                 @Named("GoogleOkHttpClient") OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(GooglePlacesClient.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -76,8 +78,8 @@ public class SettingsModule {
 
     @Provides
     @SettingsScope
-    PlacesRepository providePlacesRepository(GooglePlacesClient placesClient) {
-        return new PlacesRepositoryImpl(placesClient);
+    PlacesRepository providePlacesRepository(GooglePlacesClient placesClient, StorIOSQLite storIOSQLite) {
+        return new PlacesRepositoryImpl(placesClient, storIOSQLite);
     }
 
 

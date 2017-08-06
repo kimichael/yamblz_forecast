@@ -3,10 +3,9 @@ package com.example.kimichael.yamblz_forecast.interactors;
 import android.content.Context;
 
 import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.WeatherResponse;
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 import org.junit.Before;
@@ -18,9 +17,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.SingleObserver;
-import io.reactivex.annotations.NonNull;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
@@ -52,13 +48,13 @@ public class ForecastInteractorTest {
         interactor = new ForecastInteractor(threadExecutor, postExecutionThread, repository, context, manager);
         presenter = new ForecastPresenter(interactor);
 
-        Mockito.when(manager.getPlace()).thenReturn(new PlaceData("name", 1.0, 1.0));
-        Mockito.when(repository.getWeather(anyObject())).thenReturn(new Single<WeatherResponse>() {
+        Mockito.when(manager.getPlace()).thenReturn(PlaceData.newPlace("name", 1.0, 1.0));
+ /*       Mockito.when(repository.getWeather(anyObject())).thenReturn(new Single<WeatherResponse>() {
             @Override
             protected void subscribeActual(@NonNull SingleObserver<? super WeatherResponse> observer) {
 
             }
-        });
+        });*/
     }
 
 

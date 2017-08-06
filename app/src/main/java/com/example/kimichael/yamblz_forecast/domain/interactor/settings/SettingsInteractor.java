@@ -1,6 +1,7 @@
 package com.example.kimichael.yamblz_forecast.domain.interactor.settings;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.example.kimichael.yamblz_forecast.data.network.places.PlacesRepository;
 import com.example.kimichael.yamblz_forecast.data.network.places.response.PlacesResponse;
@@ -8,7 +9,7 @@ import com.example.kimichael.yamblz_forecast.data.network.places.response.Predic
 import com.example.kimichael.yamblz_forecast.domain.interactor.SingleInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.PlacesRequest;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.SchedulersModule;
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 import java.util.List;
@@ -18,7 +19,6 @@ import javax.inject.Named;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
-import io.reactivex.SingleObserver;
 
 /**
  * Created on 22.07.2017.
@@ -50,11 +50,15 @@ public class SettingsInteractor extends SingleInteractor {
         BuildUseCaseObservable<PlaceData, Prediction> build = params1 ->
                 placesRepository.getLocale(param.getPlaceId())
                         .map(detail->
-                            new PlaceData(detail.getName(),
+                            PlaceData.newPlace(detail.getResult().getName(),
                                     detail.getResult().getGeometry().getLocation().getLat(),
                                     detail.getResult().getGeometry().getLocation().getLng())
                         );
         return execute(build, param);
+    }
+
+    public void savePlace(@NonNull PlaceData data){
+        placesRepository.savePlace(data);
     }
 
 }

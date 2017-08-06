@@ -5,10 +5,11 @@ import android.support.annotation.NonNull;
 
 import com.example.kimichael.yamblz_forecast.data.network.forecast.response.ForecastResponse;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.response.WeatherResponse;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.google.gson.Gson;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +30,19 @@ public class ForecastRepositoryImpl implements ForecastRepository {
     private SharedPreferences sharedPreferences;
     private OpenWeatherClient openWeatherClient;
     private Gson gson;
+    private StorIOSQLite storIOSQLite;
 
-    @Inject
     public ForecastRepositoryImpl(SharedPreferences sharedPreferences,
                                   OpenWeatherClient openWeatherClient,
-                                  Gson gson) {
+                                  Gson gson, StorIOSQLite storIOSQLite) {
         this.sharedPreferences = sharedPreferences;
         this.openWeatherClient = openWeatherClient;
         this.gson = gson;
+        this.storIOSQLite = storIOSQLite;
     }
+
+    @Inject
+
 
     @Override
     public Single<ForecastInfo> getWeather(@NonNull ForecastRequest request) {
@@ -71,14 +76,20 @@ public class ForecastRepositoryImpl implements ForecastRepository {
 
     @Override
     public void saveWeather(ForecastInfo forecast) {
-        sharedPreferences.edit()
-                .putString(PREF_LAST_RESPONSE, gson.toJson(forecast))
-                .apply();
+        storIOSQLite
+                .put()
+                .object(forecast)
+                .prepare()
+                .executeAsBlocking();
     }
 
     @Override
     public void saveForecast(List<ForecastInfo> forecast) {
-
+        storIOSQLite
+                .put()
+                .objects(forecast)
+                .prepare()
+                .executeAsBlocking();
     }
 
     @Override

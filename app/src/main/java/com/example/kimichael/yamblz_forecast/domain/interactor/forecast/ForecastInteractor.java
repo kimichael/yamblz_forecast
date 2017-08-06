@@ -2,15 +2,14 @@ package com.example.kimichael.yamblz_forecast.domain.interactor.forecast;
 
 import android.content.Context;
 
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.ForecastResponse;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.WeatherResponse;
 import com.example.kimichael.yamblz_forecast.domain.interactor.SingleInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.SchedulersModule;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,7 +17,6 @@ import javax.inject.Named;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
-import io.reactivex.SingleObserver;
 
 /**
  * Created by Kim Michael on 16.07.17
@@ -49,6 +47,7 @@ public class ForecastInteractor extends SingleInteractor {
     }
 
     public void saveWeather(ForecastInfo data){
+        data.setDate(Calendar.getInstance().getTime().getTime());
         forecastRepository.saveWeather(data);
     }
 

@@ -7,6 +7,12 @@ import android.support.v7.preference.PreferenceManager;
 
 import com.example.kimichael.yamblz_forecast.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import timber.log.Timber;
+
 /**
  * Created by Kim Michael on 16.07.17
  */
@@ -20,6 +26,28 @@ public class Utility {
             temp = temperature * 9 / 5 - 459.67d;
         }
         return context.getString(R.string.format_temperature, temp, manager.getUnit());
+    }
+
+    public static Long parceFromStr(String dateStr, Locale locale) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", locale);
+            Date date = sdf.parse(dateStr);
+            return date.getTime();
+        } catch (Exception e) {
+            Timber.e("parceDate: " + e);
+            return null;
+        }
+    }
+
+    public static String parceToStr(Long dateLog, Locale locale) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("EE, dd MMM HH:mm", locale);
+            Date date = new Date(dateLog);
+            return sdf.format(date);
+        } catch (Exception e) {
+            Timber.e("parceDate: " + e);
+            return null;
+        }
     }
 
     public static
@@ -39,7 +67,7 @@ public class Utility {
             return R.drawable.art_rain;
         } else if (weatherId >= 701 && weatherId <= 761) {
             return R.drawable.art_fog;
-        } else if ( weatherId == 781) {
+        } else if (weatherId == 781) {
             return R.drawable.art_storm;
         } else if (weatherId == 800) {
             return R.drawable.art_clear;

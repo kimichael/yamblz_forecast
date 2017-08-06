@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kimichael.yamblz_forecast.R;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.holders.BaseHolder;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.holders.HeaderHolder;

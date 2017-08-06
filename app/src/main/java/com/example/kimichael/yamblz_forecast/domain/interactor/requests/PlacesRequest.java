@@ -1,7 +1,5 @@
 package com.example.kimichael.yamblz_forecast.domain.interactor.requests;
 
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
-
 /**
  * Created by Kim Michael on 18.07.17
  */

@@ -11,6 +11,7 @@ import com.example.kimichael.yamblz_forecast.presentation.di.scope.ForecastScope
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -79,9 +80,9 @@ public class ForecastModule {
     @Provides
     @ForecastScope
     ForecastRepository provideForecastRepository(Context context, OpenWeatherClient openWeatherClient,
-                                                 @Named("Gson") Gson gson) {
+                                                 @Named("Gson") Gson gson, StorIOSQLite storIOSQLite) {
         return new ForecastRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(context),
-                openWeatherClient, gson);
+                openWeatherClient, gson, storIOSQLite);
     }
 
 

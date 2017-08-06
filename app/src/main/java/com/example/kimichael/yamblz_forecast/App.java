@@ -2,7 +2,6 @@ package com.example.kimichael.yamblz_forecast;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.support.multidex.MultiDexApplication;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
@@ -26,7 +25,7 @@ import timber.log.Timber;
 /**
  * Created by Kim Michael on 16.07.17
  */
-public class App extends MultiDexApplication {
+public class App extends Application {
 
     private static App instance;
     private AppComponent appComponent;

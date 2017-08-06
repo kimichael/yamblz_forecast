@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceManager;
 
-import com.example.kimichael.yamblz_forecast.R;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.google.android.gms.location.places.Place;
 import com.google.gson.Gson;
 
@@ -74,9 +74,9 @@ public class PreferencesManager {
     public void savePlace(@Nullable Place place) {
         PlaceData data;
         if (place != null && place.getName() != null && place.getLatLng() != null) {
-            data = new PlaceData(place.getName().toString(), place.getLatLng().latitude, place.getLatLng().longitude);
+            data = PlaceData.newPlace(place.getName().toString(), place.getLatLng().latitude, place.getLatLng().longitude);
         } else {
-            data = new PlaceData(MOSCOW_NAME, MOSCOW_LAT, MOSCOW_LNG);
+            data = PlaceData.newPlace(MOSCOW_NAME, MOSCOW_LAT, MOSCOW_LNG);
         }
         String dataStr = (new Gson()).toJson(data);
         sharedPreferences.edit().putString(KEY_PLACE_DATA, dataStr).apply();
@@ -91,7 +91,7 @@ public class PreferencesManager {
 
     @NonNull
     public PlaceData getPlace() {
-        PlaceData defaultData = new PlaceData(MOSCOW_NAME, MOSCOW_LAT, MOSCOW_LNG);
+        PlaceData defaultData = PlaceData.newPlace(MOSCOW_NAME, MOSCOW_LAT, MOSCOW_LNG);
         String defaultStr = (new Gson()).toJson(defaultData);
         String dataStr = sharedPreferences.getString(KEY_PLACE_DATA, defaultStr);
         return (new Gson()).fromJson(dataStr, PlaceData.class);

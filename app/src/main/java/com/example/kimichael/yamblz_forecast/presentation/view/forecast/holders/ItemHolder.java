@@ -7,9 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kimichael.yamblz_forecast.R;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.example.kimichael.yamblz_forecast.utils.Utility;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +45,6 @@ public class ItemHolder extends BaseHolder {
         humidityView.setText(context.getString(R.string.format_humidity,(int)forecast.getHumidity()));
         weatherIcon.setImageDrawable(ContextCompat.getDrawable(context,
                 Utility.getImageForWeatherCondition(forecast.getWeatherId())));
-        date.setText(forecast.getDate());
+        date.setText(Utility.parceToStr(forecast.getDate(), Locale.getDefault()));
     }
 }

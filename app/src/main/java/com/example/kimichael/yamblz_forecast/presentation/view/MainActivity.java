@@ -8,24 +8,24 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.DecelerateInterpolator;
 
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
+import com.example.kimichael.yamblz_forecast.data.database.CitiesTable;
 import com.example.kimichael.yamblz_forecast.presentation.view.about.AboutFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsFragment;
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
-import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    @Inject
+    @NonNull
+    StorIOSQLite storIOSQLite;
     private @MainActivity.ChosenFragmentStatus int chosenFragment;
     private boolean isHomeAsUp = false;
     private DrawerArrowDrawable homeDrawable;
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        App.getInstance().getForecastComponent();
+        App.getInstance().getAppComponent().inject(this);
 
         if (savedInstanceState != null)
             changeFragment(savedInstanceState.getInt(getString(R.string.key_chosen_fragment), FRAGMENT_STATUS_WEATHER));
@@ -161,7 +164,16 @@ public class MainActivity extends AppCompatActivity
             case FRAGMENT_STATUS_WEATHER:
             case FRAGMENT_STATUS_NOT_CHOSEN:
             default:
-                fragment = ForecastFragment.newInstance(new PlaceData("fdsf", 45.6783, 89.3423));
+                List<PlaceData> receivedTweets = storIOSQLite
+                        .get()
+                        .listOfObjects(PlaceData.class)
+                        .withQuery(CitiesTable.QUERY_ALL)
+                        .prepare()
+                        .executeAsBlocking();
+                if (receivedTweets.size()==0)
+                    fragment = ForecastFragment.newInstance(PlaceData.newPlace("fsdfsd", 0, 0));
+                else
+                    fragment = ForecastFragment.newInstance(receivedTweets.get(0));
                 tag = TAG_FORECAST;
                 setHomeAsUp(false);
         }

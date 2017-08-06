@@ -1,10 +1,8 @@
 package com.example.kimichael.yamblz_forecast.data.network.forecast;
 
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.ForecastResponse;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.WeatherResponse;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 
 import java.util.List;
 

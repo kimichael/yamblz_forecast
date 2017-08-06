@@ -1,6 +1,6 @@
 package com.example.kimichael.yamblz_forecast.presentation.presenter.forecast;
 
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.presentation.BasePresenter;

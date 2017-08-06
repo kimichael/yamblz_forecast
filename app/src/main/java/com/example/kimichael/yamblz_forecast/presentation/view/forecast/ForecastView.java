@@ -1,8 +1,8 @@
 package com.example.kimichael.yamblz_forecast.presentation.view.forecast;
 
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.presentation.BaseView;
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 
 import java.util.List;
 

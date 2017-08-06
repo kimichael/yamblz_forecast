@@ -2,9 +2,11 @@ package com.example.kimichael.yamblz_forecast.data.network.places;
 
 import android.support.annotation.NonNull;
 
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.data.network.places.response.DetailResponse;
 import com.example.kimichael.yamblz_forecast.data.network.places.response.PlacesResponse;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.PlacesRequest;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 import java.util.Locale;
 
@@ -18,12 +20,13 @@ import io.reactivex.Single;
  */
 public class PlacesRepositoryImpl implements PlacesRepository {
     private GooglePlacesClient googlePlacesClient;
+    private StorIOSQLite storIOSQLite;
 
     @Inject
-    public PlacesRepositoryImpl(@Named("GoogleOkHttpClient")GooglePlacesClient googlePlacesClient) {
+    public PlacesRepositoryImpl(GooglePlacesClient googlePlacesClient, StorIOSQLite storIOSQLite) {
         this.googlePlacesClient = googlePlacesClient;
+        this.storIOSQLite = storIOSQLite;
     }
-
 
     @Override
     public Single<PlacesResponse> getPlaces(@NonNull PlacesRequest request) {
@@ -33,6 +36,15 @@ public class PlacesRepositoryImpl implements PlacesRepository {
     @Override
     public Single<DetailResponse> getLocale(@NonNull String id) {
         return googlePlacesClient.getPlaceDetail(id, Locale.getDefault().getLanguage().toLowerCase());
+    }
+
+    @Override
+    public void savePlace(@NonNull PlaceData data) {
+        storIOSQLite
+                .put()
+                .object(data)
+                .prepare()
+                .executeAsBlocking();
     }
 
 

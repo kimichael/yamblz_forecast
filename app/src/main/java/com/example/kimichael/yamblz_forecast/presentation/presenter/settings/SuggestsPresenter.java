@@ -5,7 +5,7 @@ import com.example.kimichael.yamblz_forecast.domain.interactor.requests.PlacesRe
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
 import com.example.kimichael.yamblz_forecast.presentation.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.places.SuggestsView;
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 import java.util.List;
@@ -72,7 +72,8 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             @Override
             public void onSuccess(@NonNull PlaceData placesResponse) {
                 Timber.d("onNext: " + placesResponse.toString());
-                manager.savePlace(placesResponse);
+               // manager.savePlace(placesResponse);
+                settingsInteractor.savePlace(placesResponse);
 
             }
 

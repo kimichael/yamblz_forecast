@@ -12,9 +12,7 @@ public class DetailResponse {
     @SerializedName("result")
     @Expose
     private Result result;
-    @SerializedName("name")
-    @Expose
-    private String name;
+
 
     public Result getResult() {
         return result;
@@ -24,11 +22,4 @@ public class DetailResponse {
         this.result = result;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

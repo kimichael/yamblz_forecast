@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
-import com.example.kimichael.yamblz_forecast.utils.PlaceData;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 
 
 import java.util.List;

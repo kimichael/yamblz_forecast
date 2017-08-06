@@ -3,6 +3,7 @@ package com.example.kimichael.yamblz_forecast.presentation.view.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.
 import com.example.kimichael.yamblz_forecast.presentation.view.places.SuggestsFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.select.UnitsDialogFragment;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
+import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 
 import javax.inject.Inject;
@@ -94,16 +96,6 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initAutocompleteFragment();
-    }
-
-    private void initAutocompleteFragment() {
-
-        GooglePlaceFragment autocompleteFragment = new GooglePlaceFragment();
-        getFragmentManager().beginTransaction()
-                .replace(R.id.place_autocomplete_container, autocompleteFragment).commit();
-
-        //autocompleteFragment.setPlaceSelected(presenter.getTextChangeObserver());
     }
 
 
