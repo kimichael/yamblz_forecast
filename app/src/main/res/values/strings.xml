@@ -1,4 +1,4 @@
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources >
     <string name="app_name">Yamblz_Forecast</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -28,8 +28,8 @@
     <string name="key_chosen_fragment" translatable="false">chosen_fragment</string>
 
     <string name="format_temperature" translatable="false">%1.0f\u00B0%s</string>
-    <string name="format_humidity">Humidity: %d %%</string>
-    <string name="format_wind">Wind: %d m/s</string>
+    <string name="format_humidity">%d %%</string>
+    <string name="format_wind">%d m/s</string>
     <string name="format_pressure">Pressure: %d mm Hg</string>
     <string name="format_min_max_temp" formatted="false" translatable="false">%s - %s</string>
 

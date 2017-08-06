@@ -31,12 +31,12 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
     }
 
     @Inject
-
-    public void getCitiesIds(String queue){
-        settingsInteractor.getPlaces(getTextChangeObserver(), new PlacesRequest(queue));
+    public void getCitiesIds(String queue) {
+        settingsInteractor.getPlaces(new PlacesRequest(queue))
+                .subscribe(getTextChangeObserver());
     }
 
-    private SingleObserver<List<Prediction>> getTextChangeObserver(){
+    private SingleObserver<List<Prediction>> getTextChangeObserver() {
         return new SingleObserver<List<Prediction>>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -45,8 +45,8 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
 
             @Override
             public void onSuccess(@NonNull List<Prediction> placesResponse) {
-                Timber.d("onNext: "+placesResponse.toString());
-                if (getView()!=null) getView().addList(placesResponse);
+                Timber.d("onNext: " + placesResponse.toString());
+                if (getView() != null) getView().addList(placesResponse);
             }
 
             @Override
@@ -56,11 +56,13 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
 
         };
     }
-    public void saveCity(Prediction prediction){
-        settingsInteractor.getLocale(getPlaceDetailObserver(), prediction);
+
+    public void saveCity(Prediction prediction) {
+        settingsInteractor.getLocale(prediction)
+                .subscribe(getPlaceDetailObserver());
     }
 
-    private SingleObserver<PlaceData> getPlaceDetailObserver(){
+    private SingleObserver<PlaceData> getPlaceDetailObserver() {
         return new SingleObserver<PlaceData>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -69,7 +71,7 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
 
             @Override
             public void onSuccess(@NonNull PlaceData placesResponse) {
-                Timber.d("onNext: "+placesResponse.toString());
+                Timber.d("onNext: " + placesResponse.toString());
                 manager.savePlace(placesResponse);
 
             }

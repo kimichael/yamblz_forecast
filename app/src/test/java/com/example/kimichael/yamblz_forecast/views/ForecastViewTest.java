@@ -1,11 +1,7 @@
 package com.example.kimichael.yamblz_forecast.views;
 
-import android.database.Observable;
-
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
-import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastView;
 
 import org.junit.Before;
@@ -17,7 +13,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import io.reactivex.Single;
 
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 
@@ -42,17 +37,17 @@ public class ForecastViewTest {
 
     @Test
     public void checkSuccessResult() {
-        presenter.getObserver();
+        presenter.getWeatherObserver();
         Single <ForecastInfo> singleSuccess = Single.fromObservable(io.reactivex.Observable.fromArray(getInfo()));
-        singleSuccess.subscribeWith(presenter.getObserver());
-        verify(view).showForecast(anyObject());
+        singleSuccess.subscribeWith(presenter.getWeatherObserver());
+        verify(view).showCurrentWeather(anyObject());
     }
 
     @Test
     public void checkErrorResult() {
-        presenter.getObserver();
+        presenter.getWeatherObserver();
         Single <ForecastInfo> singleSuccess = Single.error(new Throwable("error"));
-        singleSuccess.subscribeWith(presenter.getObserver());
+        singleSuccess.subscribeWith(presenter.getWeatherObserver());
         verify(view).showError();
     }
 

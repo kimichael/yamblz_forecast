@@ -21,9 +21,13 @@ import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.presentation.view.about.AboutFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsFragment;
+import com.example.kimichael.yamblz_forecast.utils.PlaceData;
+import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     private boolean isHomeAsUp = false;
     private DrawerArrowDrawable homeDrawable;
     DrawerLayout drawer;
+
 
     @Override
     @SuppressWarnings("ResourceType")
@@ -156,7 +161,7 @@ public class MainActivity extends AppCompatActivity
             case FRAGMENT_STATUS_WEATHER:
             case FRAGMENT_STATUS_NOT_CHOSEN:
             default:
-                fragment = ForecastFragment.newInstance();
+                fragment = ForecastFragment.newInstance(new PlaceData("fdsf", 45.6783, 89.3423));
                 tag = TAG_FORECAST;
                 setHomeAsUp(false);
         }

@@ -3,7 +3,7 @@ package com.example.kimichael.yamblz_forecast.interactors;
 import android.content.Context;
 
 import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.WeatherResponse;
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.utils.PlaceData;
@@ -53,9 +53,9 @@ public class ForecastInteractorTest {
         presenter = new ForecastPresenter(interactor);
 
         Mockito.when(manager.getPlace()).thenReturn(new PlaceData("name", 1.0, 1.0));
-        Mockito.when(repository.getForecast(anyObject())).thenReturn(new Single<Forecast>() {
+        Mockito.when(repository.getWeather(anyObject())).thenReturn(new Single<WeatherResponse>() {
             @Override
-            protected void subscribeActual(@NonNull SingleObserver<? super Forecast> observer) {
+            protected void subscribeActual(@NonNull SingleObserver<? super WeatherResponse> observer) {
 
             }
         });
@@ -64,8 +64,8 @@ public class ForecastInteractorTest {
 
     @Test
     public void checkRepositoryGetForecast() {
-        presenter.getForecast(false);
-        verify(repository).getForecast(anyObject());
+        presenter.getWeather(false);
+        verify(repository).getWeather(anyObject());
     }
 
 

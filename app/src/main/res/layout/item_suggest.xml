@@ -5,6 +5,6 @@
     android:id="@+id/suggest_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/little_padding"
+    android:padding="@dimen/margin_tiny"
     android:textSize="18sp"
     tools:text="Mocrdf" />

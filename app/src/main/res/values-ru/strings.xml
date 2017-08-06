@@ -14,9 +14,9 @@
     <string name="fahrenheit">Фаренгейт</string>
     <string name="no_internet_message">Пожалуйста, проверьте свое подключение к интернету</string>
     <string name="pref_temp_units_title">Единицы измерения</string>
-    <string name="format_humidity">Влажность: %d %%</string>
+    <string name="format_humidity">%d %%</string>
     <string name="format_pressure">Давление: %d mm Hg</string>
-    <string name="format_wind">Ветер: %d м/с</string>
+    <string name="format_wind">%d м/с</string>
     <string name="interval_day">День</string>
     <string name="interval_five_hours">Пять часов</string>
     <string name="interval_hour">Час</string>

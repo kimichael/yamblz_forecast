@@ -1,6 +1,6 @@
 package com.example.kimichael.yamblz_forecast.domain.interactor.forecast;
 
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.WeatherResponse;
 
 /**
  * Created by Kim Michael on 18.07.17
@@ -16,8 +16,9 @@ public class ForecastInfo {
     private final double humidity;
     private final double pressure;
     private final String description;
+    private final String date;
 
-    public ForecastInfo(String city, double temp, double minTemp, double maxTemp, int weatherId, double windSpeed, double humidity, double pressure, String description) {
+    public ForecastInfo(String city, double temp, double minTemp, double maxTemp, int weatherId, double windSpeed, double humidity, double pressure, String description, String date) {
         this.city = city;
         this.temp = temp;
         this.minTemp = minTemp;
@@ -27,6 +28,7 @@ public class ForecastInfo {
         this.humidity = humidity;
         this.pressure = pressure;
         this.description = description;
+        this.date = date;
     }
 
     public String getCity() {
@@ -65,7 +67,11 @@ public class ForecastInfo {
         return pressure;
     }
 
-    public static ForecastInfo from(Forecast forecast) {
+    public String getDate() {
+        return date;
+    }
+
+    public static ForecastInfo from(WeatherResponse forecast) {
         return new ForecastInfo(
                 forecast.getName(),
                 forecast.getTemp().getTemp(),
@@ -75,7 +81,8 @@ public class ForecastInfo {
                 forecast.getWind().getSpeed(),
                 forecast.getTemp().getHumidity(),
                 forecast.getTemp().getPressure(),
-                forecast.getWeather().get(0).getDescription()
+                forecast.getWeather().get(0).getDescription(),
+                forecast.getDate()
         );
 
     }

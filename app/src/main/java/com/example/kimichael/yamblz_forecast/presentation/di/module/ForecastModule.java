@@ -57,16 +57,11 @@ public class ForecastModule {
         return new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request request = chain.request();
-                    try {
-                        HttpUrl url = request.url().newBuilder()
-                                .addQueryParameter("APPID", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
-                                .build();
-                        request = request.newBuilder().url(url).build();
-                        return chain.proceed(request);
-                    }catch (UnknownHostException e){
-                        Response.Builder builder = new Response.Builder();
-                        return builder.build();
-                    }
+                    HttpUrl url = request.url().newBuilder()
+                            .addQueryParameter("APPID", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+                            .build();
+                    request = request.newBuilder().url(url).build();
+                    return chain.proceed(request);
                 })
                 .addInterceptor(interceptor)
                 .build();

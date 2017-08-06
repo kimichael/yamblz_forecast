@@ -42,14 +42,14 @@ public class ForecastRepositoryImplTest {
 
     @Test
     public void checkClientGetForecast() {
-        impl.getForecast(new ForecastRequest(new PlaceData("name", 1.0, 1.0), true));
-        verify(openWeatherClient).getForecast(anyString(), anyString(), anyString(), anyString());
+        impl.getWeather(new ForecastRequest(new PlaceData("name", 1.0, 1.0), true));
+        verify(openWeatherClient).getWeather(anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
     public void checkClientUpdateForecast() {
-        impl.updateForecast(new PlaceData("name", 1.0, 1.0));
-        verify(openWeatherClient).getForecast(anyString(), anyString(), anyString(), anyString());
+        impl.updateWeather(new PlaceData("name", 1.0, 1.0));
+        verify(openWeatherClient).getWeather(anyString(), anyString(), anyString(), anyString());
     }
 
 

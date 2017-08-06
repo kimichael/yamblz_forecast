@@ -36,7 +36,7 @@ public class ForecastJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters job) {
         PreferencesManager manager  = new PreferencesManager(getBaseContext());
-        forecastRepository.updateForecast(manager.getPlace())
+        forecastRepository.updateWeather(manager.getPlace())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(forecast ->

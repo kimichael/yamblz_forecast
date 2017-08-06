@@ -3,11 +3,16 @@ package com.example.kimichael.yamblz_forecast.data.network.forecast;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.example.kimichael.yamblz_forecast.BuildConfig;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.ForecastResponse;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.WeatherResponse;
+import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.utils.PlaceData;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -35,27 +40,45 @@ public class ForecastRepositoryImpl implements ForecastRepository {
     }
 
     @Override
-    public Single<Forecast> getForecast(@NonNull ForecastRequest request) {
-        if (sharedPreferences.contains(PREF_LAST_RESPONSE) && !request.isForceUpdate())
-            return Single.just(
-                    gson.fromJson(sharedPreferences
-                                    .getString(PREF_LAST_RESPONSE, null), Forecast.class));
-        else
-            return openWeatherClient.getForecast(request.getCityLat(), request.getCityLon(), OpenWeatherClient.RUSSIAN, BuildConfig.OPEN_WEATHER_MAP_API_KEY);
+    public Single<ForecastInfo> getWeather(@NonNull ForecastRequest request) {
+
+            return openWeatherClient.getWeather(request.getCityLat(), request.getCityLon(),
+                    Locale.getDefault().getLanguage().toLowerCase())
+                    .map(ForecastInfo::from);
     }
 
     @Override
-    public Single<Forecast> updateForecast(PlaceData cityLatLng) {
+    public Single<ForecastInfo> updateWeather(PlaceData cityLatLng) {
         String lat = String.valueOf(cityLatLng.getLatitude());
         String lng = String.valueOf(cityLatLng.getLongitude());
-        return openWeatherClient.getForecast(lat, lng, OpenWeatherClient.RUSSIAN, BuildConfig.OPEN_WEATHER_MAP_API_KEY);
+        return openWeatherClient.getWeather(lat, lng, Locale.getDefault().getLanguage().toLowerCase())
+                .map(ForecastInfo::from);
     }
 
     @Override
-    public void saveForecast(Forecast forecast) {
+    public Single<List<ForecastInfo>> getForecast(ForecastRequest request) {
+        return openWeatherClient.getForecast(request.getCityLat(), request.getCityLon(),
+                Locale.getDefault().getLanguage().toLowerCase())
+                .map(ForecastResponse::getList)
+                .map(list->{
+                    List<ForecastInfo> resultList = new ArrayList<>();
+                    for (WeatherResponse item:list){
+                        resultList.add(ForecastInfo.from(item));
+                    }
+                    return resultList;
+                });
+    }
+
+    @Override
+    public void saveWeather(ForecastInfo forecast) {
         sharedPreferences.edit()
                 .putString(PREF_LAST_RESPONSE, gson.toJson(forecast))
                 .apply();
+    }
+
+    @Override
+    public void saveForecast(List<ForecastInfo> forecast) {
+
     }
 
     @Override

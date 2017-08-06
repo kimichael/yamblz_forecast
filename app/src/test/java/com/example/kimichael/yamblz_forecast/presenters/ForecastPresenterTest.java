@@ -1,9 +1,7 @@
 package com.example.kimichael.yamblz_forecast.presenters;
 
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
-import com.example.kimichael.yamblz_forecast.presentation.BaseView;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
-import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +36,7 @@ public class ForecastPresenterTest {
 
     @Test
     public void checkInteractorExec() {
-        presenter.getForecast(false);
+        presenter.getWeather(false);
         verify(forecastInteractor).execute(anyObject(), anyBoolean());
     }
 

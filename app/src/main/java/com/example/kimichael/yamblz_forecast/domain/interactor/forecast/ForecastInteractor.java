@@ -3,11 +3,15 @@ package com.example.kimichael.yamblz_forecast.domain.interactor.forecast;
 import android.content.Context;
 
 import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.ForecastResponse;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.WeatherResponse;
 import com.example.kimichael.yamblz_forecast.domain.interactor.SingleInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.SchedulersModule;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,8 +28,6 @@ public class ForecastInteractor extends SingleInteractor {
     private final ForecastRepository forecastRepository;
     private final Context context;
 
-    private final PreferencesManager manager;
-
     @Inject
     public ForecastInteractor(@Named(SchedulersModule.JOB) Scheduler threadExecutor,
                        @Named(SchedulersModule.UI) Scheduler postExecutionThread, ForecastRepository forecastRepository,
@@ -33,22 +35,27 @@ public class ForecastInteractor extends SingleInteractor {
         super(threadExecutor, postExecutionThread);
         this.forecastRepository = forecastRepository;
         this.context = context;
-        this.manager = manager;
     }
 
-    public void getForecast(SingleObserver<ForecastInfo> observer,
-                                               ForecastRequest params) {
-        BuildUseCaseObservable<ForecastInfo, ForecastRequest> build = params1 -> {
-            Single<Forecast> response = forecastRepository.getForecast(params1);
-            response.subscribe(forecastRepository::saveForecast, forecastRepository::handleException);
-            return response.map(ForecastInfo::from);
-        };
-        execute(observer, build, params);
+    public Single<ForecastInfo>  getWeather(
+                                ForecastRequest params) {
+        BuildUseCaseObservable<ForecastInfo, ForecastRequest> build = forecastRepository::getWeather;
+        return execute(build, params);
     }
 
-    public ForecastRequest getRequest(boolean update){
-        return new ForecastRequest(manager.getPlace(), update);
+    public Single<List<ForecastInfo>> getForecast(ForecastRequest params) {
+        BuildUseCaseObservable<List<ForecastInfo>, ForecastRequest> build = forecastRepository::getForecast;
+        return execute( build, params);
     }
+
+    public void saveWeather(ForecastInfo data){
+        forecastRepository.saveWeather(data);
+    }
+
+    public void saveForecast(List<ForecastInfo> data){
+        forecastRepository.saveForecast(data);
+    }
+
 
 
 }
