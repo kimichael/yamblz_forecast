@@ -1,9 +1,8 @@
 package com.example.kimichael.yamblz_forecast.interactors;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
@@ -23,9 +22,7 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.annotations.NonNull;
 
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
 /**

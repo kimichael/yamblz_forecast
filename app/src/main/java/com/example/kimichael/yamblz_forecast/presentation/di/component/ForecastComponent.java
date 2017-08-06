@@ -21,9 +21,7 @@ import dagger.Subcomponent;
 public interface ForecastComponent {
 
     ForecastScreenComponent plus(ForecastScreenModule forecastScreenModule);
-    SettingsScreenComponent plus(SettingsScreenModule settingsScreenModule);
 
     void inject(ForecastInteractor forecastInteractor);
-    void inject(SettingsInteractor settingsInteractor);
     void inject(ForecastJobService forecastJobService);
 }

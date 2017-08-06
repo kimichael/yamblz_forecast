@@ -1,20 +1,18 @@
-package com.example.kimichael.yamblz_forecast.data;
+package com.example.kimichael.yamblz_forecast.data.network.forecast;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.example.kimichael.yamblz_forecast.BuildConfig;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.OpenWeatherClient;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastRequest;
+import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.utils.PlaceData;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
+import timber.log.Timber;
 
 /**
  * Created by Kim Michael on 16.07.17
@@ -58,5 +56,10 @@ public class ForecastRepositoryImpl implements ForecastRepository {
         sharedPreferences.edit()
                 .putString(PREF_LAST_RESPONSE, gson.toJson(forecast))
                 .apply();
+    }
+
+    @Override
+    public void handleException(Throwable throwable) {
+        Timber.e(throwable.getMessage());
     }
 }

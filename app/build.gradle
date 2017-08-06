@@ -13,12 +13,18 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
+        def googleKey = 'AIzaSyCcgW5x7Y5TYjak-H2Ad29rpl7OV0Myxt4'
+        buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', '\"c3ebefdb656161082df40c099ddf1977\"'
+        buildConfigField 'String', 'GOOGLE_API_KEY', "\"$googleKey\""
+        manifestPlaceholders = [google_key: googleKey]
         applicationId "com.example.kimichael.yamblz_forecast"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -26,11 +32,9 @@ android {
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', '\"c3ebefdb656161082df40c099ddf1977\"'
-        it.buildConfigField 'String', 'GOOGLE_AUTOCOMPLETE_API_KEY', '\"AIzaSyCcgW5x7Y5TYjak-H2Ad29rpl7OV0Myxt4\"'
+        debug{
+            debuggable true
+        }
     }
 
     compileOptions {
@@ -40,13 +44,14 @@ android {
 }
 
 dependencies {
+
+    compile 'com.android.support:multidex:1.0.1'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile libraries.supportAppCompat
     compile libraries.supportDesign
-    compile libraries.supportConstraint
     compile libraries.supportSupport
     compile libraries.supportPreference
 
@@ -60,6 +65,7 @@ dependencies {
 
     compile libraries.rxJava
     compile libraries.rxAndroid
+    compile libraries.rxBinding
 
     compile libraries.butterknife
     annotationProcessor libraries.butterknifeCompiler
@@ -70,7 +76,7 @@ dependencies {
     compile libraries.retrofitConverter
     compile libraries.okHttpInterceptor
 
-    compile libraries.apacheCommons
+  //  compile libraries.apacheCommons
 
     compile libraries.firebaseJobDispatcher
 
@@ -78,7 +84,11 @@ dependencies {
     releaseCompile libraries.leakCanaryNoOp
     testCompile libraries.leakCanaryNoOp
 
+
+    compile libraries.timber
+
     compile libraries.googlePlay
+
     androidTestCompile (libraries.espressoContrib){
         exclude group: 'com.android.support'
     }

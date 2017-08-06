@@ -16,21 +16,21 @@ public class Forecast {
     @SerializedName("main")
     private Temp temp;
     @SerializedName("visibility")
-    private Integer visibility;
+    private double visibility;
     @SerializedName("wind")
     private Wind wind;
     @SerializedName("clouds")
     private Clouds clouds;
     @SerializedName("dt")
-    private Integer dt;
+    private double dt;
     @SerializedName("sys")
     private Sys sys;
     @SerializedName("id")
-    private Integer id;
+    private int id;
     @SerializedName("name")
     private String name;
     @SerializedName("cod")
-    private Integer cod;
+    private double cod;
 
     public Coord getCoord() {
         return coord;
@@ -64,11 +64,11 @@ public class Forecast {
         this.temp = temp;
     }
 
-    public Integer getVisibility() {
+    public double getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(Integer visibility) {
+    public void setVisibility(double visibility) {
         this.visibility = visibility;
     }
 
@@ -88,11 +88,11 @@ public class Forecast {
         this.clouds = clouds;
     }
 
-    public Integer getDt() {
+    public double getDt() {
         return dt;
     }
 
-    public void setDt(Integer dt) {
+    public void setDt(double dt) {
         this.dt = dt;
     }
 
@@ -104,11 +104,11 @@ public class Forecast {
         this.sys = sys;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -120,12 +120,11 @@ public class Forecast {
         this.name = name;
     }
 
-    public Integer getCod() {
+    public double getCod() {
         return cod;
     }
 
-    public void setCod(Integer cod) {
+    public void setCod(double cod) {
         this.cod = cod;
     }
-
 }

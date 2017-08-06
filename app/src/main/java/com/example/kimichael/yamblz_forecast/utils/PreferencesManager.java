@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 
 /**
  * Created by Sinjvf on 30.07.2017.
+ * work with shared preferences
  */
 
 public class PreferencesManager {
@@ -35,8 +36,7 @@ public class PreferencesManager {
     }
 
     public PreferencesManager(Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        this.sharedPreferences = sp;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public boolean isTempCelsius() {
@@ -78,6 +78,12 @@ public class PreferencesManager {
         } else {
             data = new PlaceData(MOSCOW_NAME, MOSCOW_LAT, MOSCOW_LNG);
         }
+        String dataStr = (new Gson()).toJson(data);
+        sharedPreferences.edit().putString(KEY_PLACE_DATA, dataStr).apply();
+
+    }
+
+    public void savePlace(@Nullable PlaceData data) {
         String dataStr = (new Gson()).toJson(data);
         sharedPreferences.edit().putString(KEY_PLACE_DATA, dataStr).apply();
 

@@ -1,11 +1,11 @@
-package com.example.kimichael.yamblz_forecast.domain.interactor.forecast;
+package com.example.kimichael.yamblz_forecast.domain.interactor.requests;
 
 import com.example.kimichael.yamblz_forecast.utils.PlaceData;
 
 /**
  * Created by Kim Michael on 18.07.17
  */
-public class ForecastRequest {
+public class ForecastRequest extends BaseRequest{
 
     private final PlaceData cityData;
     private final boolean forceUpdate;

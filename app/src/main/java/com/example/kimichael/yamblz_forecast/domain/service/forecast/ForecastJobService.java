@@ -3,14 +3,9 @@ package com.example.kimichael.yamblz_forecast.domain.service.forecast;
 import android.content.Context;
 
 import com.example.kimichael.yamblz_forecast.App;
-import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastRequest;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastModule;
-import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
-import com.example.kimichael.yamblz_forecast.utils.Utility;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
@@ -20,11 +15,7 @@ import com.firebase.jobdispatcher.Trigger;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**

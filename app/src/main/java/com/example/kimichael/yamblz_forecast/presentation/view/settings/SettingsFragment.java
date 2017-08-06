@@ -5,18 +5,19 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.domain.service.forecast.ForecastJobService;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsPresenter;
+import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.select.IntervalsDialogFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.select.SelectorDialogFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.places.SuggestsFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.select.UnitsDialogFragment;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 
@@ -28,13 +29,16 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class SettingsFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    private SharedPreferences sharedPreferences;
-    private PreferencesManager manager;
+    @Inject
+    SharedPreferences sharedPreferences;
+    @Inject
+    PreferencesManager manager;
     @BindView(R.id.temp_units_button)
     TextView tempUnitsButton;
     @BindView(R.id.sync_interval_button)
     TextView syncIntervalButton;
+    @BindView(R.id.add_place)
+    TextView addPlace;
 
     @Inject
     SettingsPresenter presenter;
@@ -58,12 +62,7 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         App.getInstance().getSettingsScreenComponent().inject(this);
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        manager = new PreferencesManager(sharedPreferences);
-
     }
 
     @Override
@@ -104,7 +103,7 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
         getFragmentManager().beginTransaction()
                 .replace(R.id.place_autocomplete_container, autocompleteFragment).commit();
 
-        autocompleteFragment.setPlaceSelected(presenter.getPlaceChangeObserver());
+        //autocompleteFragment.setPlaceSelected(presenter.getTextChangeObserver());
     }
 
 
@@ -117,7 +116,7 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
 
     @OnClick(R.id.temp_units_button)
     public void showTempUnitsDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+ /*       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         dialogBuilder.setSingleChoiceItems(R.array.temp_units, manager.getTempPosition(), null)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
                     ListView lv = ((AlertDialog) dialogInterface).getListView();
@@ -125,11 +124,14 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
                     dialogInterface.dismiss();
                 });
         dialogBuilder.show();
+*/
+        SelectorDialogFragment dialogFragment = UnitsDialogFragment.getInstance(manager.getTempPosition());
+        dialogFragment.show(getActivity().getFragmentManager(), null);
     }
 
     @OnClick(R.id.sync_interval_button)
     public void showSyncIntervalDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+/*        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         dialogBuilder.setSingleChoiceItems(R.array.interval, 0, null)
                 .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
                     ListView lv = ((AlertDialog) dialogInterface).getListView();
@@ -137,7 +139,17 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
                     String chosenIntervalStr = getResources().getStringArray(R.array.interval_values)[chosenInterval];
                     manager.saveInterval(chosenIntervalStr);
                 });
-        dialogBuilder.show();
+        dialogBuilder.show();*/
+        SelectorDialogFragment dialogFragment = IntervalsDialogFragment.getInstance(manager.getTempPosition());
+        dialogFragment.show(getActivity().getFragmentManager(), null);
+
+    }
+
+
+    @OnClick(R.id.add_place)
+    public void addPlace() {
+        SuggestsFragment dialogFragment = SuggestsFragment.getInstance();
+        dialogFragment.show(getActivity().getFragmentManager(), null);
     }
 
 }

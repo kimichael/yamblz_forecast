@@ -12,6 +12,7 @@ ext.versions = [
 
         rxJava : '2.1.1',
         rxAndroid : '2.0.1',
+        rxBinding:"2.0.0",
 
         butterknife : '8.7.0',
 
@@ -28,10 +29,15 @@ ext.versions = [
         espresso:"2.2.2",
 
         robolectric:"3.4",
-        mockito:"1.10.19"
+        mockito:"1.10.19",
+
+        timber:"4.5.1",
 ]
 
 ext.libraries = [
+
+        timber : "com.jakewharton.timber:timber:$versions.timber",
+
         dagger : "com.google.dagger:dagger:$versions.dagger",
         daggerCompiler : "com.google.dagger:dagger-compiler:$versions.dagger",
         daggerAnnotations : "javax.annotation:jsr250-api:$versions.daggerAnnotations",
@@ -50,6 +56,7 @@ ext.libraries = [
 
         rxJava : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
         rxAndroid : "io.reactivex.rxjava2:rxandroid:$versions.rxAndroid",
+        rxBinding: "com.jakewharton.rxbinding2:rxbinding:$versions.rxBinding",
 
         butterknife : "com.jakewharton:butterknife:$versions.butterknife",
         butterknifeCompiler : "com.jakewharton:butterknife-compiler:$versions.butterknife",
@@ -71,5 +78,6 @@ ext.libraries = [
         espressoCore: "com.android.support.test.espresso:espresso-core:$versions.espresso",
         robolectric: "org.robolectric:robolectric:$versions.robolectric",
         mockito:"org.mockito:mockito-core:$versions.mockito"
+
 
 ]

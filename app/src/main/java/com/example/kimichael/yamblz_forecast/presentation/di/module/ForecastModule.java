@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.v7.preference.PreferenceManager;
 
 import com.example.kimichael.yamblz_forecast.BuildConfig;
-import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
-import com.example.kimichael.yamblz_forecast.data.ForecastRepositoryImpl;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepositoryImpl;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.OpenWeatherClient;
 import com.example.kimichael.yamblz_forecast.presentation.di.scope.ForecastScope;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
@@ -13,17 +13,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.Interceptor;
 import retrofit2.Retrofit;
-import okhttp3.Request;
 import okhttp3.OkHttpClient;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -53,6 +55,19 @@ public class ForecastModule {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+                    try {
+                        HttpUrl url = request.url().newBuilder()
+                                .addQueryParameter("APPID", BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+                                .build();
+                        request = request.newBuilder().url(url).build();
+                        return chain.proceed(request);
+                    }catch (UnknownHostException e){
+                        Response.Builder builder = new Response.Builder();
+                        return builder.build();
+                    }
+                })
                 .addInterceptor(interceptor)
                 .build();
     }
@@ -74,10 +89,5 @@ public class ForecastModule {
                 openWeatherClient, gson);
     }
 
-    @Provides
-    @ForecastScope
-    PreferencesManager providePreferensesManager(Context context) {
-        return new PreferencesManager(context);
-    }
 
 }

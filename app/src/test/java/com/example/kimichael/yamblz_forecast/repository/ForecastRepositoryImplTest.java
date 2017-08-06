@@ -1,17 +1,11 @@
 package com.example.kimichael.yamblz_forecast.repository;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.kimichael.yamblz_forecast.data.ForecastRepository;
-import com.example.kimichael.yamblz_forecast.data.ForecastRepositoryImpl;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepositoryImpl;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.OpenWeatherClient;
-import com.example.kimichael.yamblz_forecast.data.network.forecast.response.Forecast;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastRequest;
-import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
+import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.utils.PlaceData;
-import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.google.gson.Gson;
 
 import org.junit.Before;
