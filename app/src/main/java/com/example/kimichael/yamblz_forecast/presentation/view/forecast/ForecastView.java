@@ -1,7 +1,7 @@
 package com.example.kimichael.yamblz_forecast.presentation.view.forecast;
 
 import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
-import com.example.kimichael.yamblz_forecast.presentation.BaseView;
+import com.example.kimichael.yamblz_forecast.presentation.view.BaseView;
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 
 import java.util.List;
@@ -14,6 +14,7 @@ public interface ForecastView extends BaseView {
     void showCurrentWeather(ForecastInfo forecast);
     void showForecast(List<ForecastInfo> forecastsList);
     PlaceData getPlace();
+    void showSureDialog();
 
     void showError(Throwable e);
 }

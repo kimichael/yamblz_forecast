@@ -27,9 +27,9 @@ public class ForecastInfo {
 
     @StorIOSQLiteColumn(name = ForecastsTable.COLUMN_TEMPR)
     double temp;
-/*
-    double minTemp;
-    double maxTemp;*/
+
+    private double lat;
+    private double lng;
 
     @StorIOSQLiteColumn(name = ForecastsTable.COLUMN_WEATHER_ID)
     int weatherId;
@@ -52,17 +52,16 @@ public class ForecastInfo {
 
     public ForecastInfo(@Nullable Integer id, /*@NonNull String city,*/
                         int cityId, double temp,
-                        double minTemp, double maxTemp,
+                        double lat, double lng,
                         int weatherId, double windSpeed,
                         double humidity,  double pressure,
                         @NonNull String description, @Nullable Long date) {
 
         this.id = id;
-/*        this.city = city;*/
         this.cityId = cityId;
         this.temp = temp;
-/*        this.minTemp = minTemp;
-        this.maxTemp = maxTemp;*/
+        this.lat = lat;
+        this.lng = lng;
         this.weatherId = weatherId;
         this.windSpeed = windSpeed;
         this.humidity = humidity;
@@ -74,20 +73,20 @@ public class ForecastInfo {
     @NonNull
     public static ForecastInfo newForecast(@Nullable Integer id, /*@NonNull String city,*/
                                            int cityId, double temp,
-                                           double minTemp, double maxTemp,
+                                           double lat, double lng,
                                            int weatherId, double windSpeed,
                                            double humidity, double pressure,
                                            @NonNull String description, @Nullable Long date) {
-        return new ForecastInfo(id, /*city,*/ cityId, temp, minTemp, maxTemp, weatherId, windSpeed, humidity, pressure, description, date);
+        return new ForecastInfo(id, /*city,*/ cityId, temp,  lat,  lng, weatherId, windSpeed, humidity, pressure, description, date);
     }
 
     @NonNull
     public static ForecastInfo newForecast(int cityId, double temp,
-                                           double minTemp, double maxTemp,
+                                           double lat, double lng,
                                            int weatherId, double windSpeed,
                                            double humidity, double pressure,
                                            @NonNull String description, @Nullable Long date) {
-        return new ForecastInfo(null,/* city,*/ cityId, temp, minTemp, maxTemp, weatherId, windSpeed, humidity, pressure, description, date);
+        return new ForecastInfo(null,/* city,*/ cityId, temp, lat, lng, weatherId, windSpeed, humidity, pressure, description, date);
     }
 
     public ForecastInfo() {
@@ -160,6 +159,22 @@ public class ForecastInfo {
         this.date = date;
     }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
     public static ForecastInfo from(WeatherResponse forecast) {
 
         return new ForecastInfo(null,
@@ -167,8 +182,8 @@ public class ForecastInfo {
                 //TODO right num
                 1,
                 forecast.getTemp().getTemp(),
-                forecast.getTemp().getTempMin(),
-                forecast.getTemp().getTempMax(),
+                forecast.getCoord().getLat(),
+                forecast.getCoord().getLon(),
                 forecast.getWeather().get(0).getId(),
                 forecast.getWind().getSpeed(),
                 forecast.getTemp().getHumidity(),

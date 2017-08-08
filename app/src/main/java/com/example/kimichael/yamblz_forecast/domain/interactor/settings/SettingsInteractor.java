@@ -3,6 +3,7 @@ package com.example.kimichael.yamblz_forecast.domain.interactor.settings;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.kimichael.yamblz_forecast.data.database.DbClientImpl;
 import com.example.kimichael.yamblz_forecast.data.network.places.PlacesRepository;
 import com.example.kimichael.yamblz_forecast.data.network.places.response.PlacesResponse;
 import com.example.kimichael.yamblz_forecast.data.network.places.response.Prediction;
@@ -29,14 +30,17 @@ public class SettingsInteractor extends SingleInteractor {
 
     private final PreferencesManager manager;
 
+    private final DbClientImpl dbClient;
+
     @Inject
     SettingsInteractor(@Named(SchedulersModule.JOB) Scheduler threadExecutor,
                        @Named(SchedulersModule.UI) Scheduler postExecutionThread, PlacesRepository placesRepository,
-                       Context context, PreferencesManager manager) {
+                       Context context, PreferencesManager manager, DbClientImpl dbClient) {
         super(threadExecutor, postExecutionThread);
         this.placesRepository = placesRepository;
         this.context = context;
         this.manager = manager;
+        this.dbClient = dbClient;
     }
 
     public Single<List<Prediction>> getPlaces(PlacesRequest param) {
@@ -46,7 +50,7 @@ public class SettingsInteractor extends SingleInteractor {
          return execute(build, param);
     }
 
-    public Single<PlaceData> getLocale(Prediction param) {
+    public Single<PlaceData> getPlaceDetailes(Prediction param) {
         BuildUseCaseObservable<PlaceData, Prediction> build = params1 ->
                 placesRepository.getLocale(param.getPlaceId())
                         .map(detail->
@@ -57,8 +61,15 @@ public class SettingsInteractor extends SingleInteractor {
         return execute(build, param);
     }
 
-    public void savePlace(@NonNull PlaceData data){
-        placesRepository.savePlace(data);
+    public void addCity(@NonNull PlaceData data){
+        dbClient.addCity(data);
     }
 
+    public void deleteCity(PlaceData data){
+        dbClient.deleteCity(data);
+    }
+
+    public List<PlaceData> getAllCities(){
+        return dbClient.getAllCities();
+    }
 }

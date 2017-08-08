@@ -25,4 +25,11 @@
     <string name="pref_sync_title">Интервал обновления</string>
 
     <string name="choose_city">Выберите город</string>
+
+    <string name="delete_title">%s - хороший город</string>
+    <string name="delete_text">Вы уверены, что хотите удалить его из избранного?</string>
+    <string name="delete_ok">Удалить</string>
+    <string name="delete_cancel">Я передумал</string>
+    <string name="add_city">Добавить новый город</string>
+    <string name="new_city">Новый город</string>
 </resources>

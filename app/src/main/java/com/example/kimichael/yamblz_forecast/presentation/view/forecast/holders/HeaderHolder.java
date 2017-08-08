@@ -8,11 +8,15 @@ import android.widget.TextView;
 
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.example.kimichael.yamblz_forecast.utils.Utility;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 
 /**
  * Created by Sinjvf on 06.08.2017.
@@ -32,20 +36,27 @@ public class HeaderHolder extends BaseHolder {
     @BindView(R.id.description)
     TextView description;
 
-    public HeaderHolder(View itemView) {
+    @BindView(R.id.delete)
+    ImageView deleteCity;
+
+    private ForecastPresenter presenter;
+
+    public HeaderHolder(View itemView, ForecastPresenter presenter) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        this.presenter = presenter;
     }
 
     @Override
     public void bind(ForecastInfo forecast) {
         Context context = weatherIcon.getContext();
-        PreferencesManager manager  = new PreferencesManager(context);
+        PreferencesManager manager = new PreferencesManager(context);
         temperature.setText(Utility.formatTemperature(manager, context, forecast.getTemp()));
         weatherIcon.setImageDrawable(ContextCompat.getDrawable(context,
                 Utility.getImageForWeatherCondition(forecast.getWeatherId())));
-        windSpeed.setText(context.getString(R.string.format_wind, (int)forecast.getWindSpeed()));
-        humidity.setText(context.getString(R.string.format_humidity, (int)forecast.getHumidity()));
+        windSpeed.setText(context.getString(R.string.format_wind, (int) forecast.getWindSpeed()));
+        humidity.setText(context.getString(R.string.format_humidity, (int) forecast.getHumidity()));
         description.setText(forecast.getDescription());
+        RxView.clicks(deleteCity).subscribe(presenter::showSureDialog);
     }
 }

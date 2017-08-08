@@ -81,7 +81,7 @@ public class PreferencesManagerTest {
         double LAT = 69.20;
         double LON = 88.13;
         PlaceData data = new PlaceData(NAME, LAT, LON);
-        preferencesManager.savePlace(createPlace(data));
+        preferencesManager.addCity(createPlace(data));
         assertEquals(NAME, preferencesManager.getPlace().getName());
         assertEquals(LAT, preferencesManager.getPlace().getLatitude(), 0);
         assertEquals(LON, preferencesManager.getPlace().getLongitude(), 0);
@@ -114,7 +114,7 @@ public class PreferencesManagerTest {
             }
 
             @Override
-            public Locale getLocale() {
+            public Locale getPlaceDetailes() {
                 return null;
             }
 

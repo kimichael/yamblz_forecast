@@ -16,7 +16,5 @@ public interface ForecastRepository {
     Single<ForecastInfo> getWeather(ForecastRequest request);
     Single<ForecastInfo> updateWeather(PlaceData cityLatLng);
     Single<List<ForecastInfo>> getForecast(ForecastRequest request);
-    void saveWeather(ForecastInfo forecast);
-    void saveForecast(List<ForecastInfo> forecast);
     void handleException(Throwable throwable);
 }

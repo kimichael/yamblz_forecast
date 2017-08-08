@@ -1,20 +1,14 @@
 package com.example.kimichael.yamblz_forecast.presentation.presenter.settings;
 
-import com.example.kimichael.yamblz_forecast.data.network.places.response.PlacesResponse;
-import com.example.kimichael.yamblz_forecast.domain.interactor.requests.PlacesRequest;
+import android.app.DialogFragment;
+import android.support.v4.util.Pair;
+
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
-import com.example.kimichael.yamblz_forecast.presentation.BasePresenter;
+import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
-
-import io.reactivex.SingleObserver;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import timber.log.Timber;
 
 /**
  * Created on 22.07.2017.
@@ -28,4 +22,17 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
         this.settingsInteractor = settingsInteractor;
     }
 
+
+    public void sureDeleteCity(Pair<PlaceData, DialogFragment> data){
+        settingsInteractor.deleteCity(data.first);
+        data.second.dismiss();
+    }
+
+    public void notSureDeleteCity(DialogFragment data){
+        data.dismiss();
+    }
+
+    public void addCity(PlaceData data){
+        settingsInteractor.addCity(data);
+    }
 }

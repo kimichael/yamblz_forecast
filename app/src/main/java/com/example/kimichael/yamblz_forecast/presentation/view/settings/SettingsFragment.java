@@ -39,8 +39,6 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     TextView tempUnitsButton;
     @BindView(R.id.sync_interval_button)
     TextView syncIntervalButton;
-    @BindView(R.id.add_place)
-    TextView addPlace;
 
     @Inject
     SettingsPresenter presenter;
@@ -135,13 +133,6 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
         SelectorDialogFragment dialogFragment = IntervalsDialogFragment.getInstance(manager.getTempPosition());
         dialogFragment.show(getActivity().getFragmentManager(), null);
 
-    }
-
-
-    @OnClick(R.id.add_place)
-    public void addPlace() {
-        SuggestsFragment dialogFragment = SuggestsFragment.getInstance();
-        dialogFragment.show(getActivity().getFragmentManager(), null);
     }
 
 }

@@ -38,4 +38,13 @@
     <string name="ok" translatable="false">Ok</string>
 
     <string name="choose_city">Choose the city</string>
+
+
+    <string name="delete_title">%s is a good city</string>
+    <string name="delete_text">Are you sure you want to delete it from favorites?</string>
+    <string name="delete_ok">Delete</string>
+    <string name="delete_cancel">Nooo!</string>
+
+    <string name="add_city">Add new city</string>
+    <string name="new_city">New city</string>
 </resources>

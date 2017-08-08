@@ -1,6 +1,8 @@
-package com.example.kimichael.yamblz_forecast.presentation;
+package com.example.kimichael.yamblz_forecast.presentation.presenter;
 
 import android.support.annotation.NonNull;
+
+import com.example.kimichael.yamblz_forecast.presentation.view.BaseView;
 
 /**
  * Created by Kim Michael on 16.07.17

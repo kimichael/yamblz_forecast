@@ -16,21 +16,24 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
-import com.example.kimichael.yamblz_forecast.data.database.CitiesTable;
 import com.example.kimichael.yamblz_forecast.presentation.view.about.AboutFragment;
-import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.PhoneWeatherFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsFragment;
-import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
-import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.List;
 
-import javax.inject.Inject;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ToolbarOwner{
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    private boolean isHomeAsUp = false;
+    private DrawerArrowDrawable homeDrawable;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FRAGMENT_STATUS_WEATHER, FRAGMENT_STATUS_SETTINGS, FRAGMENT_STATUS_ABOUT, FRAGMENT_STATUS_NOT_CHOSEN})
@@ -44,26 +47,14 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG_FORECAST = "forecast";
     public static final String TAG_ABOUT = "about";
 
-
-
-    @Inject
-    @NonNull
-    StorIOSQLite storIOSQLite;
     private @MainActivity.ChosenFragmentStatus int chosenFragment;
-    private boolean isHomeAsUp = false;
-    private DrawerArrowDrawable homeDrawable;
-    DrawerLayout drawer;
-
 
     @Override
     @SuppressWarnings("ResourceType")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         homeDrawable = new DrawerArrowDrawable(toolbar.getContext());
         toolbar.setNavigationIcon(homeDrawable);
@@ -164,16 +155,7 @@ public class MainActivity extends AppCompatActivity
             case FRAGMENT_STATUS_WEATHER:
             case FRAGMENT_STATUS_NOT_CHOSEN:
             default:
-                List<PlaceData> receivedTweets = storIOSQLite
-                        .get()
-                        .listOfObjects(PlaceData.class)
-                        .withQuery(CitiesTable.QUERY_ALL)
-                        .prepare()
-                        .executeAsBlocking();
-                if (receivedTweets.size()==0)
-                    fragment = ForecastFragment.newInstance(PlaceData.newPlace("fsdfsd", 0, 0));
-                else
-                    fragment = ForecastFragment.newInstance(receivedTweets.get(0));
+                fragment = PhoneWeatherFragment.newInstance();
                 tag = TAG_FORECAST;
                 setHomeAsUp(false);
         }
@@ -194,5 +176,9 @@ public class MainActivity extends AppCompatActivity
             anim.setDuration(400);
             anim.start();
         }
+    }
+    @Override
+    public void setToolbarText(String title) {
+        toolbar.setTitle(title);
     }
 }

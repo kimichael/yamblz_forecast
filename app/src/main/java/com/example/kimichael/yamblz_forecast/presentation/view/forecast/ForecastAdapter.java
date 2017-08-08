@@ -19,7 +19,7 @@ import java.util.List;
  * adapter for weather+forecast recycler
  */
 
-public class ForecastAdapter extends RecyclerView.Adapter<BaseHolder> {
+class ForecastAdapter extends RecyclerView.Adapter<BaseHolder> {
     private ForecastInfo header;
     private List<ForecastInfo> list;
     private ForecastPresenter presenter;
@@ -27,11 +27,11 @@ public class ForecastAdapter extends RecyclerView.Adapter<BaseHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    public ForecastAdapter(ForecastPresenter presenter) {
+    ForecastAdapter(ForecastPresenter presenter) {
         this.presenter = presenter;
     }
 
-    public void setHeader(ForecastInfo header) {
+    void setHeader(ForecastInfo header) {
         this.header = header;
         notifyItemChanged(0);
     }
@@ -50,7 +50,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<BaseHolder> {
         switch (viewType) {
             case TYPE_HEADER:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_weather_header, parent, false);
-                return new HeaderHolder(v);
+                return new HeaderHolder(v, presenter);
             default:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_forecast, parent, false);
                 return new ItemHolder(v);

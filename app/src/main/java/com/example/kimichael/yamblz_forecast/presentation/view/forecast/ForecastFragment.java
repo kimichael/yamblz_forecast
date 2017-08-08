@@ -19,6 +19,7 @@ import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
+import com.example.kimichael.yamblz_forecast.presentation.view.settings.SureDialog;
 
 
 import java.util.List;
@@ -28,7 +29,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ForecastFragment extends Fragment implements ForecastView {
+public class ForecastFragment extends BaseForecastFragment implements ForecastView {
 
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
@@ -39,9 +40,6 @@ public class ForecastFragment extends Fragment implements ForecastView {
     private ForecastAdapter adapter;
     private final static String DATA_KEY = "DataKey";
     private PlaceData data;
-
-    public ForecastFragment() {
-    }
 
     public static ForecastFragment newInstance(PlaceData data) {
         Bundle bundle = new Bundle();
@@ -132,7 +130,15 @@ public class ForecastFragment extends Fragment implements ForecastView {
     }
 
     @Override
+    public void showSureDialog() {
+        SureDialog dialogFragment = SureDialog.getInstance(data);
+        dialogFragment.show(getActivity().getFragmentManager(), null);
+    }
+
+    @Override
     public void showError(Throwable e) {
         Toast.makeText(getContext(), getString(R.string.no_internet_message), Toast.LENGTH_SHORT).show();
     }
+
+
 }

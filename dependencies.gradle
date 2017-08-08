@@ -61,6 +61,8 @@ ext.libraries = [
         rxJava               : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
         rxAndroid            : "io.reactivex.rxjava2:rxandroid:$versions.rxAndroid",
         rxBinding            : "com.jakewharton.rxbinding2:rxbinding:$versions.rxBinding",
+        rxBindingV4          : "com.jakewharton.rxbinding2:rxbinding-support-v4:$versions.rxBinding",
+        rxBindingV7          : "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$versions.rxBinding",
 
         butterknife          : "com.jakewharton:butterknife:$versions.butterknife",
         butterknifeCompiler  : "com.jakewharton:butterknife-compiler:$versions.butterknife",

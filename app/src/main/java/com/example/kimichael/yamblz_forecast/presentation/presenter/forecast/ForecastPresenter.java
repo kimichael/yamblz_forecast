@@ -3,7 +3,7 @@ package com.example.kimichael.yamblz_forecast.presentation.presenter.forecast;
 import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
-import com.example.kimichael.yamblz_forecast.presentation.BasePresenter;
+import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastView;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
@@ -22,6 +22,7 @@ import timber.log.Timber;
 public class ForecastPresenter extends BasePresenter<ForecastView> {
 
     private ForecastInteractor forecastInteractor;
+   // private SettingsInteractor settingsInteractor;
     @Inject
     PreferencesManager manager;
 
@@ -40,7 +41,7 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
                 .subscribe(getForecastObserver());
     }
 
-    public SingleObserver<ForecastInfo> getWeatherObserver() {
+    private SingleObserver<ForecastInfo> getWeatherObserver() {
         return new SingleObserver<ForecastInfo>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -62,7 +63,7 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
     }
 
 
-    public SingleObserver<List<ForecastInfo>> getForecastObserver() {
+    private SingleObserver<List<ForecastInfo>> getForecastObserver() {
         return new SingleObserver<List<ForecastInfo>>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -83,8 +84,15 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
         };
     }
 
-    public ForecastRequest getRequest(boolean update) {
+    private ForecastRequest getRequest(boolean update) {
         if (getView() == null) return null;
         return new ForecastRequest(getView().getPlace(), update);
     }
+
+   public void showSureDialog(Object obj){
+       if (getView()==null)return;
+       getView().showSureDialog();
+   }
+
+
 }

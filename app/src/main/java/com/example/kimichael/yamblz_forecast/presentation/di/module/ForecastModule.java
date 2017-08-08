@@ -79,10 +79,9 @@ public class ForecastModule {
 
     @Provides
     @ForecastScope
-    ForecastRepository provideForecastRepository(Context context, OpenWeatherClient openWeatherClient,
-                                                 @Named("Gson") Gson gson, StorIOSQLite storIOSQLite) {
-        return new ForecastRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(context),
-                openWeatherClient, gson, storIOSQLite);
+    ForecastRepository provideForecastRepository(OpenWeatherClient openWeatherClient,
+                                                 @Named("Gson") Gson gson) {
+        return new ForecastRepositoryImpl(openWeatherClient, gson);
     }
 
 

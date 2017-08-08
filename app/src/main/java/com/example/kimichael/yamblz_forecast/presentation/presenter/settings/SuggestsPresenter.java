@@ -3,7 +3,7 @@ package com.example.kimichael.yamblz_forecast.presentation.presenter.settings;
 import com.example.kimichael.yamblz_forecast.data.network.places.response.Prediction;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.PlacesRequest;
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
-import com.example.kimichael.yamblz_forecast.presentation.BasePresenter;
+import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.places.SuggestsView;
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
@@ -57,9 +57,10 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
         };
     }
 
-    public void saveCity(Prediction prediction) {
-        settingsInteractor.getLocale(prediction)
+    public void citySelected(Prediction prediction) {
+        settingsInteractor.getPlaceDetailes(prediction)
                 .subscribe(getPlaceDetailObserver());
+        if (getView() != null) getView().clearAll();
     }
 
     private SingleObserver<PlaceData> getPlaceDetailObserver() {
@@ -72,9 +73,7 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             @Override
             public void onSuccess(@NonNull PlaceData placesResponse) {
                 Timber.d("onNext: " + placesResponse.toString());
-               // manager.savePlace(placesResponse);
-                settingsInteractor.savePlace(placesResponse);
-
+                settingsInteractor.addCity(placesResponse);
             }
 
             @Override
@@ -83,5 +82,9 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
             }
 
         };
+    }
+
+    public void addCityClicked() {
+        if (getView() != null) getView().showAddView();
     }
 }

@@ -1,7 +1,10 @@
 package com.example.kimichael.yamblz_forecast.presentation.di.module;
 
+import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
+import com.example.kimichael.yamblz_forecast.presentation.di.scope.ForecastScreenScope;
 import com.example.kimichael.yamblz_forecast.presentation.di.scope.SettingsScreenScope;
+import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.PhoneWeatherPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsIntervalDialogPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsUnitDialogPresenter;
@@ -39,5 +42,11 @@ public class SettingsScreenModule {
     @SettingsScreenScope
     SettingsUnitDialogPresenter provideSettingsUnitPresenter() {
         return new SettingsUnitDialogPresenter();
+    }
+
+    @Provides
+    @SettingsScreenScope
+    PhoneWeatherPresenter providePhoneWeatherPresenter(SettingsInteractor forecastInteractor) {
+        return new PhoneWeatherPresenter(forecastInteractor);
     }
 }

@@ -24,6 +24,17 @@ public class ForecastResponse {
     @SerializedName("list")
     @Expose
     private List<WeatherResponse> list;
+    @Expose
+    @SerializedName("city")
+    private City city;
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 
     public String getCod() {
         return cod;
@@ -50,6 +61,11 @@ public class ForecastResponse {
     }
 
     public List<WeatherResponse> getList() {
+        for (WeatherResponse resp : list) {
+            if (resp.getCoord() == null && city != null) {
+                resp.setCoord(city.getCoord());
+            }
+        }
         return list;
     }
 

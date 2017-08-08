@@ -1,6 +1,6 @@
 package com.example.kimichael.yamblz_forecast.presentation.presenter.settings;
 
-import com.example.kimichael.yamblz_forecast.presentation.BasePresenter;
+import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsView;
 
 import java.util.ArrayList;

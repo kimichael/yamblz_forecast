@@ -1,7 +1,7 @@
 package com.example.kimichael.yamblz_forecast.presentation.view.places;
 
 import com.example.kimichael.yamblz_forecast.data.network.places.response.Prediction;
-import com.example.kimichael.yamblz_forecast.presentation.BaseView;
+import com.example.kimichael.yamblz_forecast.presentation.view.BaseView;
 
 import java.util.List;
 
@@ -12,4 +12,6 @@ import java.util.List;
 
 public interface SuggestsView extends BaseView {
     void addList(List<Prediction> list);
+    void clearAll();
+    void showAddView();
 }
