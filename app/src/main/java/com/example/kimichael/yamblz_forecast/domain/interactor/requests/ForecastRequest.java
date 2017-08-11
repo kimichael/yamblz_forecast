@@ -17,6 +17,9 @@ public class ForecastRequest extends BaseRequest{
         this.forceUpdate = forceUpdate;
     }
 
+    public Integer getCityId () {
+        return cityData.getId();
+    }
 
     public boolean isForceUpdate() {
         return forceUpdate;

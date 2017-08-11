@@ -33,6 +33,7 @@ public class App extends Application {
     private SettingsComponent settingsComponent;
     private ForecastScreenComponent forecastScreenComponent;
     private SettingsScreenComponent settingsScreenComponent;
+    private PreferencesManager manager;
 
     @Override
     public void onCreate() {
@@ -47,10 +48,9 @@ public class App extends Application {
 
         setInstance(this);
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        PreferencesManager manager = new PreferencesManager(sp);
+        manager = new PreferencesManager(getBaseContext());
         if (!manager.containInterval()) {
-            int interval = 3600;
+            int interval = 30;
             manager.saveInterval();
             ForecastJobService.scheduleSync(this, interval);
         }

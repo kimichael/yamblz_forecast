@@ -41,12 +41,6 @@ public class PlaceData implements Parcelable {
     }
 
     @NonNull
-    public static PlaceData newPlace(@Nullable Integer id, @NonNull String name,
-                                     double latitude, double longitude) {
-        return new PlaceData(id, name, latitude, longitude);
-    }
-
-    @NonNull
     public static PlaceData newPlace(@NonNull String name,
                                      double latitude, double longitude) {
         return new PlaceData(null, name, latitude, longitude);

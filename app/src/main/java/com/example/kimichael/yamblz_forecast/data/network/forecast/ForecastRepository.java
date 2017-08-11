@@ -14,7 +14,7 @@ import io.reactivex.Single;
 public interface ForecastRepository {
 
     Single<ForecastInfo> getWeather(ForecastRequest request);
-    Single<ForecastInfo> updateWeather(PlaceData cityLatLng);
+    Single<List<ForecastInfo>> updateWeather(PlaceData cityLatLng);
     Single<List<ForecastInfo>> getForecast(ForecastRequest request);
     void handleException(Throwable throwable);
 }

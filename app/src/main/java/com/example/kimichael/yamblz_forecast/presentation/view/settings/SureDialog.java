@@ -73,4 +73,10 @@ public class SureDialog extends DialogFragment {
                 .map(event -> this)
                 .subscribe(presenter::notSureDeleteCity);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.getInstance().releaseForecastScreenComponent();
+    }
 }

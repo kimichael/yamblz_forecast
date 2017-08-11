@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.kimichael.yamblz_forecast.App;
@@ -19,6 +20,7 @@ import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
+import com.example.kimichael.yamblz_forecast.presentation.view.ToolbarOwner;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SureDialog;
 
 
@@ -28,20 +30,28 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.internal.operators.observable.ObservableCombineLatest;
+import io.reactivex.subjects.PublishSubject;
+import timber.log.Timber;
 
 public class ForecastFragment extends BaseForecastFragment implements ForecastView {
 
     @BindView(R.id.recycler)
     RecyclerView recyclerView;
-
+    @BindView(R.id.progress)
+    ProgressBar progress;
 
     @Inject
     ForecastPresenter forecastPresenter;
     private ForecastAdapter adapter;
     private final static String DATA_KEY = "DataKey";
     private PlaceData data;
+    private PublishSubject<Object> subjectViewCreated = PublishSubject.create();
+    private PublishSubject<Object> subjectViewOnScreen = PublishSubject.create();
 
-    public static ForecastFragment newInstance(PlaceData data) {
+    public static ForecastFragment getInstance(PlaceData data) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(DATA_KEY, data);
         ForecastFragment fragment = new ForecastFragment();
@@ -56,29 +66,39 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
         }
     }
 
+    public ForecastFragment() {
+        Observable.combineLatest(subjectViewCreated, subjectViewOnScreen,
+                (a, b) -> false)
+                .subscribe(this::getForecast, this::errorHandling);
+    }
+
+    private void errorHandling(Throwable e) {
+        Timber.e("errorHandling: " + e.getMessage());
+    }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         App.getInstance().getForecastScreenComponent().inject(this);
         getData();
-        forecastPresenter.onAttach(this);
-        forecastPresenter.getWeather(savedInstanceState == null);
-        forecastPresenter.getForecast(savedInstanceState == null);
+        forecastPresenter.setData(data);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        forecastPresenter.onAttach(this);
         initRecycler();
+        subjectViewCreated.onNext(new Object());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            forecastPresenter.getWeather(true);
             forecastPresenter.getForecast(true);
             return true;
         }
@@ -104,19 +124,16 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
     private void initRecycler() {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ForecastAdapter(forecastPresenter);
+        adapter = new ForecastAdapter();
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        ((ToolbarOwner) getActivity()).clearMenu();
         inflater.inflate(R.menu.forecast_fragment, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void showCurrentWeather(ForecastInfo forecast) {
-        if (adapter != null) adapter.setHeader(forecast);
     }
 
     @Override
@@ -140,5 +157,22 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
         Toast.makeText(getContext(), getString(R.string.no_internet_message), Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void showProgress(boolean show) {
+        progress.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
 
+    @OnClick(R.id.delete)
+    public void deleteCity() {
+        forecastPresenter.showSureDialog();
+    }
+
+    @Override
+    public void onScreen() {
+        subjectViewOnScreen.onNext(new Object());
+    }
+
+    public void getForecast(Boolean bool) {
+        forecastPresenter.getForecast(bool);
+    }
 }

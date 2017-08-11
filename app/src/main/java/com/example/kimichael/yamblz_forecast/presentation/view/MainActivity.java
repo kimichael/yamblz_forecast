@@ -17,7 +17,7 @@ import android.view.animation.DecelerateInterpolator;
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.presentation.view.about.AboutFragment;
-import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.PhoneWeatherFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.MainWeatherFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsFragment;
 
 import java.lang.annotation.Retention;
@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ToolbarOwner{
+        implements NavigationView.OnNavigationItemSelectedListener, ToolbarOwner {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -37,7 +37,9 @@ public class MainActivity extends AppCompatActivity
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FRAGMENT_STATUS_WEATHER, FRAGMENT_STATUS_SETTINGS, FRAGMENT_STATUS_ABOUT, FRAGMENT_STATUS_NOT_CHOSEN})
-    private @interface ChosenFragmentStatus {}
+    private @interface ChosenFragmentStatus {
+    }
+
     public static final int FRAGMENT_STATUS_NOT_CHOSEN = -1;
     public static final int FRAGMENT_STATUS_WEATHER = 0;
     public static final int FRAGMENT_STATUS_SETTINGS = 1;
@@ -47,7 +49,9 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG_FORECAST = "forecast";
     public static final String TAG_ABOUT = "about";
 
-    private @MainActivity.ChosenFragmentStatus int chosenFragment;
+    private
+    @MainActivity.ChosenFragmentStatus
+    int chosenFragment;
 
     @Override
     @SuppressWarnings("ResourceType")
@@ -59,9 +63,9 @@ public class MainActivity extends AppCompatActivity
         homeDrawable = new DrawerArrowDrawable(toolbar.getContext());
         toolbar.setNavigationIcon(homeDrawable);
         toolbar.setNavigationOnClickListener(view -> {
-            if (drawer.isDrawerOpen(GravityCompat.START)){
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
-            } else if (isHomeAsUp){
+            } else if (isHomeAsUp) {
                 onBackPressed();
             } else {
                 drawer.openDrawer(GravityCompat.START);
@@ -127,8 +131,6 @@ public class MainActivity extends AppCompatActivity
             default:
                 changeFragment(FRAGMENT_STATUS_WEATHER);
         }
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -140,22 +142,22 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment;
         this.chosenFragment = chosenFragment;
-        String tag ;
+        String tag;
         switch (chosenFragment) {
             case FRAGMENT_STATUS_SETTINGS:
-                fragment = SettingsFragment.newInstance();
+                fragment = SettingsFragment.getInstance();
                 tag = TAG_SETTINGS;
                 setHomeAsUp(true);
                 break;
             case FRAGMENT_STATUS_ABOUT:
-                fragment = AboutFragment.newInstance();
+                fragment = AboutFragment.getInstance();
                 tag = TAG_ABOUT;
                 setHomeAsUp(true);
                 break;
             case FRAGMENT_STATUS_WEATHER:
             case FRAGMENT_STATUS_NOT_CHOSEN:
             default:
-                fragment = PhoneWeatherFragment.newInstance();
+                fragment = MainWeatherFragment.getInstance();
                 tag = TAG_FORECAST;
                 setHomeAsUp(false);
         }
@@ -164,7 +166,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void setHomeAsUp(boolean isHomeAsUp){
+    private void setHomeAsUp(boolean isHomeAsUp) {
         if (this.isHomeAsUp != isHomeAsUp) {
             this.isHomeAsUp = isHomeAsUp;
             ValueAnimator anim = isHomeAsUp ? ValueAnimator.ofFloat(0, 1) : ValueAnimator.ofFloat(1, 0);
@@ -177,8 +179,25 @@ public class MainActivity extends AppCompatActivity
             anim.start();
         }
     }
+
     @Override
     public void setToolbarText(String title) {
         toolbar.setTitle(title);
+    }
+
+    @Override
+    public void lockDrawer(Boolean lock) {
+
+        toolbar.getMenu().clear();
+        if (lock) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }else{
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
+    }
+
+    @Override
+    public void clearMenu() {
+        toolbar.getMenu().clear();
     }
 }

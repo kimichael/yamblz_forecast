@@ -17,7 +17,6 @@ import com.example.kimichael.yamblz_forecast.presentation.view.forecast.BaseFore
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.places.SuggestsFragment;
 import com.jakewharton.rxbinding2.support.v4.view.RxViewPager;
-import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,20 +25,28 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 /**
  * Created by Sinjvf on 08.08.2017.
  * main screen fragment
  */
 
-public class PhoneWeatherFragment extends Fragment implements PhoneWeatherView {
-    @BindView(R.id.viewPager)
+public class MainWeatherFragment extends Fragment implements MainWeatherView {
+  /*  @BindView(R.id.recycler)
+    RecyclerView recycler;*/
+
+    @BindView(R.id.view_pager)
     ViewPager pager;
     @Inject
     PhoneWeatherPresenter presenter;
+    private Disposable dispose;
 
-    public static PhoneWeatherFragment newInstance() {
-        return new PhoneWeatherFragment();
+    public static MainWeatherFragment getInstance() {
+        return new MainWeatherFragment();
     }
 
     @Override
@@ -60,29 +67,57 @@ public class PhoneWeatherFragment extends Fragment implements PhoneWeatherView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        updateCitiesList();
+        presenter.getCities();
     }
 
-    public void updateCitiesList() {
-        List<PlaceData> dataList = presenter.getCities();
+    @Override
+    public void updateCitiesList(List<PlaceData> dataList, int currentPos) {
+        if (dispose!=null ) dispose.dispose();
         List<BaseForecastFragment> fragments = new ArrayList<>();
-        BaseForecastFragment fgm;
-        for (PlaceData data : dataList) {
-            fgm = ForecastFragment.newInstance(data);
-            fragments.add(fgm);
+        for(PlaceData data:dataList) {
+            fragments.add(ForecastFragment.getInstance(data));
         }
         fragments.add(SuggestsFragment.getInstance());
-        PagerAdapter adapter = new PagerAdapter(getChildFragmentManager(), fragments);
+        MainWeatherPagerAdapter adapter = new MainWeatherPagerAdapter(getActivity().getSupportFragmentManager(), fragments);
+
         pager.setAdapter(adapter);
         //show city name on the toolbar
-        RxViewPager.pageSelections(pager).map(i ->
+        RxViewPager.pageSelections(pager)
+                .map(presenter::setCurrentCityPos)
+                .map(adapter::onScreen)
+                .map(i ->
                 (i < dataList.size())
                         ? dataList.get(i).getName()
                         : getString(R.string.new_city))
-                .subscribe(this::changeTitle);
+                .subscribeWith(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        dispose = d;
+                    }
+
+                    @Override
+                    public void onNext(@NonNull String s) {
+                        changePage(s);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        writeError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+        pager.setCurrentItem(currentPos);
     }
 
-    private void changeTitle(String title) {
+    private void writeError(Throwable e){
+        Timber.e("writeError: "+e.getMessage() );
+    }
+
+    private void changePage(String title) {
         ((ToolbarOwner) getActivity()).setToolbarText(title);
     }
 
@@ -97,8 +132,4 @@ public class PhoneWeatherFragment extends Fragment implements PhoneWeatherView {
         pager.setCurrentItem(pos);
     }
 
-    @Override
-    public void addCity() {
-
-    }
 }

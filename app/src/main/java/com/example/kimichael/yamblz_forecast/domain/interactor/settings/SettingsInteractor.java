@@ -20,6 +20,7 @@ import javax.inject.Named;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created on 22.07.2017.
@@ -69,7 +70,7 @@ public class SettingsInteractor extends SingleInteractor {
         dbClient.deleteCity(data);
     }
 
-    public List<PlaceData> getAllCities(){
-        return dbClient.getAllCities();
+    public void getAllCities(PublishSubject<List<PlaceData>> data){
+        dbClient.getAllCities(data);
     }
 }

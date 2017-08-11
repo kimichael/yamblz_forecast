@@ -105,6 +105,7 @@ public class SuggestsFragment extends BaseForecastFragment implements SuggestsVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        App.getInstance().releaseForecastScreenComponent();
         unbinder.unbind();
         presenter.onDetach();
     }
@@ -139,4 +140,5 @@ public class SuggestsFragment extends BaseForecastFragment implements SuggestsVi
         suggestContainer.setVisibility(View.VISIBLE);
         addPlaceContainer.setVisibility(View.GONE);
     }
+
 }

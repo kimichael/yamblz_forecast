@@ -36,15 +36,9 @@ public class HeaderHolder extends BaseHolder {
     @BindView(R.id.description)
     TextView description;
 
-    @BindView(R.id.delete)
-    ImageView deleteCity;
-
-    private ForecastPresenter presenter;
-
-    public HeaderHolder(View itemView, ForecastPresenter presenter) {
+    public HeaderHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        this.presenter = presenter;
     }
 
     @Override
@@ -57,6 +51,5 @@ public class HeaderHolder extends BaseHolder {
         windSpeed.setText(context.getString(R.string.format_wind, (int) forecast.getWindSpeed()));
         humidity.setText(context.getString(R.string.format_humidity, (int) forecast.getHumidity()));
         description.setText(forecast.getDescription());
-        RxView.clicks(deleteCity).subscribe(presenter::showSureDialog);
     }
 }

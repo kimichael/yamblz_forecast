@@ -34,14 +34,14 @@ public class SettingsScreenModule {
 
     @Provides
     @SettingsScreenScope
-    SettingsIntervalDialogPresenter provideSettingsIntervalPresenter() {
-        return new SettingsIntervalDialogPresenter();
+    SettingsIntervalDialogPresenter provideSettingsIntervalPresenter(PreferencesManager manager) {
+        return new SettingsIntervalDialogPresenter(manager);
     }
 
     @Provides
     @SettingsScreenScope
-    SettingsUnitDialogPresenter provideSettingsUnitPresenter() {
-        return new SettingsUnitDialogPresenter();
+    SettingsUnitDialogPresenter provideSettingsUnitPresenter(PreferencesManager manager) {
+        return new SettingsUnitDialogPresenter(manager);
     }
 
     @Provides

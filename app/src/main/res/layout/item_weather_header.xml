@@ -12,12 +12,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
-            android:id="@+id/delete"
-            app:srcCompat="@drawable/ic_close"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|left"
             android:id="@+id/weather_icon"
             tools:src="@drawable/art_clear"/>

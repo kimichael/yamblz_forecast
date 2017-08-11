@@ -3,7 +3,6 @@ package com.example.kimichael.yamblz_forecast.presentation.di.component;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastScreenModule;
 import com.example.kimichael.yamblz_forecast.presentation.di.scope.ForecastScreenScope;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastFragment;
-import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.PhoneWeatherFragment;
 
 import dagger.Subcomponent;
 

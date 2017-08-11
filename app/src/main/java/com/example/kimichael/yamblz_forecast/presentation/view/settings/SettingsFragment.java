@@ -15,6 +15,7 @@ import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.domain.service.forecast.ForecastJobService;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsPresenter;
+import com.example.kimichael.yamblz_forecast.presentation.view.ToolbarOwner;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.select.IntervalsDialogFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.select.SelectorDialogFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.places.SuggestsFragment;
@@ -48,7 +49,7 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     public SettingsFragment() {
     }
 
-    public static SettingsFragment newInstance() {
+    public static SettingsFragment getInstance() {
         return new SettingsFragment();
     }
 
@@ -68,19 +69,22 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public void onResume() {
         super.onResume();
+        ((ToolbarOwner) getActivity()).setToolbarText(getString(R.string.action_settings));
+        ((ToolbarOwner) getActivity()).lockDrawer(true);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onPause() {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+        ((ToolbarOwner) getActivity()).lockDrawer(false);
         super.onPause();
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         if (manager.isIntervalChanged(s)) {
-            int interval = Integer.valueOf(manager.getInterval());
+            int interval = manager.getInterval();
             ForecastJobService.scheduleSync(getContext(), interval);
         }
     }
@@ -106,30 +110,12 @@ public class SettingsFragment extends Fragment implements SharedPreferences.OnSh
 
     @OnClick(R.id.temp_units_button)
     public void showTempUnitsDialog() {
- /*       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder.setSingleChoiceItems(R.array.temp_units, manager.getTempPosition(), null)
-                .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                    ListView lv = ((AlertDialog) dialogInterface).getListView();
-                    manager.saveTempUnit(lv.getCheckedItemPosition());
-                    dialogInterface.dismiss();
-                });
-        dialogBuilder.show();
-*/
         SelectorDialogFragment dialogFragment = UnitsDialogFragment.getInstance(manager.getTempPosition());
         dialogFragment.show(getActivity().getFragmentManager(), null);
     }
 
     @OnClick(R.id.sync_interval_button)
     public void showSyncIntervalDialog() {
-/*        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder.setSingleChoiceItems(R.array.interval, 0, null)
-                .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
-                    ListView lv = ((AlertDialog) dialogInterface).getListView();
-                    int chosenInterval = lv.getCheckedItemPosition();
-                    String chosenIntervalStr = getResources().getStringArray(R.array.interval_values)[chosenInterval];
-                    manager.saveInterval(chosenIntervalStr);
-                });
-        dialogBuilder.show();*/
         SelectorDialogFragment dialogFragment = IntervalsDialogFragment.getInstance(manager.getTempPosition());
         dialogFragment.show(getActivity().getFragmentManager(), null);
 

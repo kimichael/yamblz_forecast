@@ -13,7 +13,6 @@ public class ForecastsTable {
 
     @NonNull
     public static final String TABLE = "forecasts";
-
     @NonNull
     public static final String COLUMN_ID = "_id";
     @NonNull
@@ -32,6 +31,8 @@ public class ForecastsTable {
     public static final String COLUMN_PRESSURE = "pressure";
     @NonNull
     public static final String COLUMN_DESCRIPTION = "description";
+    @NonNull
+    public static final String COLUMN_GET_DATE = "getDate";
 
 
     @NonNull
@@ -55,7 +56,8 @@ public class ForecastsTable {
                 + COLUMN_WIND + " DOUBLE NOT NULL, "
                 + COLUMN_PRESSURE + " DOUBLE NOT NULL, "
                 + COLUMN_DESCRIPTION + " TEXT NOT NULL, "
-                + COLUMN_DATE + " LONG NULLABLE"
+                + COLUMN_DATE + " LONG NULLABLE, "
+                + COLUMN_GET_DATE + " LONG NOT NULL "
                 + ");";
     }
 

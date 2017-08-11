@@ -2,6 +2,7 @@ package com.example.kimichael.yamblz_forecast.presentation.presenter.settings;
 
 import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsView;
+import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +15,14 @@ import timber.log.Timber;
  */
 
 public class SettingsUnitDialogPresenter extends BasePresenter<SettingsView> {
-    public List<String> getUnits(){
-        List<String> list = new ArrayList<>();
-        list.add("title");
-        list.add("title");
-        list.add("value");
-        list.add("value");
-        return list;
+    private PreferencesManager manager;
+
+    public SettingsUnitDialogPresenter(PreferencesManager manager) {
+        this.manager = manager;
     }
 
     public void saveLastUnit(int position){
         Timber.d("saveLastUnit: "+position);
+        manager.saveTempUnit(position);
     }
 }

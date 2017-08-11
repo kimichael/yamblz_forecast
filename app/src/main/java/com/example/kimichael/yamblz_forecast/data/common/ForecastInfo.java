@@ -9,6 +9,7 @@ import com.example.kimichael.yamblz_forecast.utils.Utility;
 import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteColumn;
 import com.pushtorefresh.storio.sqlite.annotations.StorIOSQLiteType;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 /**
@@ -50,12 +51,17 @@ public class ForecastInfo {
     @StorIOSQLiteColumn(name = ForecastsTable.COLUMN_DATE)
     Long date;
 
+    //time when we get this forecast
+    @NonNull
+    @StorIOSQLiteColumn(name = ForecastsTable.COLUMN_GET_DATE)
+    Long dateGetForecast;
+
     public ForecastInfo(@Nullable Integer id, /*@NonNull String city,*/
                         int cityId, double temp,
                         double lat, double lng,
                         int weatherId, double windSpeed,
                         double humidity,  double pressure,
-                        @NonNull String description, @Nullable Long date) {
+                        @NonNull String description, @Nullable Long date, @NonNull Long dateGetForecast) {
 
         this.id = id;
         this.cityId = cityId;
@@ -68,6 +74,7 @@ public class ForecastInfo {
         this.pressure = pressure;
         this.description = description;
         this.date = date;
+        this.dateGetForecast = dateGetForecast;
     }
 
     @NonNull
@@ -76,8 +83,9 @@ public class ForecastInfo {
                                            double lat, double lng,
                                            int weatherId, double windSpeed,
                                            double humidity, double pressure,
-                                           @NonNull String description, @Nullable Long date) {
-        return new ForecastInfo(id, /*city,*/ cityId, temp,  lat,  lng, weatherId, windSpeed, humidity, pressure, description, date);
+                                           @NonNull String description, @Nullable Long date,
+                                           @NonNull Long dateGetForecast) {
+        return new ForecastInfo(id, /*city,*/ cityId, temp,  lat,  lng,  weatherId, windSpeed, humidity, pressure, description, date, dateGetForecast);
     }
 
     @NonNull
@@ -85,8 +93,9 @@ public class ForecastInfo {
                                            double lat, double lng,
                                            int weatherId, double windSpeed,
                                            double humidity, double pressure,
-                                           @NonNull String description, @Nullable Long date) {
-        return new ForecastInfo(null,/* city,*/ cityId, temp, lat, lng, weatherId, windSpeed, humidity, pressure, description, date);
+                                           @NonNull String description, @Nullable Long date,
+                                           @NonNull Long dateGetForecast) {
+        return new ForecastInfo(null,/* city,*/ cityId, temp, lat, lng,  weatherId, windSpeed, humidity, pressure, description, date, dateGetForecast);
     }
 
     public ForecastInfo() {
@@ -175,11 +184,25 @@ public class ForecastInfo {
         this.lng = lng;
     }
 
-    public static ForecastInfo from(WeatherResponse forecast) {
+    public int getCityId() {
+        return cityId;
+    }
 
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
+    @NonNull
+    public Long getDateGetForecast() {
+        return dateGetForecast;
+    }
+
+    public void setDateGetForecast(@NonNull Long dateGetForecast) {
+        this.dateGetForecast = dateGetForecast;
+    }
+
+    public static ForecastInfo from(WeatherResponse forecast) {
         return new ForecastInfo(null,
-              /*  forecast.getName(),*/
-                //TODO right num
                 1,
                 forecast.getTemp().getTemp(),
                 forecast.getCoord().getLat(),
@@ -189,9 +212,26 @@ public class ForecastInfo {
                 forecast.getTemp().getHumidity(),
                 forecast.getTemp().getPressure(),
                 forecast.getWeather().get(0).getDescription(),
-                Utility.parceFromStr(forecast.getDate(), Locale.getDefault())
+                Utility.parceFromStr(forecast.getDate(), Locale.getDefault()),
+                Calendar.getInstance().getTimeInMillis()
         );
+    }
 
+
+    public static ForecastInfo from(WeatherResponse forecast, int cityId) {
+        return new ForecastInfo(null,
+                cityId,
+                forecast.getTemp().getTemp(),
+                forecast.getCoord().getLat(),
+                forecast.getCoord().getLon(),
+                forecast.getWeather().get(0).getId(),
+                forecast.getWind().getSpeed(),
+                forecast.getTemp().getHumidity(),
+                forecast.getTemp().getPressure(),
+                forecast.getWeather().get(0).getDescription(),
+                Utility.parceFromStr(forecast.getDate(), Locale.getDefault()),
+                Calendar.getInstance().getTimeInMillis()
+        );
     }
 
     @Override
@@ -226,6 +266,7 @@ public class ForecastInfo {
                 ", pressure=" + pressure +
                 ", description='" + description + '\'' +
                 ", date=" + date +
+                ", dateGetForecast=" + dateGetForecast +
                 '}';
     }
 }

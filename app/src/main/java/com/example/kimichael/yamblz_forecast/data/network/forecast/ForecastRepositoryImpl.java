@@ -32,29 +32,35 @@ public class ForecastRepositoryImpl implements ForecastRepository {
     private OpenWeatherClient openWeatherClient;
     private Gson gson;
 
+    @Inject
     public ForecastRepositoryImpl(OpenWeatherClient openWeatherClient,
                                   Gson gson) {
         this.openWeatherClient = openWeatherClient;
         this.gson = gson;
     }
 
-    @Inject
-
 
     @Override
     public Single<ForecastInfo> getWeather(@NonNull ForecastRequest request) {
-
         return openWeatherClient.getWeather(request.getCityLat(), request.getCityLon(),
                 Locale.getDefault().getLanguage().toLowerCase())
                 .map(ForecastInfo::from);
     }
 
     @Override
-    public Single<ForecastInfo> updateWeather(PlaceData cityLatLng) {
+    public Single<List<ForecastInfo>> updateWeather(PlaceData cityLatLng) {
         String lat = String.valueOf(cityLatLng.getLatitude());
         String lng = String.valueOf(cityLatLng.getLongitude());
-        return openWeatherClient.getWeather(lat, lng, Locale.getDefault().getLanguage().toLowerCase())
-                .map(ForecastInfo::from);
+        return openWeatherClient.getForecast(lat, lng,
+                Locale.getDefault().getLanguage().toLowerCase())
+                .map(ForecastResponse::getList)
+                .map(list -> {
+                    List<ForecastInfo> resultList = new ArrayList<>();
+                    for (WeatherResponse item : list) {
+                        resultList.add(ForecastInfo.from(item));
+                    }
+                    return resultList;
+                });
     }
 
     @Override

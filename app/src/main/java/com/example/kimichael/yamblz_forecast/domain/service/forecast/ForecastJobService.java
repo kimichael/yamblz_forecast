@@ -1,8 +1,12 @@
 package com.example.kimichael.yamblz_forecast.domain.service.forecast;
 
 import android.content.Context;
+import android.util.Pair;
 
 import com.example.kimichael.yamblz_forecast.App;
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
+import com.example.kimichael.yamblz_forecast.data.database.DbClientImpl;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastModule;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
@@ -13,10 +17,17 @@ import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 import com.firebase.jobdispatcher.Trigger;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
+import timber.log.Timber;
 
 /**
  * Created by Kim Michael on 18.07.17
@@ -27,6 +38,8 @@ public class ForecastJobService extends JobService {
 
     @Inject
     ForecastRepository forecastRepository;
+    @Inject
+    DbClientImpl dbClient;
 
     public ForecastJobService() {
         super();
@@ -35,14 +48,39 @@ public class ForecastJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters job) {
-        PreferencesManager manager  = new PreferencesManager(getBaseContext());
-        forecastRepository.updateWeather(manager.getPlace())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(forecast ->
-                        jobFinished(job, false));
+       // PreferencesManager manager  = new PreferencesManager(getBaseContext());
+        PublishSubject<List<PlaceData>> subj = PublishSubject.create();
+        dbClient.getAllCities(subj);
+        subj.flatMapIterable(list->list)
+                .map(data->new Pair<>(data, job))
+                .subscribe(this::updateWeather);
         return false;
     }
+
+    private void updateWeather(Pair<PlaceData, JobParameters> data){
+        Timber.d("updateWeather: "+data.first.toString());
+        forecastRepository.updateWeather(data.first)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new SingleObserver<List<ForecastInfo>>() {
+                               @Override
+                               public void onSubscribe(@NonNull Disposable d) {
+
+                               }
+
+                               @Override
+                               public void onSuccess(@NonNull List<ForecastInfo> forecastInfo) {
+                                   dbClient.saveForecast(forecastInfo);
+                                   jobFinished(data.second, false);
+                               }
+
+                               @Override
+                               public void onError(@NonNull Throwable e) {
+
+                               }
+                           });
+    }
+
 
     @Override
     public boolean onStopJob(JobParameters job) {

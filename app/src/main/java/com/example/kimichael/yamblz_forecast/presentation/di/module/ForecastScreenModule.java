@@ -17,7 +17,7 @@ import dagger.Provides;
 public class ForecastScreenModule {
 
     @Provides
-    @ForecastScreenScope
+    //unscoped! we want have many providers - for each weather screen
     ForecastPresenter provideForecastPresenter(ForecastInteractor forecastInteractor) {
         return new ForecastPresenter(forecastInteractor);
     }

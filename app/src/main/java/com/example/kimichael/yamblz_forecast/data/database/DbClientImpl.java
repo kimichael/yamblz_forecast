@@ -6,11 +6,17 @@ import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.queries.DeleteQuery;
 import com.pushtorefresh.storio.sqlite.queries.Query;
+import com.pushtorefresh.storio.sqlite.queries.RawQuery;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.subjects.PublishSubject;
+import rx.Observer;
+
 
 /**
  * Created by Sinjvf on 08.08.2017.
@@ -27,57 +33,8 @@ public class DbClientImpl implements DbClient {
         this.storIOSQLite = storIOSQLite;
     }
 
-
-    @Override
-    public void saveWeather(ForecastInfo forecast) {
-        List<PlaceData> receivedCities = storIOSQLite
-                .get()
-                .listOfObjects(PlaceData.class)
-                .withQuery(Query.builder() // Query builder
-                        .table(CitiesTable.TABLE)
-                        .where(CitiesTable.COLUMN_LAT + "= ?")
-                        .whereArgs(forecast.getLat())
-                        .where(CitiesTable.COLUMN_LNG + "= ?")
-                        .whereArgs(forecast.getLng())
-                        .build())
-                .prepare()
-                .executeAsBlocking();
-
-        if (receivedCities.size() == 0) return;
-        Integer id = receivedCities.get(0).getId();
-        if (id != null) {
-            forecast.setId(id);
-            storIOSQLite
-                    .put()
-                    .object(forecast)
-                    .prepare()
-                    .executeAsBlocking();
-        }
-    }
-
     @Override
     public void saveForecast(List<ForecastInfo> forecastList) {
-        if (forecastList == null || forecastList.size() == 0) return;
-        ForecastInfo forecast = forecastList.get(0);
-        List<PlaceData> receivedCities = storIOSQLite
-                .get()
-                .listOfObjects(PlaceData.class)
-                .withQuery(Query.builder() // Query builder
-                        .table(CitiesTable.TABLE)
-                        .where(CitiesTable.COLUMN_LAT + "= ?")
-                        .whereArgs(forecast.getLat())
-                        .where(CitiesTable.COLUMN_LNG + "= ?")
-                        .whereArgs(forecast.getLng())
-                        .build())
-                .prepare()
-                .executeAsBlocking();
-
-        if (receivedCities.size() == 0) return;
-        Integer id = receivedCities.get(0).getId();
-        if (id != null) {
-            for (ForecastInfo info : forecastList)
-                info.setId(id);
-        }
         storIOSQLite
                 .put()
                 .objects(forecastList)
@@ -116,8 +73,8 @@ public class DbClientImpl implements DbClient {
     }
 
     @Override
-    public List<PlaceData> getAllCities() {
-        return storIOSQLite
+    public void getAllCities(PublishSubject<List<PlaceData>> observer) {
+        storIOSQLite
                 .get()
                 .listOfObjects(PlaceData.class)
                 .withQuery(Query.builder()
@@ -125,23 +82,74 @@ public class DbClientImpl implements DbClient {
                         .orderBy(CitiesTable.COLUMN_ID)
                         .build())
                 .prepare()
-                .executeAsBlocking();
+                .asRxObservable()
+                .subscribe(new Observer<List<PlaceData>>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        observer.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(List<PlaceData> putResults) {
+                        observer.onNext(putResults);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+                });
     }
 
     @Override
-    public void delOldForecasts(ForecastInfo forecast, long timeInterval) {
+    public void delOldForecasts(long timeInterval) {
         //forecasts before this time are not actual
-        long time = Calendar.getInstance().getTime().getTime()-timeInterval;
+        long now = Calendar.getInstance().getTime().getTime();
         storIOSQLite
                 .delete()
                 .byQuery(DeleteQuery.builder()
                         .table(ForecastsTable.TABLE)
-                        .where(ForecastsTable.COLUMN_DATE + "< ?")
-                        .whereArgs(time)
+                        .where("? - " + ForecastsTable.COLUMN_GET_DATE + " < ? * 1000")
+                        .whereArgs(now, timeInterval)
                         .build())
                 .prepare()
                 .executeAsBlocking();
     }
 
+    public void getActualWeather(Integer cityId, long timeInterval, PublishSubject<List<ForecastInfo>> observer) {
+        if (cityId == null) {
+            observer.onNext(new ArrayList<>());
+            return;
+        }
+        long now = Calendar.getInstance().getTime().getTime();
+        storIOSQLite
+                .get()
+                .listOfObjects(ForecastInfo.class)
+                .withQuery(RawQuery.builder()
+                        .query("SELECT * FROM " + ForecastsTable.TABLE + "  WHERE " +
+                                "? - " + ForecastsTable.COLUMN_GET_DATE + " < ? * 1000 and " +
+                                ForecastsTable.COLUMN_CITY_ID + " = ?")
+                        .args(now, timeInterval, cityId)
+                        .build()
+                )
+                .prepare()
+                .asRxObservable()
+                .subscribe(new Observer<List<ForecastInfo>>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        observer.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(List<ForecastInfo> putResults) {
+                        observer.onNext(putResults);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+                });
+        delOldForecasts(timeInterval);
+
+    }
 
 }

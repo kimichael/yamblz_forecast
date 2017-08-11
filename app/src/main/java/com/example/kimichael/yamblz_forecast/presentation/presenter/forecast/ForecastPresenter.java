@@ -1,6 +1,7 @@
 package com.example.kimichael.yamblz_forecast.presentation.presenter.forecast;
 
 import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
@@ -22,46 +23,23 @@ import timber.log.Timber;
 public class ForecastPresenter extends BasePresenter<ForecastView> {
 
     private ForecastInteractor forecastInteractor;
-   // private SettingsInteractor settingsInteractor;
     @Inject
     PreferencesManager manager;
+    private PlaceData data;
+
+    public void setData(PlaceData data) {
+        this.data = data;
+    }
 
     @Inject
     public ForecastPresenter(ForecastInteractor forecastInteractor) {
         this.forecastInteractor = forecastInteractor;
     }
 
-    public void getWeather(boolean forceUpdate) {
-        forecastInteractor.getWeather(getRequest(forceUpdate))
-                .subscribe(getWeatherObserver());
-    }
-
     public void getForecast(boolean forceUpdate) {
-        forecastInteractor.getForecast(getRequest(forceUpdate))
-                .subscribe(getForecastObserver());
+        if (getView() != null) getView().showProgress(true);
+        forecastInteractor.getForecast(getRequest(forceUpdate), getForecastObserver());
     }
-
-    private SingleObserver<ForecastInfo> getWeatherObserver() {
-        return new SingleObserver<ForecastInfo>() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
-
-            }
-
-            @Override
-            public void onSuccess(@NonNull ForecastInfo forecastInfo) {
-                if (getView() != null) getView().showCurrentWeather(forecastInfo);
-                forecastInteractor.saveWeather(forecastInfo);
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                Timber.e(e);
-                if (getView() != null) getView().showError(e);
-            }
-        };
-    }
-
 
     private SingleObserver<List<ForecastInfo>> getForecastObserver() {
         return new SingleObserver<List<ForecastInfo>>() {
@@ -72,12 +50,15 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
 
             @Override
             public void onSuccess(@NonNull List<ForecastInfo> forecastInfo) {
+                if (getView() != null) getView().showProgress(false);
                 if (getView() != null) getView().showForecast(forecastInfo);
-                forecastInteractor.saveForecast(forecastInfo);
+                forecastInteractor.saveForecast(forecastInfo, data.getId());
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
+
+                if (getView() != null) getView().showProgress(false);
                 Timber.e(e);
                 if (getView() != null) getView().showError(e);
             }
@@ -89,10 +70,10 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
         return new ForecastRequest(getView().getPlace(), update);
     }
 
-   public void showSureDialog(Object obj){
-       if (getView()==null)return;
-       getView().showSureDialog();
-   }
+    public void showSureDialog() {
+        if (getView() == null) return;
+        getView().showSureDialog();
+    }
 
 
 }

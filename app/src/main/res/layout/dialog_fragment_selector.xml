@@ -14,8 +14,8 @@
         android:text="@string/ok"
         android:textSize="17sp" />
 
-    <ListView
-        android:id="@+id/list_view"
+    <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/ok_button"

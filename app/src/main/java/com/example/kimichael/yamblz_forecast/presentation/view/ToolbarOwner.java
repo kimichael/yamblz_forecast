@@ -7,4 +7,6 @@ package com.example.kimichael.yamblz_forecast.presentation.view;
 
 public interface ToolbarOwner {
     void setToolbarText(String title);
+    void lockDrawer(Boolean lock);
+    void clearMenu();
 }

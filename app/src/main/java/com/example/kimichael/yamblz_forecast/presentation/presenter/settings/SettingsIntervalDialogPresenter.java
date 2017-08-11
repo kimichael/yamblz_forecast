@@ -2,6 +2,7 @@ package com.example.kimichael.yamblz_forecast.presentation.presenter.settings;
 
 import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsView;
+import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +15,16 @@ import timber.log.Timber;
  */
 
 public class SettingsIntervalDialogPresenter extends BasePresenter<SettingsView> {
-    public List<String> getIntervals(){
-        List<String> list = new ArrayList<>();
-        list.add("title");
-        list.add("title");
-        list.add("value");
-        list.add("value");
-        return list;
+
+    PreferencesManager manager;
+
+    public SettingsIntervalDialogPresenter(PreferencesManager manager) {
+        this.manager = manager;
     }
+
 
     public void saveLastInterval(int position){
         Timber.d("saveLastInterval: "+position);
+        manager.saveInterval(position);
     }
 }

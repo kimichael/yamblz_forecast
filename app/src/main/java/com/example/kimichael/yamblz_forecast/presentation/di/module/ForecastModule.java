@@ -79,8 +79,7 @@ public class ForecastModule {
 
     @Provides
     @ForecastScope
-    ForecastRepository provideForecastRepository(OpenWeatherClient openWeatherClient,
-                                                 @Named("Gson") Gson gson) {
+    ForecastRepository provideForecastRepository(OpenWeatherClient openWeatherClient, @Named("Gson") Gson gson) {
         return new ForecastRepositoryImpl(openWeatherClient, gson);
     }
 

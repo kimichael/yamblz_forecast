@@ -7,5 +7,6 @@ import android.support.v4.app.Fragment;
  * base class for main screen
  */
 
-public class BaseForecastFragment extends Fragment {
+public abstract class BaseForecastFragment extends Fragment {
+    public void onScreen(){}
 }
