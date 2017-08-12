@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -17,7 +18,8 @@ import android.view.animation.DecelerateInterpolator;
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.presentation.view.about.AboutFragment;
-import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.MainWeatherFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.PhoneWeatherFragment;
+import com.example.kimichael.yamblz_forecast.presentation.view.main.tablet.TabletWeatherFragment;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsFragment;
 
 import java.lang.annotation.Retention;
@@ -30,8 +32,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ToolbarOwner {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @Nullable
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
+
     private boolean isHomeAsUp = false;
     private DrawerArrowDrawable homeDrawable;
 
@@ -60,6 +64,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        if (drawer != null) {
+            initDrawer();
+        }
+        App.getInstance().getAppComponent().inject(this);
+
+        if (savedInstanceState != null)
+            changeFragment(savedInstanceState.getInt(getString(R.string.key_chosen_fragment), FRAGMENT_STATUS_WEATHER));
+        else {
+            chosenFragment = FRAGMENT_STATUS_NOT_CHOSEN;
+            changeFragment(FRAGMENT_STATUS_WEATHER);
+        }
+    }
+
+    private void initDrawer() {
         homeDrawable = new DrawerArrowDrawable(toolbar.getContext());
         toolbar.setNavigationIcon(homeDrawable);
         toolbar.setNavigationOnClickListener(view -> {
@@ -74,15 +93,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        App.getInstance().getAppComponent().inject(this);
-
-        if (savedInstanceState != null)
-            changeFragment(savedInstanceState.getInt(getString(R.string.key_chosen_fragment), FRAGMENT_STATUS_WEATHER));
-        else {
-            chosenFragment = FRAGMENT_STATUS_NOT_CHOSEN;
-            changeFragment(FRAGMENT_STATUS_WEATHER);
-        }
     }
 
     @Override
@@ -106,6 +116,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        if (drawer == null) {
+            super.onBackPressed();
+            return;
+        }
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (chosenFragment != FRAGMENT_STATUS_WEATHER) {
@@ -118,6 +132,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (drawer == null) return true;
         int id = item.getItemId();
 
         switch (id) {
@@ -136,7 +151,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void changeFragment(@ChosenFragmentStatus int chosenFragment) {
-
+        if (drawer == null) {
+            Fragment fgm = TabletWeatherFragment.getInstance();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_container, fgm, null).commit();
+            return;
+        }
         if (this.chosenFragment == chosenFragment)
             return;
 
@@ -157,7 +176,7 @@ public class MainActivity extends AppCompatActivity
             case FRAGMENT_STATUS_WEATHER:
             case FRAGMENT_STATUS_NOT_CHOSEN:
             default:
-                fragment = MainWeatherFragment.getInstance();
+                fragment = PhoneWeatherFragment.getInstance();
                 tag = TAG_FORECAST;
                 setHomeAsUp(false);
         }
@@ -189,9 +208,10 @@ public class MainActivity extends AppCompatActivity
     public void lockDrawer(Boolean lock) {
 
         toolbar.getMenu().clear();
+        if (drawer == null) return;
         if (lock) {
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        }else{
+        } else {
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         }
     }

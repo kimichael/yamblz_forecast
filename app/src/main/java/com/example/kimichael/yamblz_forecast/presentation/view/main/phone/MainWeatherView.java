@@ -12,5 +12,4 @@ import java.util.List;
 
 public interface MainWeatherView extends BaseView{
     void updateCitiesList(List<PlaceData> dataList, int currentPos);
-    void showCityByPosition(int pos);
 }

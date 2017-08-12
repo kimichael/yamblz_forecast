@@ -7,6 +7,7 @@ import com.example.kimichael.yamblz_forecast.domain.interactor.requests.Forecast
 import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastView;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
+import com.example.kimichael.yamblz_forecast.utils.Utility;
 
 import java.util.List;
 
@@ -51,7 +52,11 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
             @Override
             public void onSuccess(@NonNull List<ForecastInfo> forecastInfo) {
                 if (getView() != null) getView().showProgress(false);
-                if (getView() != null) getView().showForecast(forecastInfo);
+                int id = 0;
+                if (forecastInfo!=null && forecastInfo.size()>0){
+                    id = Utility.getColorWeatherCondition(forecastInfo.get(0).getWeatherId());
+                }
+                if (getView() != null) getView().showForecast(forecastInfo, id);
                 forecastInteractor.saveForecast(forecastInfo, data.getId());
             }
 

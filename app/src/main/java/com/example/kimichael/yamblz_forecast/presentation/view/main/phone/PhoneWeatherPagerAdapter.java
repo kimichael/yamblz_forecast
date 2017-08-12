@@ -14,10 +14,10 @@ import java.util.List;
  * Adapter for View pager in main weather screen
  */
 
-public class MainWeatherPagerAdapter extends FragmentStatePagerAdapter {
+public class PhoneWeatherPagerAdapter extends FragmentStatePagerAdapter {
     private List<BaseForecastFragment> fragments;
 
-    public MainWeatherPagerAdapter(FragmentManager fm, List<BaseForecastFragment> fragments) {
+    public PhoneWeatherPagerAdapter(FragmentManager fm, List<BaseForecastFragment> fragments) {
         super(fm);
         this.fragments = fragments;
     }

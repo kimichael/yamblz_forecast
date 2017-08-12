@@ -4,6 +4,7 @@ package com.example.kimichael.yamblz_forecast.presentation.view.forecast;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +43,8 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
     RecyclerView recyclerView;
     @BindView(R.id.progress)
     ProgressBar progress;
+    @BindView(R.id.fragment_weather)
+    View content;
 
     @Inject
     ForecastPresenter forecastPresenter;
@@ -102,6 +105,10 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
             forecastPresenter.getForecast(true);
             return true;
         }
+        if (id == R.id.action_delete) {
+            forecastPresenter.showSureDialog();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -137,8 +144,11 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
     }
 
     @Override
-    public void showForecast(List<ForecastInfo> forecastsList) {
+    public void showForecast(List<ForecastInfo> forecastsList, int colorId) {
         if (adapter != null) adapter.setList(forecastsList);
+        int color = ContextCompat.getColor(getContext(), colorId);
+        content.setBackgroundColor(color);
+
     }
 
     @Override
@@ -162,10 +172,6 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
         progress.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    @OnClick(R.id.delete)
-    public void deleteCity() {
-        forecastPresenter.showSureDialog();
-    }
 
     @Override
     public void onScreen() {

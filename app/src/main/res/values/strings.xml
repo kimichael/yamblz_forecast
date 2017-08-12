@@ -34,6 +34,10 @@
     <string name="format_min_max_temp" formatted="false" translatable="false">%s - %s</string>
 
     <string name="action_refresh">Refresh</string>
+    <string name="action_delete">Delete</string>
+
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
     <string name="no_internet_message">Please, check your internet connection</string>
     <string name="ok" translatable="false">Ok</string>
 

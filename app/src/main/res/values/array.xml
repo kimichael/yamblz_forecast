@@ -14,7 +14,7 @@
     </string-array>
 
     <integer-array name="interval_values" translatable="false">
-        <item>30</item>
+        <item>3600</item>
         <item>7200</item>
         <item>10800</item>
         <item>18000</item>

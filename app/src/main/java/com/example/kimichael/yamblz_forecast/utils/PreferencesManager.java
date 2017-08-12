@@ -25,7 +25,7 @@ public class PreferencesManager {
     private static final String KEY_TEMP_UNITS = "temp_units";
     private static final String KEY_INTERVAL = "sync_interval";
 
-    private static final int DEFAULT_INTERVAL = 3600;
+    public static final int DEFAULT_INTERVAL = 3600;
     private  final int[] intervals;
 
     private SharedPreferences sharedPreferences;

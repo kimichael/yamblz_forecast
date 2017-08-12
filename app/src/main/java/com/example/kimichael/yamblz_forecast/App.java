@@ -50,8 +50,8 @@ public class App extends Application {
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         manager = new PreferencesManager(getBaseContext());
         if (!manager.containInterval()) {
-            int interval = 30;
-            manager.saveInterval();
+            int interval = PreferencesManager.DEFAULT_INTERVAL;
+            manager.saveInterval(interval);
             ForecastJobService.scheduleSync(this, interval);
         }
 

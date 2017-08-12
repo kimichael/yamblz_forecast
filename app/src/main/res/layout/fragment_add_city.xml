@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/side_nav_bar"
+    android:padding="@dimen/margin_small">
     <LinearLayout
         android:id="@+id/add_place_container"
         android:clickable="true"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,12 +28,28 @@
             android:layout_height="wrap_content"
             android:text="@string/add_city"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/yandexLogo"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/pt_yandex"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/pt_google_on_white"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/suggest_container"
-        android:visibility="gone">
+        android:layout_above="@id/yandexLogo"
+        android:visibility="gone"
+        tools:visibility="visible">
         <android.support.v7.widget.SearchView
             android:id="@+id/city_input"
             android:layout_width="match_parent"
@@ -43,4 +63,4 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
-</FrameLayout>
+</RelativeLayout>

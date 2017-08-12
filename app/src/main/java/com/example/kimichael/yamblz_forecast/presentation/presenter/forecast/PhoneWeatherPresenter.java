@@ -15,6 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
+import timber.log.Timber;
 
 
 /**
@@ -22,10 +23,11 @@ import io.reactivex.subjects.PublishSubject;
  * presenter for main screen
  */
 
-public class PhoneWeatherPresenter extends BasePresenter<MainWeatherView> {
+public class PhoneWeatherPresenter<T extends MainWeatherView>  extends BasePresenter<T> {
 
     private SettingsInteractor interactor;
     private int currentCityPos = 0;
+    protected List<PlaceData> currentList;
 
 
     @Inject
@@ -40,7 +42,7 @@ public class PhoneWeatherPresenter extends BasePresenter<MainWeatherView> {
         interactor.getAllCities(subject);
     }
 
-    public int setCurrentCityPos(int currentCityPos) {
+    public int setItemPos(int currentCityPos) {
         this.currentCityPos = currentCityPos;
         return currentCityPos;
     }
@@ -58,7 +60,7 @@ public class PhoneWeatherPresenter extends BasePresenter<MainWeatherView> {
 
         @Override
         public void onError(@NonNull Throwable e) {
-
+            Timber.e(e.getMessage());
         }
 
         @Override
@@ -67,4 +69,7 @@ public class PhoneWeatherPresenter extends BasePresenter<MainWeatherView> {
         }
     };
 
+    public void setCurrentList(List<PlaceData> currentList) {
+        this.currentList = currentList;
+    }
 }

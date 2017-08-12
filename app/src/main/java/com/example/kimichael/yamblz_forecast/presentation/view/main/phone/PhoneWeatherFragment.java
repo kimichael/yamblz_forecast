@@ -35,18 +35,18 @@ import timber.log.Timber;
  * main screen fragment
  */
 
-public class MainWeatherFragment extends Fragment implements MainWeatherView {
+public class PhoneWeatherFragment extends Fragment implements MainWeatherView {
   /*  @BindView(R.id.recycler)
     RecyclerView recycler;*/
 
     @BindView(R.id.view_pager)
     ViewPager pager;
     @Inject
-    PhoneWeatherPresenter presenter;
+    PhoneWeatherPresenter<MainWeatherView> presenter;
     private Disposable dispose;
 
-    public static MainWeatherFragment getInstance() {
-        return new MainWeatherFragment();
+    public static PhoneWeatherFragment getInstance() {
+        return new PhoneWeatherFragment();
     }
 
     @Override
@@ -78,12 +78,12 @@ public class MainWeatherFragment extends Fragment implements MainWeatherView {
             fragments.add(ForecastFragment.getInstance(data));
         }
         fragments.add(SuggestsFragment.getInstance());
-        MainWeatherPagerAdapter adapter = new MainWeatherPagerAdapter(getActivity().getSupportFragmentManager(), fragments);
+        PhoneWeatherPagerAdapter adapter = new PhoneWeatherPagerAdapter(getActivity().getSupportFragmentManager(), fragments);
 
         pager.setAdapter(adapter);
         //show city name on the toolbar
         RxViewPager.pageSelections(pager)
-                .map(presenter::setCurrentCityPos)
+                .map(presenter::setItemPos)
                 .map(adapter::onScreen)
                 .map(i ->
                 (i < dataList.size())
@@ -127,9 +127,5 @@ public class MainWeatherFragment extends Fragment implements MainWeatherView {
         presenter.onDetach();
     }
 
-    @Override
-    public void showCityByPosition(int pos) {
-        pager.setCurrentItem(pos);
-    }
 
 }

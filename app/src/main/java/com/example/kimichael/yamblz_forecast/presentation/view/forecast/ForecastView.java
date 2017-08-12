@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ForecastView extends BaseView {
 
-    void showForecast(List<ForecastInfo> forecastsList);
+    void showForecast(List<ForecastInfo> forecastsList, int color);
     PlaceData getPlace();
     void showSureDialog();
     void showProgress(boolean show);

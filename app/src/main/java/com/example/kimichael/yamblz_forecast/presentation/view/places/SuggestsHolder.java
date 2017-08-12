@@ -22,12 +22,6 @@ class SuggestsHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.suggest_text)
     TextView suggestText;
 
-    @BindColor(R.color.holderEven)
-    int colorEven;
-    @BindColor(R.color.holderOdd)
-    int colorOdd;
-
-
     private View rootView;
 
     private static final int EVEN_TYPE = 0;
@@ -38,7 +32,6 @@ class SuggestsHolder extends RecyclerView.ViewHolder {
         rootView = itemView;
         this.presenter = presenter;
         ButterKnife.bind(this, itemView);
-        itemView.setBackgroundColor((type == EVEN_TYPE) ? colorEven : colorOdd);
 
     }
 
