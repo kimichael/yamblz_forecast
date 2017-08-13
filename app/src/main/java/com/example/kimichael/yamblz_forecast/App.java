@@ -51,7 +51,7 @@ public class App extends Application {
         manager = new PreferencesManager(getBaseContext());
         if (!manager.containInterval()) {
             int interval = PreferencesManager.DEFAULT_INTERVAL;
-            manager.saveInterval(interval);
+            manager.saveInterval(0);
             ForecastJobService.scheduleSync(this, interval);
         }
 

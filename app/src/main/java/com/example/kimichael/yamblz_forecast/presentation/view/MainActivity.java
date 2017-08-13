@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        if (drawer != null) {
-            initDrawer();
-        }
+
+        initDrawer();
+
         App.getInstance().getAppComponent().inject(this);
 
         if (savedInstanceState != null)
@@ -78,21 +78,27 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void initDrawer() {
-        homeDrawable = new DrawerArrowDrawable(toolbar.getContext());
-        toolbar.setNavigationIcon(homeDrawable);
-        toolbar.setNavigationOnClickListener(view -> {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else if (isHomeAsUp) {
-                onBackPressed();
-            } else {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
+    public boolean isTablet(){
+        return drawer==null;
+    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    private void initDrawer() {
+        if (drawer != null) {
+            homeDrawable = new DrawerArrowDrawable(toolbar.getContext());
+            toolbar.setNavigationIcon(homeDrawable);
+            toolbar.setNavigationOnClickListener(view -> {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else if (isHomeAsUp) {
+                    onBackPressed();
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            });
+
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+        }
     }
 
     @Override
@@ -130,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void setDrawer(DrawerLayout drawer){
+    public void setDrawer(@Nullable DrawerLayout drawer){
         this.drawer = drawer;
     }
 

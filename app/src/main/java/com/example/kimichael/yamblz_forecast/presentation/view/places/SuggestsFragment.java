@@ -18,6 +18,7 @@ import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.data.network.places.response.Prediction;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SuggestsPresenter;
+import com.example.kimichael.yamblz_forecast.presentation.view.ToolbarOwner;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.BaseForecastFragment;
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView;
 
@@ -141,4 +142,11 @@ public class SuggestsFragment extends BaseForecastFragment implements SuggestsVi
         addPlaceContainer.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ((ToolbarOwner) getActivity()).setToolbarText(getString(R.string.new_city));
+        ((ToolbarOwner) getActivity()).lockDrawer(true);
+    }
 }
