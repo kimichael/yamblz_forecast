@@ -19,12 +19,8 @@ import com.google.gson.Gson;
  */
 
 public class PreferencesManager {
-
-    private static final String TEMP_DEFAULT_UNITS = "Celsius";
-
     private static final String KEY_TEMP_UNITS = "temp_units";
     private static final String KEY_INTERVAL = "sync_interval";
-    private static final String KEY_TEMP_UNITS_POS = "temp_units_pos";
     private static final String KEY_INTERVAL_POS = "sync_interval_pos";
 
     public static final int DEFAULT_INTERVAL = 3600;

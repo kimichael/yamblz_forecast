@@ -9,6 +9,7 @@ import com.example.kimichael.yamblz_forecast.domain.interactor.requests.Forecast
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastView;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
+import com.example.kimichael.yamblz_forecast.utils.Utility;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -46,11 +49,14 @@ public class ForecastViewTest {
 
     private ForecastInteractor interactor;
     private ForecastPresenter presenter;
+    private List<ForecastInfo> infos;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         this.interactor = Mockito.mock(ForecastInteractor.class);
+        infos = new ArrayList<>();
+        infos.add(new ForecastInfo(1, 2, 3, 4, 5, 6, 7, 8, 9, "info", 0L, 1L));
         presenter = new ForecastPresenter(interactor);
         presenter.onAttach(view);
         presenter.setData(new PlaceData(1, "name", 4.6, 67.9));
@@ -59,7 +65,7 @@ public class ForecastViewTest {
 
     @Test
     public void checkSuccessResult() {
-        Single<List<ForecastInfo>> singleSuccess = Single.fromObservable(Observable.fromArray(getInfo()));
+        Single<List<ForecastInfo>> singleSuccess = Single.fromObservable(Observable.fromArray(infos));
         singleSuccess.subscribeWith(presenter.getForecastObserver());
         verify(view).showForecast(anyList(), anyInt());
         verify(interactor).saveForecast(anyList(), anyInt());
@@ -89,8 +95,28 @@ public class ForecastViewTest {
         verify(view).showSureDialog();
     }
 
-
-    private List<ForecastInfo> getInfo() {
-        return new ArrayList<>();
+    @Test
+    public void checkSuccessDetach() {
+        presenter.onDetach();
+        Single<List<ForecastInfo>> singleSuccess = Single.fromObservable(Observable.fromArray(infos));
+        singleSuccess.subscribeWith(presenter.getForecastObserver());
+        verify(view, never()).showForecast(anyList(), anyInt());
+        verify(interactor).saveForecast(anyList(), anyInt());
     }
+
+    @Test
+    public void showSureDetach() {
+        presenter.onDetach();
+        presenter.showSureDialog();
+        verify(view, never()).showSureDialog();
+    }
+
+    @Test
+    public void checkErrorResultDetach() {
+        presenter.onDetach();
+        Single<List<ForecastInfo>> singleSuccess = Single.error(new Throwable("error"));
+        singleSuccess.subscribeWith(presenter.getForecastObserver());
+        verify(view, never()).showError(any());
+    }
+
 }

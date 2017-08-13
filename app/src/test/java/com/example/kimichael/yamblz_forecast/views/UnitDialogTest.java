@@ -19,7 +19,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -61,4 +64,27 @@ public class UnitDialogTest {
         verify(view).checkPosition( 0);
     }
 
+    @Test
+    public void saveUnit() {
+        PreferencesManager manager = Mockito.mock(PreferencesManager.class);
+        presenter = new SettingsUnitDialogPresenter(manager);
+        presenter.saveLastUnit(1);
+        verify(manager).saveTempUnit(1);
+    }
+
+    @Test
+    public void checkGetCurrent1() {
+        PreferencesManager manager = Mockito.mock(PreferencesManager.class);
+        Mockito.when(manager.isTempCelsius()).thenReturn(false);
+        presenter = new SettingsUnitDialogPresenter(manager);
+        assertEquals(1, presenter.getCurrent());
+    }
+
+    @Test
+    public void checkGetCurrentDetach() {
+        presenter.onDetach();
+        presenter.getCurrent();
+        //on attach invokes it
+        verify(view, times(1)).checkPosition( 0);
+    }
 }

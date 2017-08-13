@@ -52,7 +52,7 @@ public class PhoneWeatherPresenter<T extends MainWeatherView>  extends BasePrese
         return currentCityPos;
     }
 
-    private Observer<List<PlaceData>> citiesObservable = new Observer<List<PlaceData>>() {
+    public Observer<List<PlaceData>> citiesObservable = new Observer<List<PlaceData>>() {
         @Override
         public void onSubscribe(@NonNull Disposable d) {
 
@@ -60,7 +60,9 @@ public class PhoneWeatherPresenter<T extends MainWeatherView>  extends BasePrese
 
         @Override
         public void onNext(@NonNull List<PlaceData> placeData) {
-            if (getView() != null) getView().updateCitiesList(placeData, currentCityPos);
+            if (getView() != null) {
+                getView().updateCitiesList(placeData, currentCityPos);
+            }
         }
 
         @Override

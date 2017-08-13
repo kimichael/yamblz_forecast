@@ -1,12 +1,9 @@
-package com.example.kimichael.yamblz_forecast.presenters;
+package com.example.kimichael.yamblz_forecast.interactors;
 
-import android.app.DialogFragment;
 import android.support.v4.util.Pair;
 
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
-import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
-import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsPresenter;
 
 import org.junit.Before;
@@ -17,8 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 
 /**

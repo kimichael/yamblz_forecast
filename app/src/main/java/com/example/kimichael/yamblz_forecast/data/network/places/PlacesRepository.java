@@ -17,5 +17,4 @@ public interface PlacesRepository {
     Single<PlacesResponse> getPlaces(@NonNull PlacesRequest request);
     Single<DetailResponse> getLocale(@NonNull String id);
 
-    void savePlace(@NonNull PlaceData data);
 }

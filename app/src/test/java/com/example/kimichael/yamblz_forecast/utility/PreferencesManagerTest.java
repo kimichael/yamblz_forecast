@@ -27,6 +27,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.booleanThat;
 
 /**
  * Created by Sinjvf on 30.07.2017.
@@ -72,11 +73,14 @@ public class PreferencesManagerTest {
 
     @Test
     public void updateInterval() {
+        assertEquals(false, manager.containInterval());
         int UPDATE_INTERVAL_POS = 2;
         int UPDATE_INTERVAL = intervals[2];
         manager.saveInterval(UPDATE_INTERVAL_POS);
         assertEquals(UPDATE_INTERVAL, manager.getInterval());
         assertEquals(UPDATE_INTERVAL_POS, manager.getIntervalPos());
+
+        assertEquals(true, manager.containInterval());
     }
 
     @Test
@@ -84,6 +88,14 @@ public class PreferencesManagerTest {
         int TEMP_UNIT = 1;
         manager.saveTempUnit(TEMP_UNIT);
         assertEquals(false, manager.isTempCelsius());
+        assertEquals(TEMP_UNIT, manager.getTempPosition());
+    }
+    @Test
+    public void intervalChanged() {
+        boolean key1 = manager.isIntervalChanged("sync_interval");
+        boolean key2 = manager.isIntervalChanged("sync_interval_pos");
+        assertEquals(true, key1);
+        assertEquals(false, key2);
     }
 
 }

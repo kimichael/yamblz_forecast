@@ -24,11 +24,12 @@ import java.util.List;
 import io.reactivex.Scheduler;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
  * Created by Sinjvf on 13.08.2017.
- * check invocation of interactor methods when presenter call
+ * check invocation of TabletWeatherView methods when presenter call
  */
 
 @RunWith(MockitoJUnitRunner.class)
@@ -77,4 +78,35 @@ public class TabletWeatherViewTest {
         verify(view).changeFragment(0, data);
     }
 
+
+    @Test
+    public void checkAddCityDetach() {
+        presenter.onDetach();
+        presenter.setItemPos(0);
+        verify(view, never()).changeFragment(1, null);
+    }
+    @Test
+    public void checkSettingsDetach() {
+        presenter.onDetach();
+        presenter.setItemPos(1);
+        verify(view, never()).changeFragment(2, null);
+    }
+
+    @Test
+    public void checkAboutDetach() {
+        presenter.onDetach();
+        presenter.setItemPos(2);
+        verify(view, never()).changeFragment(3, null);
+    }
+
+    @Test
+    public void checkToCityDetach() {
+        presenter.onDetach();
+        List<PlaceData> list = new ArrayList<>();
+        PlaceData data = new PlaceData(4, "name", 4, 5);
+        list.add(data);
+        presenter.setCurrentList(list);
+        presenter.setItemPos(0);
+        verify(view, never()).changeFragment(0, data);
+    }
 }

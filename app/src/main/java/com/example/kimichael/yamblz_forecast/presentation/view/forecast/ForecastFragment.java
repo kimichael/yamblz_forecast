@@ -3,7 +3,6 @@ package com.example.kimichael.yamblz_forecast.presentation.view.forecast;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +21,7 @@ import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.presentation.view.ToolbarOwner;
-import com.example.kimichael.yamblz_forecast.presentation.view.settings.SureDialog;
+import com.example.kimichael.yamblz_forecast.presentation.view.settings.SureDialogFragment;
 
 
 import java.util.List;
@@ -31,9 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.Observable;
-import io.reactivex.internal.operators.observable.ObservableCombineLatest;
 import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
@@ -55,18 +52,20 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
     private PublishSubject<Object> subjectViewOnScreen = PublishSubject.create();
 
     public static ForecastFragment getInstance(PlaceData data) {
+
+        ForecastFragment fragment = new ForecastFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(DATA_KEY, data);
-        ForecastFragment fragment = new ForecastFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
 
-    private void getData() {
+    public PlaceData getData() {
         Bundle bundle = getArguments();
         if (bundle != null) {
             data = bundle.getParcelable(DATA_KEY);
         }
+        return data;
     }
 
     public ForecastFragment() {
@@ -158,7 +157,7 @@ public class ForecastFragment extends BaseForecastFragment implements ForecastVi
 
     @Override
     public void showSureDialog() {
-        SureDialog dialogFragment = SureDialog.getInstance(data);
+        SureDialogFragment dialogFragment = SureDialogFragment.getInstance(data);
         dialogFragment.show(getActivity().getFragmentManager(), null);
     }
 

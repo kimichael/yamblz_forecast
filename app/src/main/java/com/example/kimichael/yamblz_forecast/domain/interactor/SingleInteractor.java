@@ -24,11 +24,11 @@ public abstract class SingleInteractor {
         this.uiScheduler = postExecutionThread;
     }
 
-    protected interface BuildUseCaseObservable<R, P> {
+    public interface BuildUseCaseObservable<R, P> {
         Single<R> build(P params);
     }
 
-    protected <R, P> Single<R> execute(BuildUseCaseObservable<R, P> build, P params) {
+    public  <R, P> Single<R> execute(BuildUseCaseObservable<R, P> build, P params) {
         return build.build(params)
                 .subscribeOn(jobScheduler)
                 .observeOn(uiScheduler);

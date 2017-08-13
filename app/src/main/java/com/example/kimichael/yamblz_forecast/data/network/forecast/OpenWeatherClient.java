@@ -18,12 +18,6 @@ public interface OpenWeatherClient {
     String CITY_LAT = "lat";
     String CITY_LON = "lon";
     String LANGUAGE = "lang";
-    String RUSSIAN = "ru";
-    String APPID = "APPID";
-
-    @GET("weather")
-    Single<WeatherResponse> getWeather(@Query(CITY_LAT) String cityLat, @Query(CITY_LON) String cityLon,
-                                       @Query(LANGUAGE) String language);
 
     @GET("forecast")
     Single<ForecastResponse> getForecast(@Query(CITY_LAT) String cityLat, @Query(CITY_LON) String cityLon,

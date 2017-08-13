@@ -20,12 +20,10 @@ import io.reactivex.Single;
  */
 public class PlacesRepositoryImpl implements PlacesRepository {
     private GooglePlacesClient googlePlacesClient;
-    private StorIOSQLite storIOSQLite;
 
     @Inject
-    public PlacesRepositoryImpl(GooglePlacesClient googlePlacesClient, StorIOSQLite storIOSQLite) {
+    public PlacesRepositoryImpl(GooglePlacesClient googlePlacesClient) {
         this.googlePlacesClient = googlePlacesClient;
-        this.storIOSQLite = storIOSQLite;
     }
 
     @Override
@@ -37,15 +35,5 @@ public class PlacesRepositoryImpl implements PlacesRepository {
     public Single<DetailResponse> getLocale(@NonNull String id) {
         return googlePlacesClient.getPlaceDetail(id, Locale.getDefault().getLanguage().toLowerCase());
     }
-
-    @Override
-    public void savePlace(@NonNull PlaceData data) {
-        storIOSQLite
-                .put()
-                .object(data)
-                .prepare()
-                .executeAsBlocking();
-    }
-
 
 }

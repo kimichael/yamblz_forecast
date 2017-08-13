@@ -78,8 +78,8 @@ public class SettingsModule {
 
     @Provides
     @SettingsScope
-    PlacesRepository providePlacesRepository(GooglePlacesClient placesClient, StorIOSQLite storIOSQLite) {
-        return new PlacesRepositoryImpl(placesClient, storIOSQLite);
+    PlacesRepository providePlacesRepository(GooglePlacesClient placesClient) {
+        return new PlacesRepositoryImpl(placesClient);
     }
 
 

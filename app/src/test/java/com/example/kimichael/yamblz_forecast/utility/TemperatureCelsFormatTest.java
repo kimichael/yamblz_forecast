@@ -26,7 +26,7 @@ import static org.mockito.Matchers.anyString;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class TemperatureFormatTest {
+public class TemperatureCelsFormatTest {
 
     private SharedPreferences sharedPrefs;
     private Context context;
@@ -61,6 +61,5 @@ public class TemperatureFormatTest {
         String celsius = Utility.formatTemperature(manager, context, temp);
         assertEquals(expected, celsius);
     }
-
 
 }

@@ -34,7 +34,7 @@ public class SettingsInteractor extends SingleInteractor {
     private final DbClientImpl dbClient;
 
     @Inject
-    SettingsInteractor(@Named(SchedulersModule.JOB) Scheduler threadExecutor,
+    public SettingsInteractor(@Named(SchedulersModule.JOB) Scheduler threadExecutor,
                        @Named(SchedulersModule.UI) Scheduler postExecutionThread, PlacesRepository placesRepository,
                        Context context, PreferencesManager manager, DbClientImpl dbClient) {
         super(threadExecutor, postExecutionThread);
@@ -44,22 +44,26 @@ public class SettingsInteractor extends SingleInteractor {
         this.dbClient = dbClient;
     }
 
-    public Single<List<Prediction>> getPlaces(PlacesRequest param) {
-        BuildUseCaseObservable<List<Prediction>, PlacesRequest> build = params1 ->
-                placesRepository.getPlaces(param)
+    public BuildUseCaseObservable<List<Prediction>, PlacesRequest> getPlacesBuild(PlacesRequest param){
+         return params1 -> placesRepository.getPlaces(param)
                         .map(PlacesResponse::getPredictions);
-         return execute(build, param);
     }
 
-    public Single<PlaceData> getPlaceDetailes(Prediction param) {
-        BuildUseCaseObservable<PlaceData, Prediction> build = params1 ->
-                placesRepository.getLocale(param.getPlaceId())
+    public BuildUseCaseObservable<PlaceData, Prediction> getPlacesDetailsBuild(Prediction param){
+        return  params1 -> placesRepository.getLocale(param.getPlaceId())
                         .map(detail->
-                            PlaceData.newPlace(detail.getResult().getName(),
-                                    detail.getResult().getGeometry().getLocation().getLat(),
-                                    detail.getResult().getGeometry().getLocation().getLng())
+                                PlaceData.newPlace(detail.getResult().getName(),
+                                        detail.getResult().getGeometry().getLocation().getLat(),
+                                        detail.getResult().getGeometry().getLocation().getLng())
                         );
-        return execute(build, param);
+    }
+
+    public Single<List<Prediction>> getPlaces(PlacesRequest param) {
+         return execute(getPlacesBuild(param), param);
+    }
+
+    public Single<PlaceData> getPlaceDetails(Prediction param) {
+        return execute(getPlacesDetailsBuild(param), param);
     }
 
     public void addCity(@NonNull PlaceData data){

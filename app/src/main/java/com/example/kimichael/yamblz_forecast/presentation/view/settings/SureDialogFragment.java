@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
-import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsPresenter;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -25,7 +24,7 @@ import butterknife.ButterKnife;
  * dialog for deleting city from db
  */
 
-public class SureDialog extends DialogFragment {
+public class SureDialogFragment extends DialogFragment {
     @BindView(R.id.delete_ok)
     View deleteOk;
     @BindView(R.id.delete_cancel)
@@ -37,8 +36,8 @@ public class SureDialog extends DialogFragment {
     private static final String DATA_KEY = "detaKey";
 
 
-    public static SureDialog getInstance(PlaceData data) {
-        SureDialog fgm = new SureDialog();
+    public static SureDialogFragment getInstance(PlaceData data) {
+        SureDialogFragment fgm = new SureDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(DATA_KEY, data);
         fgm.setArguments(bundle);

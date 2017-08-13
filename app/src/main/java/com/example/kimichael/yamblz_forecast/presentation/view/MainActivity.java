@@ -130,6 +130,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void setDrawer(DrawerLayout drawer){
+        this.drawer = drawer;
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (drawer == null) return true;
@@ -150,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void changeFragment(@ChosenFragmentStatus int chosenFragment) {
+    public void changeFragment(@ChosenFragmentStatus int chosenFragment) {
         if (drawer == null) {
             Fragment fgm = TabletWeatherFragment.getInstance();
             getSupportFragmentManager().beginTransaction().replace(R.id.content_container, fgm, null).commit();

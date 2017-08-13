@@ -1,29 +1,25 @@
-package com.example.kimichael.yamblz_forecast.presenters;
+package com.example.kimichael.yamblz_forecast.interactors;
 
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
-import com.example.kimichael.yamblz_forecast.data.network.places.response.Prediction;
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.PhoneWeatherPresenter;
-import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SuggestsPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.MainWeatherView;
-import com.example.kimichael.yamblz_forecast.presentation.view.places.SuggestsFragment;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
+import io.reactivex.subjects.PublishSubject;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -52,5 +48,13 @@ public class PhoneWeatherInteractorTest {
         presenter.getCities();
         verify(interactor).getAllCities(any());
     }
+
+    @Test
+    public void setItemPos() {
+        int item = 9;
+        int newItem = presenter.setItemPos(item);
+        assertEquals(item, newItem);
+    }
+
 
 }

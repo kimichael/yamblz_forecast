@@ -11,9 +11,11 @@ import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.Forecast
 import com.example.kimichael.yamblz_forecast.domain.interactor.requests.ForecastRequest;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsIntervalDialogPresenter;
+import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SettingsUnitDialogPresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.forecast.ForecastView;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.select.IntervalsDialogFragment;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
+import com.example.kimichael.yamblz_forecast.utils.Utility;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +36,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -66,6 +70,7 @@ public class IntervalDialogTest {
 
         presenter = new SettingsIntervalDialogPresenter(manager);
         presenter.onAttach(view);
+        Utility utility = new Utility();
     }
 
 
@@ -73,6 +78,23 @@ public class IntervalDialogTest {
     public void checkGetCurrent() {
         presenter.getCurrent();
         verify(view).checkPosition( 0);
+    }
+
+    @Test
+    public void saveUnit() {
+        PreferencesManager manager = Mockito.mock(PreferencesManager.class);
+        presenter = new SettingsIntervalDialogPresenter(manager);
+        presenter.saveLastInterval(3);
+        verify(manager).saveInterval(3);
+    }
+
+    @Test
+    public void checkGetCurrentDetach() {
+        presenter.onDetach();
+        presenter.getCurrent();
+
+        //on attach invokes it once
+        verify(view, times(1)).checkPosition( 0);
     }
 
 }

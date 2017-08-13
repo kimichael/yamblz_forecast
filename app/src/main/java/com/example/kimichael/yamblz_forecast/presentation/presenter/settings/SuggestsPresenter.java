@@ -6,7 +6,6 @@ import com.example.kimichael.yamblz_forecast.domain.interactor.settings.Settings
 import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.places.SuggestsView;
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
-import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class SuggestsPresenter extends BasePresenter<SuggestsView> {
     }
 
     public void citySelected(Prediction prediction) {
-        settingsInteractor.getPlaceDetailes(prediction)
+        settingsInteractor.getPlaceDetails(prediction)
                 .subscribe(getPlaceDetailObserver());
         if (getView() != null) getView().clearAll();
     }
