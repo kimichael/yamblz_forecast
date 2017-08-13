@@ -17,7 +17,6 @@ import io.reactivex.Scheduler;
 
 public class TabletWeatherPresenter extends PhoneWeatherPresenter<TabletWeatherView> {
     private SettingsInteractor interactor;
-    private int currentCityPos = 0;
 
 
     @Inject

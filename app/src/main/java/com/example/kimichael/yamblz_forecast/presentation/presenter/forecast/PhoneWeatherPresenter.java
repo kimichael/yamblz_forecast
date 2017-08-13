@@ -29,7 +29,7 @@ import timber.log.Timber;
 public class PhoneWeatherPresenter<T extends MainWeatherView>  extends BasePresenter<T> {
 
     private SettingsInteractor interactor;
-    private int currentCityPos = 0;
+    protected int currentCityPos = 0;
     protected List<PlaceData> currentList;
     private Scheduler postExecutionThread;
 

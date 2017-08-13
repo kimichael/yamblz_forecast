@@ -34,6 +34,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by Sinjvf on 13.08.2017.
@@ -176,5 +181,6 @@ public class DataBaseTest {
         });
         dbClient.getActualWeather(cityId, 10000, sub);
     }
+
 
 }

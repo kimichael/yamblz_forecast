@@ -83,6 +83,7 @@ public class PhoneWeatherFragment extends Fragment implements MainWeatherView {
         pager.setAdapter(adapter);
         //show city name on the toolbar
         RxViewPager.pageSelections(pager)
+                .map(presenter::setItemPos)
                 .map(adapter::onScreen)
                 .map(i ->
                 (i < dataList.size())

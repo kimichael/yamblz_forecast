@@ -124,4 +124,6 @@ public class ForecastRepositoryTest {
         verify(client).getActualWeather(eq(cityId), eq(interval), anyObject());
     }
 
+
+
 }
