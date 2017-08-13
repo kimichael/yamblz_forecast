@@ -2,9 +2,13 @@ package com.example.kimichael.yamblz_forecast.presentation.presenter.forecast;
 
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
+import com.example.kimichael.yamblz_forecast.presentation.di.module.SchedulersModule;
 import com.example.kimichael.yamblz_forecast.presentation.view.main.tablet.TabletWeatherView;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+
+import io.reactivex.Scheduler;
 
 /**
  * Created by Sinjvf on 12.08.2017.
@@ -17,8 +21,8 @@ public class TabletWeatherPresenter extends PhoneWeatherPresenter<TabletWeatherV
 
 
     @Inject
-    public TabletWeatherPresenter(SettingsInteractor forecastInteractor) {
-        super(forecastInteractor);
+    public TabletWeatherPresenter(SettingsInteractor forecastInteractor, @Named(SchedulersModule.UI) Scheduler postExecutionThread) {
+        super(forecastInteractor, postExecutionThread);
         this.interactor = forecastInteractor;
     }
 

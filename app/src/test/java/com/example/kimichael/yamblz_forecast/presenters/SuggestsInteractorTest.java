@@ -51,7 +51,7 @@ public class SuggestsInteractorTest {
     }
 
     @Test
-    public void checkErrorResult() {
+    public void checkCitySelected() {
         presenter.citySelected(new Prediction());
         verify(interactor).addCity(any());
     }

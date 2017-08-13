@@ -70,7 +70,7 @@ public class IntervalDialogTest {
 
 
     @Test
-    public void checkSuccessResult() {
+    public void checkGetCurrent() {
         presenter.getCurrent();
         verify(view).checkPosition( 0);
     }

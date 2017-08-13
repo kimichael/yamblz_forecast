@@ -35,7 +35,7 @@ public class ForecastInteractorTest {
 
 
     @Test
-    public void checkInteractorExec() {
+    public void checkGetForecast() {
         presenter.getForecast(false);
         verify(forecastInteractor).getForecast(anyObject(), anyObject());
     }

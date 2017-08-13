@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 
 import static org.mockito.Matchers.any;
@@ -31,26 +32,27 @@ import static org.mockito.Mockito.verify;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class PhoneWeathernteractorTest {
+public class PhoneWeatherInteractorTest {
     @Mock
     private SuggestsFragment view;
 
     private PhoneWeatherPresenter<MainWeatherView> presenter;
     private SettingsInteractor interactor;
-    private SettingsInteractor interactor;
+    private Scheduler scheduler;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         this.interactor = Mockito.mock(SettingsInteractor.class);
-        presenter = new PhoneWeatherPresenter(interactor);
-        presenter.onAttach(view);
+        this.scheduler = Mockito.mock(Scheduler.class);
+        presenter = new PhoneWeatherPresenter<MainWeatherView>(interactor,scheduler);
+
     }
 
     @Test
-    public void checkErrorResult() {
-        presenter.citySelected(new Prediction());
-        verify(interactor).addCity(any());
+    public void checkGetCities() {
+        presenter.getCities();
+        verify(interactor).getAllCities(any());
     }
 
 }
