@@ -39,16 +39,8 @@ public class ForecastRepositoryImpl implements ForecastRepository {
         this.gson = gson;
     }
 
-
     @Override
-    public Single<ForecastInfo> getWeather(@NonNull ForecastRequest request) {
-        return openWeatherClient.getWeather(request.getCityLat(), request.getCityLon(),
-                Locale.getDefault().getLanguage().toLowerCase())
-                .map(ForecastInfo::from);
-    }
-
-    @Override
-    public Single<List<ForecastInfo>> updateWeather(PlaceData cityLatLng) {
+    public Single<List<ForecastInfo>> updateForecast(PlaceData cityLatLng) {
         String lat = String.valueOf(cityLatLng.getLatitude());
         String lng = String.valueOf(cityLatLng.getLongitude());
         return openWeatherClient.getForecast(lat, lng,
@@ -77,8 +69,4 @@ public class ForecastRepositoryImpl implements ForecastRepository {
                 });
     }
 
-    @Override
-    public void handleException(Throwable throwable) {
-        Timber.e(throwable.getMessage());
-    }
 }

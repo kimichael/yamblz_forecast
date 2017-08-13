@@ -63,7 +63,15 @@ public class IntervalsDialogFragment extends SelectorDialogFragment {
             Timber.e(e.getMessage());
         }
         initIds();
+        presenter.onAttach(this);
         return v;
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.onDetach();
     }
 
     @Override

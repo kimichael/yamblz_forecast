@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class ForecastPresenterTest {
+public class ForecastInteractorTest {
     @Mock
     private ForecastInteractor forecastInteractor;
 
@@ -36,8 +36,8 @@ public class ForecastPresenterTest {
 
     @Test
     public void checkInteractorExec() {
-        presenter.getWeather(false);
-     //   verify(forecastInteractor).execute(anyObject(), anyBoolean());
+        presenter.getForecast(false);
+        verify(forecastInteractor).getForecast(anyObject(), anyObject());
     }
 
 

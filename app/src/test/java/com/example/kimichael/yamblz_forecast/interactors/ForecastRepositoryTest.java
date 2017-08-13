@@ -2,7 +2,10 @@ package com.example.kimichael.yamblz_forecast.interactors;
 
 import android.content.Context;
 
+import com.example.kimichael.yamblz_forecast.data.common.ForecastInfo;
+import com.example.kimichael.yamblz_forecast.data.database.DbClientImpl;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
+import com.example.kimichael.yamblz_forecast.data.network.forecast.response.ForecastResponse;
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
@@ -16,7 +19,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.List;
+
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
@@ -27,7 +36,7 @@ import static org.mockito.Mockito.verify;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class ForecastInteractorTest {
+public class ForecastRepositoryTest {
     @Mock
     private ForecastRepository repository;
     @Mock
@@ -38,6 +47,8 @@ public class ForecastInteractorTest {
     private Context context;
     @Mock
     private PreferencesManager manager;
+    @Mock
+    private DbClientImpl client;
 
     private ForecastInteractor interactor;
     private ForecastPresenter presenter;
@@ -45,23 +56,37 @@ public class ForecastInteractorTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        interactor = new ForecastInteractor(threadExecutor, postExecutionThread, repository, context, manager);
+        interactor = new ForecastInteractor(threadExecutor, postExecutionThread, repository, context, client, manager);
         presenter = new ForecastPresenter(interactor);
 
-        Mockito.when(manager.getPlace()).thenReturn(PlaceData.newPlace("name", 1.0, 1.0));
- /*       Mockito.when(repository.getWeather(anyObject())).thenReturn(new Single<WeatherResponse>() {
+        Mockito.when(repository.getForecast(anyObject())).thenReturn(new Single<List<ForecastInfo>>() {
             @Override
-            protected void subscribeActual(@NonNull SingleObserver<? super WeatherResponse> observer) {
+            protected void subscribeActual(@NonNull SingleObserver<? super List<ForecastInfo>> observer) {
 
             }
-        });*/
+        });
     }
 
 
     @Test
     public void checkRepositoryGetForecast() {
-        presenter.getWeather(false);
-        verify(repository).getWeather(anyObject());
+        interactor.getForecast(presenter.getRequest(true), new SingleObserver<List<ForecastInfo>>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull List<ForecastInfo> forecastInfos) {
+
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+        });
+        verify(repository).getForecast(anyObject());
     }
 
 

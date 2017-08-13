@@ -1,5 +1,9 @@
 package com.example.kimichael.yamblz_forecast.presenters;
 
+import android.app.DialogFragment;
+import android.support.v4.util.Pair;
+
+import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.domain.interactor.forecast.ForecastInteractor;
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.forecast.ForecastPresenter;
@@ -12,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
@@ -22,7 +27,7 @@ import static org.mockito.Mockito.verify;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class SettingsPresenterTest {
+public class SettingsInteractorTest {
     @Mock
     private SettingsInteractor interactor;
 
@@ -34,12 +39,10 @@ public class SettingsPresenterTest {
         presenter = new SettingsPresenter(interactor);
     }
 
-
     @Test
-    public void checkInteractorGetObservable() {
-     /*   presenter.getPlaceChangeObserver();
-        verify(interactor).getPlaceChangeObserver();*/
+    public void checkDeleteCity() {
+        presenter.sureDeleteCity(new Pair<>(new PlaceData(2, "name", 1,2), null));
+        verify(interactor).deleteCity(any());
     }
-
 
 }

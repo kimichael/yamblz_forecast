@@ -3,6 +3,7 @@ package com.example.kimichael.yamblz_forecast.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 
 import com.example.kimichael.yamblz_forecast.R;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
@@ -29,15 +30,20 @@ public class TemperatureFormatTest {
 
     private SharedPreferences sharedPrefs;
     private Context context;
+    private Resources res;
     private PreferencesManager manager;
+    int intervals[] = {3600, 7200, 10800, 18000, 86400};
     @Before
     public void before() throws Exception {
         this.sharedPrefs = Mockito.mock(SharedPreferences.class);
         this.context = Mockito.mock(Context.class);
+        this.res = Mockito.mock(Resources.class);
         Mockito.when(context.getSharedPreferences(anyString(), anyInt())).thenReturn(sharedPrefs);
         Mockito.when(context.getString(R.string.format_temperature)).thenReturn("%1.0f\\u00B0%s");
         Mockito.when(sharedPrefs.getString("temp_units", "Celsius")).thenReturn("Celsius");
-        manager = new PreferencesManager(sharedPrefs);
+        Mockito.when(res.getIntArray(R.array.interval_values)).thenReturn(intervals);
+        Mockito.when(context.getResources()).thenReturn(res);
+        manager = new PreferencesManager(context);
     }
 
 

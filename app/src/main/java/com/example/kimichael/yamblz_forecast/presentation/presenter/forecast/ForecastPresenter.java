@@ -42,7 +42,7 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
         forecastInteractor.getForecast(getRequest(forceUpdate), getForecastObserver());
     }
 
-    private SingleObserver<List<ForecastInfo>> getForecastObserver() {
+    public SingleObserver<List<ForecastInfo>> getForecastObserver() {
         return new SingleObserver<List<ForecastInfo>>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
@@ -62,7 +62,6 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
 
             @Override
             public void onError(@NonNull Throwable e) {
-
                 if (getView() != null) getView().showProgress(false);
                 Timber.e(e);
                 if (getView() != null) getView().showError(e);
@@ -70,9 +69,8 @@ public class ForecastPresenter extends BasePresenter<ForecastView> {
         };
     }
 
-    private ForecastRequest getRequest(boolean update) {
-        if (getView() == null) return null;
-        return new ForecastRequest(getView().getPlace(), update);
+    public ForecastRequest getRequest(boolean update) {
+        return new ForecastRequest(data, update);
     }
 
     public void showSureDialog() {

@@ -2,6 +2,7 @@ package com.example.kimichael.yamblz_forecast.presentation.presenter.forecast;
 
 import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.domain.interactor.settings.SettingsInteractor;
+import com.example.kimichael.yamblz_forecast.presentation.di.module.SchedulersModule;
 import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.MainWeatherView;
 
@@ -9,8 +10,10 @@ import com.example.kimichael.yamblz_forecast.presentation.view.main.phone.MainWe
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -28,16 +31,18 @@ public class PhoneWeatherPresenter<T extends MainWeatherView>  extends BasePrese
     private SettingsInteractor interactor;
     private int currentCityPos = 0;
     protected List<PlaceData> currentList;
+    private Scheduler postExecutionThread;
 
 
     @Inject
-    public PhoneWeatherPresenter(SettingsInteractor forecastInteractor) {
+    public PhoneWeatherPresenter(SettingsInteractor forecastInteractor, @Named(SchedulersModule.UI) Scheduler postExecutionThread) {
         this.interactor = forecastInteractor;
+        this.postExecutionThread = postExecutionThread;
     }
 
     public void getCities() {
         PublishSubject<List<PlaceData>> subject = PublishSubject.create();
-        subject.observeOn(AndroidSchedulers.mainThread())
+        subject.observeOn(postExecutionThread)
                 .subscribe(citiesObservable);
         interactor.getAllCities(subject);
     }

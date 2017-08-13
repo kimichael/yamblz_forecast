@@ -3,6 +3,7 @@ package com.example.kimichael.yamblz_forecast.data.network.forecast.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +62,7 @@ public class ForecastResponse {
     }
 
     public List<WeatherResponse> getList() {
+        if (list == null) return new ArrayList<>();
         for (WeatherResponse resp : list) {
             if (resp.getCoord() == null && city != null) {
                 resp.setCoord(city.getCoord());

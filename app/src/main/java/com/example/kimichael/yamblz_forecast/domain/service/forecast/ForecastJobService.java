@@ -9,7 +9,6 @@ import com.example.kimichael.yamblz_forecast.data.common.PlaceData;
 import com.example.kimichael.yamblz_forecast.data.database.DbClientImpl;
 import com.example.kimichael.yamblz_forecast.data.network.forecast.ForecastRepository;
 import com.example.kimichael.yamblz_forecast.presentation.di.module.ForecastModule;
-import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
@@ -58,8 +57,8 @@ public class ForecastJobService extends JobService {
     }
 
     private void updateWeather(Pair<PlaceData, JobParameters> data){
-        Timber.d("updateWeather: "+data.first.toString());
-        forecastRepository.updateWeather(data.first)
+        Timber.d("updateForecast: "+data.first.toString());
+        forecastRepository.updateForecast(data.first)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new SingleObserver<List<ForecastInfo>>() {

@@ -11,8 +11,11 @@ import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.Set
 import com.example.kimichael.yamblz_forecast.presentation.presenter.settings.SuggestsPresenter;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Scheduler;
 
 /**
  * Created on 22.07.2017.
@@ -28,8 +31,8 @@ public class SettingsScreenModule {
 
     @Provides
     @SettingsScreenScope
-    SuggestsPresenter provideSuggestsPresenter(SettingsInteractor settingsInteractor, PreferencesManager manager) {
-        return new SuggestsPresenter(settingsInteractor, manager);
+    SuggestsPresenter provideSuggestsPresenter(SettingsInteractor settingsInteractor) {
+        return new SuggestsPresenter(settingsInteractor);
     }
 
     @Provides
@@ -46,7 +49,7 @@ public class SettingsScreenModule {
 
     @Provides
     @SettingsScreenScope
-    PhoneWeatherPresenter providePhoneWeatherPresenter(SettingsInteractor forecastInteractor) {
-        return new PhoneWeatherPresenter(forecastInteractor);
+    PhoneWeatherPresenter providePhoneWeatherPresenter(SettingsInteractor forecastInteractor, @Named(SchedulersModule.UI) Scheduler postExecutionThread) {
+        return new PhoneWeatherPresenter(forecastInteractor, postExecutionThread);
     }
 }

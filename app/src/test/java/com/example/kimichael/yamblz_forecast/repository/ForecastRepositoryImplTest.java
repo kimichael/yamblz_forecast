@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -22,9 +23,9 @@ import static org.mockito.Mockito.verify;
  * check invocation of openWeatherClient methods when repository call
  */
 
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class ForecastRepositoryImplTest {
- /*   @Mock
+/*    @Mock
     private SharedPreferences sharedPreferences;
     @Mock
     private OpenWeatherClient openWeatherClient;
@@ -36,21 +37,19 @@ public class ForecastRepositoryImplTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         Gson gson = new Gson();
-        impl = new ForecastRepositoryImpl(sharedPreferences, openWeatherClient, gson);
+        impl = new ForecastRepositoryImpl(openWeatherClient, gson);
     }
-
 
     @Test
     public void checkClientGetForecast() {
-        impl.getWeather(new ForecastRequest(new PlaceData("name", 1.0, 1.0), true));
-        //verify(openWeatherClient).getWeather(anyString(), anyString(), anyString(), anyString());
+        impl.getForecast(new ForecastRequest(new PlaceData(3, "name", 1.0, 1.0), true));
+        verify(openWeatherClient).getForecast(anyString(), anyString(), anyString());
     }
 
     @Test
     public void checkClientUpdateForecast() {
-        impl.updateWeather(new PlaceData("name", 1.0, 1.0));
-      //  verify(openWeatherClient).getWeather(anyString(), anyString(), anyString(), anyString());
-    }
-*/
+        impl.updateForecast(new PlaceData(3, "name", 1.0, 1.0));
+        verify(openWeatherClient).getWeather(anyString(), anyString(), anyString());
+    }*/
 
 }

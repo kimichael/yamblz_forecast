@@ -24,6 +24,8 @@ public class PreferencesManager {
 
     private static final String KEY_TEMP_UNITS = "temp_units";
     private static final String KEY_INTERVAL = "sync_interval";
+    private static final String KEY_TEMP_UNITS_POS = "temp_units_pos";
+    private static final String KEY_INTERVAL_POS = "sync_interval_pos";
 
     public static final int DEFAULT_INTERVAL = 3600;
     private  final int[] intervals;
@@ -32,8 +34,12 @@ public class PreferencesManager {
 
     public PreferencesManager(Context context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Resources res = context.getResources();
-        intervals = res.getIntArray(R.array.interval_values);
+        intervals = context.getResources().getIntArray(R.array.interval_values);
+    }
+
+    public PreferencesManager(Context context, SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+        intervals = context.getResources().getIntArray(R.array.interval_values);
     }
 
     public boolean isTempCelsius() {
@@ -54,10 +60,11 @@ public class PreferencesManager {
 
     public void saveInterval(int intervalPos) {
         sharedPreferences.edit().putInt(KEY_INTERVAL, intervals[intervalPos]).apply();
+        sharedPreferences.edit().putInt(KEY_INTERVAL_POS, intervalPos).apply();
     }
 
-    public void saveInterval() {
-        sharedPreferences.edit().putInt(KEY_INTERVAL, DEFAULT_INTERVAL).apply();
+    public int getIntervalPos() {
+        return sharedPreferences.getInt(KEY_INTERVAL_POS, 0);
     }
 
     public boolean isIntervalChanged(String key) {

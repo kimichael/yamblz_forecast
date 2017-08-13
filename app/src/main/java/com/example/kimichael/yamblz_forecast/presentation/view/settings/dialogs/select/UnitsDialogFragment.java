@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.RadioButton;
 
 import com.example.kimichael.yamblz_forecast.App;
 import com.example.kimichael.yamblz_forecast.R;
@@ -44,6 +45,7 @@ public class UnitsDialogFragment extends SelectorDialogFragment {
             Timber.e(e.getMessage());
         }
         initIds();
+        presenter.onAttach(this);
         return v;
     }
 
@@ -52,6 +54,12 @@ public class UnitsDialogFragment extends SelectorDialogFragment {
         ids = new int [2];
         ids[0] = R.id.celsius;
         ids[1] = R.id.fahrenheit;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.onDetach();
     }
 
     @Override

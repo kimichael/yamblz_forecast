@@ -23,16 +23,13 @@ public class SettingsPresenter extends BasePresenter<SettingsView> {
     }
 
 
-    public void sureDeleteCity(Pair<PlaceData, DialogFragment> data){
+    public void sureDeleteCity(Pair<PlaceData, DialogFragment> data) {
         settingsInteractor.deleteCity(data.first);
-        data.second.dismiss();
+        if (data.second != null) data.second.dismiss();
     }
 
-    public void notSureDeleteCity(DialogFragment data){
+    public void notSureDeleteCity(DialogFragment data) {
+        if (data == null) return;
         data.dismiss();
-    }
-
-    public void addCity(PlaceData data){
-        settingsInteractor.addCity(data);
     }
 }

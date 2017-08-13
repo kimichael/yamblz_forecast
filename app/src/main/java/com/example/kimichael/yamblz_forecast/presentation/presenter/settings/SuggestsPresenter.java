@@ -23,11 +23,11 @@ import timber.log.Timber;
 public class SuggestsPresenter extends BasePresenter<SuggestsView> {
 
     private SettingsInteractor settingsInteractor;
-    private PreferencesManager manager;
 
-    public SuggestsPresenter(SettingsInteractor settingsInteractor, PreferencesManager manager) {
+
+    public SuggestsPresenter(SettingsInteractor settingsInteractor) {
         this.settingsInteractor = settingsInteractor;
-        this.manager = manager;
+
     }
 
     @Inject

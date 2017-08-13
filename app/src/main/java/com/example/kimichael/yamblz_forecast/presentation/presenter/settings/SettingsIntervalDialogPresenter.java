@@ -1,7 +1,10 @@
 package com.example.kimichael.yamblz_forecast.presentation.presenter.settings;
 
+import android.support.annotation.NonNull;
+
 import com.example.kimichael.yamblz_forecast.presentation.presenter.BasePresenter;
 import com.example.kimichael.yamblz_forecast.presentation.view.settings.SettingsView;
+import com.example.kimichael.yamblz_forecast.presentation.view.settings.dialogs.select.SelectableDialogView;
 import com.example.kimichael.yamblz_forecast.utils.PreferencesManager;
 
 import java.util.ArrayList;
@@ -14,7 +17,7 @@ import timber.log.Timber;
  * dialog for interval choosing
  */
 
-public class SettingsIntervalDialogPresenter extends BasePresenter<SettingsView> {
+public class SettingsIntervalDialogPresenter extends BasePresenter<SelectableDialogView> {
 
     PreferencesManager manager;
 
@@ -22,9 +25,19 @@ public class SettingsIntervalDialogPresenter extends BasePresenter<SettingsView>
         this.manager = manager;
     }
 
+    @Override
+    public void onAttach(@NonNull SelectableDialogView view) {
+        super.onAttach(view);
+        getView().checkPosition(manager.getIntervalPos());
+    }
 
     public void saveLastInterval(int position){
         Timber.d("saveLastInterval: "+position);
         manager.saveInterval(position);
+    }
+
+
+    public int getCurrent(){
+       return (manager.getIntervalPos());
     }
 }

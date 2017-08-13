@@ -35,7 +35,6 @@ public abstract class SelectorDialogFragment extends DialogFragment implements S
     RadioGroup group;
     protected Unbinder unbinder;
     private static final String POSITION = "position";
-    private SparseIntArray sparse = new SparseIntArray();
 
     protected int ids[];
 
@@ -53,7 +52,7 @@ public abstract class SelectorDialogFragment extends DialogFragment implements S
         int id = group.getCheckedRadioButtonId();
         int pos = 0;
         while (ids[pos] != id) pos++;
-        saveByPos(pos);
+        if(pos<ids.length)  saveByPos(pos);
         dismiss();
     }
 
